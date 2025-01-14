@@ -11,9 +11,14 @@ namespace PRG2_T13_08
         public NORMFlight():base() { }
         public NORMFlight(string fn, string o, string d, DateTime e, string s) : base(fn, o, d, e, s) { }
 
-        public double CalculateFees()
+        public override double CalculateFees()
         {
             return;
+        }
+
+        public override string ToString()
+        {
+            return base.ToString();
         }
     }
 }
