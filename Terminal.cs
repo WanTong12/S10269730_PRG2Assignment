@@ -32,17 +32,19 @@ namespace PRG2_T13_08
 
         public bool AddAirline(Airline a)
         {
-
+            Airlines.Add(a.Code, a);
+            return true;
         }
 
         public bool AddBoardingGate(BoardingGate b)
         {
-
+            BoardingGates.Add(b.GateName, b);
+            return true;
         }
 
         public Airline GetAirlineFromFlight(Flight f)
         {
-
+            return;
         }
 
         public void PrintAirlineFees()
