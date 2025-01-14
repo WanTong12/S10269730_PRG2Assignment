@@ -16,11 +16,11 @@ namespace PRG2_T13_08
             double basefee = 300;
             if (Origin == "Singapore")
             {
-                return 800 + basefee;
+                return 800 + basefee - 50;
             }
             else
             {
-                return 500 + basefee;
+                return 500 + basefee - 50;
             }
         }
 
