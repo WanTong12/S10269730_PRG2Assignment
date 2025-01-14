@@ -1,27 +1,32 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace PRG2_T13_08
+﻿namespace PRG2_T13_08
 {
     class NORMFlight : Flight
     {
-        public NORMFlight():base() { }
+        public NORMFlight() : base() { }
         public NORMFlight(string fn, string o, string d, DateTime e, string s) : base(fn, o, d, e, s) { }
 
         public override double CalculateFees()
         {
             double basefee = 300;
-            if (Origin == "Singapore")
+            double fee = 0;
+
+            if (Origin == "Singapore (SIN)") // Departing Flights
             {
-                return 800 + basefee - 50;
+                fee = 800 + basefee - 50;
             }
-            else
+            else // Arriving Flights
             {
-                return 500 + basefee - 50;
+                fee = 500 + basefee - 50;
             }
+
+            if (ExpectedTime)
+
+            if (Origin == "Dubai (DXB)" || Origin == "Bangkok (BKK)" || Origin == "Tokyo (NRT)") // Promotional Conditions 4
+            {
+                fee -= 25;
+            }
+
+            return fee;
         }
 
         public override string ToString()
