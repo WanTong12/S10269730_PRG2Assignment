@@ -27,6 +27,7 @@ namespace PRG2_T13_08
         public Terminal(string terminalName)
         {
             TerminalName = terminalName;
+
             
         }
 

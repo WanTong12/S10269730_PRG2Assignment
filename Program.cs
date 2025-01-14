@@ -1,2 +1,9 @@
-﻿// See https://aka.ms/new-console-template for more information
-Console.WriteLine("Johnny Johnny yes PAPA");
+﻿
+using PRG2_T13_08;
+internal class Program
+{
+    private static void Main(string[] args)
+    {
+        Console.WriteLine("Johnny Johnny yes PAPA");
+    }
+}
