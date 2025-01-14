@@ -8,5 +8,48 @@ namespace PRG2_T13_08
 {
     internal class Terminal
     {
+        public string TerminalName { get; set; }
+        public Dictionary<string, Airline> Airlines { get; set; }
+        public Dictionary<string, Flight> Flights { get; set; }
+
+        public Dictionary<string, BoardingGate> BoardingGates { get; set; }
+
+        public Dictionary<string, double> GateFees { get; set; }
+
+        public Terminal() 
+        {
+            Airlines = new Dictionary<string, Airline>();
+            Flights = new Dictionary<string, Flight>();
+            BoardingGates = new Dictionary<string, BoardingGate>();
+            GateFees = new Dictionary<string, double>();
+        }
+
+        public Terminal(string terminalName)
+        {
+            TerminalName = terminalName;
+            
+        }
+
+        public bool AddAirline(Airline a)
+        {
+
+        }
+
+        public bool AddBoardingGate(BoardingGate b)
+        {
+
+        }
+
+        public Airline GetAirlineFromFlight(Flight f)
+        {
+
+        }
+
+        public void PrintAirlineFees()
+        {
+
+        }
+
+        public  
     }
 }
