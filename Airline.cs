@@ -23,7 +23,13 @@ namespace PRG2_T13_08
 
         public bool AddFlight(Flight f)
         {
-            return;
+            if (Flights.ContainsKey(f.FlightNumber))
+            {
+                return false;
+            }
+           
+            Flights.Add(f.FlightNumber, f);
+            return true;
         }
 
         public double CalculateFee()
