@@ -7,26 +7,7 @@
 
         public override double CalculateFees()
         {
-            double basefee = 300;
-            double fee = 0;
-
-            if (Origin == "Singapore (SIN)") // Departing Flights
-            {
-                fee = 800 + basefee - 50;
-            }
-            else // Arriving Flights
-            {
-                fee = 500 + basefee - 50;
-            }
-
-            if (ExpectedTime)
-
-            if (Origin == "Dubai (DXB)" || Origin == "Bangkok (BKK)" || Origin == "Tokyo (NRT)") // Promotional Conditions 4
-            {
-                fee -= 25;
-            }
-
-            return fee;
+            return 0;
         }
 
         public override string ToString()
