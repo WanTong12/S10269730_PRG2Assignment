@@ -27,7 +27,7 @@ namespace PRG2_T13_08
 
         public double CalculateFees()
         {
-            return;
+            return Flight.CalculateFees() + 300;
         }
 
         public override string ToString()
