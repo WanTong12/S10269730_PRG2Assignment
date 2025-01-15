@@ -32,25 +32,16 @@ namespace PRG2_T13_08
             return true;
         }
 
-        public double CalculateFee()
+        public double CalculateFee() // Airlines total fee
         {
             Double fees = 0;
-            Double discount = 0;
             foreach (KeyValuePair<string, Flight> kvp in Flights)
             {
                 Flight f = kvp.Value;
                 fees += f.CalculateFees();
             }
-
-            if (Flights.Count/3 >= 1) // For every 3 flights
-            {
-                discount += (350 * Math.Floor(Flights.Count/3.0));
-            }
-            if (Flights.Count > 5) // For more than 5 flights
-            {
-                discount += fees*0.3;
-            }
-            return fees - discount;
+           
+            return fees;
         }
 
         public bool RemoveFlight(Flight f)

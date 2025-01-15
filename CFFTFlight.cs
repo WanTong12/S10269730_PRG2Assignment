@@ -22,14 +22,7 @@ namespace PRG2_T13_08
 
         public override double CalculateFees()
         {
-            if (Origin == "Singapore")
-            {
-                return 800 + RequestFee;
-            }
-            else
-            {
-                return 500 + RequestFee;
-            }
+            return RequestFee;
         }
         public override string ToString()
         {
