@@ -39,7 +39,12 @@ namespace PRG2_T13_08
 
         public bool RemoveFlight(Flight f)
         {
-            return;
+            if (Flights.ContainsKey(f.FlightNumber))
+            {
+                Flights.Remove(f.FlightNumber);
+                return true;
+            }
+            return false;
         }
 
         public override string ToString()
