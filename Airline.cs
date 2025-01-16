@@ -34,7 +34,7 @@ namespace PRG2_T13_08
 
         public double CalculateFee() // Airlines total fee
         {
-            Double fees = 0;
+            double fees = 0;
             foreach (KeyValuePair<string, Flight> kvp in Flights)
             {
                 Flight f = kvp.Value;

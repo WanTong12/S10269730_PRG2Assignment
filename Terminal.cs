@@ -16,7 +16,7 @@ namespace PRG2_T13_08
 
         public Dictionary<string, double> GateFees { get; set; }
 
-        public Terminal() 
+        public Terminal()
         {
             Airlines = new Dictionary<string, Airline>();
             Flights = new Dictionary<string, Flight>();
@@ -40,7 +40,6 @@ namespace PRG2_T13_08
             Airlines.Add(a.Code, a);
             return true;
         }
-    }
 
         public bool AddBoardingGate(BoardingGate b)
         {
@@ -54,7 +53,8 @@ namespace PRG2_T13_08
 
         public Airline GetAirlineFromFlight(Flight f)
         {
-            return;
+
+            return ;
         }
 
         public void PrintAirlineFees()
@@ -62,6 +62,9 @@ namespace PRG2_T13_08
 
         }
 
-        public  
+        public override string ToString()
+        {
+            return base.ToString();
+        }
     }
 }
