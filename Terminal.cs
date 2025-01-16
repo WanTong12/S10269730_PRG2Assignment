@@ -53,12 +53,12 @@ namespace PRG2_T13_08
         {
             foreach (Airline a in Airlines.Values) // loop airline values to retrieve the flights dictionary from the Airline class
             {
-                if (a.Flights.ContainsKey(f.FlightNumber)) // if the flight number is found in the flights dictionary in Airline class, return the airline
+                if (a.Flights.ContainsKey(f.FlightNumber)) // if the flight number is found in the Airline class's flights dictionary, return the airline
                 {
                     return a;
                 }
             }
-            return null;
+            return null; // return null if the flight number is not found in the Airline class's flights dictionary
         }
 
         public void PrintAirlineFees()
