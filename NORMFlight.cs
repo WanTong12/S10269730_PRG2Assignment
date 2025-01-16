@@ -9,11 +9,11 @@
         {
             if (Origin == "Singapore (SIN)") //Depart from SG
             {
-                return 800;
+                return 800 + 300; // + basefee
             }
             else //Arrive at SG
             {
-                return 500;
+                return 500 + 300; // + basefee
             }
         }
 

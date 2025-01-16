@@ -24,11 +24,11 @@ namespace PRG2_T13_08
         {
             if (Origin == "Singapore (SIN)") //Depart from SG
             {
-                return 800 + 300 + RequestFee;
+                return 800 + 300 + RequestFee; // + basefee + requestfee
             }
             else //Arrive at SG
             {
-                return 500 + 300 + RequestFee;
+                return 500 + 300 + RequestFee; // + basefee + requestfee
             }
         }
         

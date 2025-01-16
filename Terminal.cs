@@ -26,9 +26,7 @@ namespace PRG2_T13_08
 
         public Terminal(string terminalName)
         {
-            TerminalName = terminalName;
-
-
+            TerminalName = terminalName;S
         }
 
         public bool AddAirline(Airline a)

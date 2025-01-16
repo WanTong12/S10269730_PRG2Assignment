@@ -23,12 +23,13 @@ namespace PRG2_T13_08
 
         public bool AddFlight(Flight f)
         {
-            if (Flights.ContainsKey(f.FlightNumber))
+            // Check if flight in dictionary
+            if (Flights.ContainsKey(f.FlightNumber)) // Flight in dictionary
             {
                 return false;
             }
-           
-            Flights.Add(f.FlightNumber, f);
+            // Flight not in dictionary
+            Flights.Add(f.FlightNumber, f); // Add flight to dictionary
             return true;
         }
 
@@ -46,12 +47,13 @@ namespace PRG2_T13_08
 
         public bool RemoveFlight(Flight f)
         {
-            if (Flights.ContainsKey(f.FlightNumber))
+            // Check if flights in the dictionary
+            if (Flights.ContainsKey(f.FlightNumber)) // Flight in dictionary
             {
-                Flights.Remove(f.FlightNumber);
+                Flights.Remove(f.FlightNumber); // Remove flight
                 return true;
             }
-            return false;
+            return false; // Flight not in dictionary
         }
 
         public override string ToString()

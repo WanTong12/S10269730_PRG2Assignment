@@ -27,7 +27,7 @@ namespace PRG2_T13_08
 
         public double CalculateFees() // GateFee
         {
-            return 300;
+            return 300; // Basefee
         }
 
         public override string ToString()
