@@ -53,13 +53,23 @@ namespace PRG2_T13_08
 
         public Airline GetAirlineFromFlight(Flight f)
         {
-
-            return ;
+            foreach (Airline a in Airlines.Values)
+            {
+                if (a.Flights.ContainsKey(f.FlightNumber))
+                {
+                    return a;
+                }
+            }
+            return null;
         }
 
         public void PrintAirlineFees()
         {
-
+            Console.WriteLine("{0,-15}{1.-15}","Airlines", "Fees");
+            foreach (Airline a in Airlines.Values)
+            {
+                Console.WriteLine("{0,-15}{1,-15:C2}",a.Name, a.CalculateFee());
+            }
         }
 
         public override string ToString()
