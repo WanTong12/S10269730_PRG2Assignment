@@ -26,7 +26,7 @@ namespace PRG2_T13_08
 
         public Terminal(string terminalName)
         {
-            TerminalName = terminalName;S
+            TerminalName = terminalName;
         }
 
         public bool AddAirline(Airline a)
@@ -51,14 +51,14 @@ namespace PRG2_T13_08
 
         public Airline GetAirlineFromFlight(Flight f)
         {
-            foreach (Airline a in Airlines.Values)
+            foreach (Airline a in Airlines.Values) // loop airline values to retrieve the flights dictionary from the Airline class
             {
-                if (a.Flights.ContainsKey(f.FlightNumber))
+                if (a.Flights.ContainsKey(f.FlightNumber)) // if the flight number is found in the Airline class's flights dictionary, return the airline
                 {
                     return a;
                 }
             }
-            return null;
+            return null; // return null if the flight number is not found in the Airline class's flights dictionary
         }
 
         public void PrintAirlineFees()
