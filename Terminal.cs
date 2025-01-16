@@ -28,17 +28,26 @@ namespace PRG2_T13_08
         {
             TerminalName = terminalName;
 
-            
+
         }
 
         public bool AddAirline(Airline a)
         {
+            if (Airlines.ContainsKey(a.Code))
+            {
+                return false;
+            }
             Airlines.Add(a.Code, a);
             return true;
         }
+    }
 
         public bool AddBoardingGate(BoardingGate b)
         {
+            if (BoardingGates.ContainsKey(b.GateName))
+            {
+                return false;
+            }
             BoardingGates.Add(b.GateName, b);
             return true;
         }
