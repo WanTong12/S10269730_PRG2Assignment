@@ -25,9 +25,16 @@ namespace PRG2_T13_08
             Flight = flight;
         }
 
-        public double CalculateFees()
+        public double CalculateFees() // GateFee
         {
-            return;
+            if (Flight.Origin == "Singapore (SIN)") //Depart from SG
+            {
+                return  Flight.CalculateFees() + 300 + 800;
+            }
+            else //Arrive at SG
+            {
+                return Flight.CalculateFees() + 300 + 500;
+            }
         }
 
         public override string ToString()

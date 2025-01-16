@@ -23,17 +23,35 @@ namespace PRG2_T13_08
 
         public bool AddFlight(Flight f)
         {
-            return;
+            if (Flights.ContainsKey(f.FlightNumber))
+            {
+                return false;
+            }
+           
+            Flights.Add(f.FlightNumber, f);
+            return true;
         }
 
-        public double CalculateFee()
+        public double CalculateFee() // Airlines total fee
         {
-            return;
+            Double fees = 0;
+            foreach (KeyValuePair<string, Flight> kvp in Flights)
+            {
+                Flight f = kvp.Value;
+                fees += f.CalculateFees();
+            }
+           
+            return fees;
         }
 
         public bool RemoveFlight(Flight f)
         {
-            return;
+            if (Flights.ContainsKey(f.FlightNumber))
+            {
+                Flights.Remove(f.FlightNumber);
+                return true;
+            }
+            return false;
         }
 
         public override string ToString()
