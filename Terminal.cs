@@ -72,7 +72,7 @@ namespace PRG2_T13_08
 
         public override string ToString()
         {
-            return base.ToString();
+            return "Terminal Name: " + TerminalName;
         }
     }
 }
