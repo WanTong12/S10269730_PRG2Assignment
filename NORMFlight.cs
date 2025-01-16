@@ -7,7 +7,14 @@
 
         public override double CalculateFees()
         {
-            return 0;
+            if (Origin == "Singapore (SIN)") //Depart from SG
+            {
+                return 800;
+            }
+            else //Arrive at SG
+            {
+                return 500;
+            }
         }
 
         public override string ToString()
