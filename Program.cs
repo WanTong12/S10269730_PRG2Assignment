@@ -11,6 +11,7 @@ internal class Program
         // Load Flight File
         LoadFlightFiles("flights.csv");
 
+
         Console.WriteLine("\r\n\r\n\r\n\r\n\r\n");
 
         while (true)
