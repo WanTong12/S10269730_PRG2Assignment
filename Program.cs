@@ -4,7 +4,7 @@ internal class Program
 {
     static Dictionary<string, Airline> airlineDict = new Dictionary<string, Airline>();
     static Dictionary<string, Flight> flightDict = new Dictionary<string, Flight>();
-    static Dictionary<string, BoardingGate> boardingggateDict = new Dictionary<string, BoardingGate>();
+    static Dictionary<string, BoardingGate> boardingGateDict = new Dictionary<string, BoardingGate>();
 
     private static void Main(string[] args)
     {
@@ -89,7 +89,7 @@ internal class Program
             bool ddjb = Convert.ToBoolean(line[2]);
             bool lwtt = Convert.ToBoolean(line[3]);
             BoardingGate boardingGate = new BoardingGate(line[0], cfft, ddjb, lwtt,);// create airline object
-            flightDict.Add(airline); // add airline object to airline dictionary
+            boardingGateDict.Add(boardingGate.GateName,boardingGate); // add airline object to airline dictionary
         }
     }
 
