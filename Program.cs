@@ -62,30 +62,5 @@ internal class Program
         Console.WriteLine("=============================================\r\nWelcome to Changi Airport Terminal 5\r\n=============================================\r\n1. List All Flights\r\n2. List Boarding Gates\r\n3. Assign a Boarding Gate to a Flight\r\n4. Create Flight\r\n5. Display Airline Flights\r\n6. Modify Flight Details\r\n7. Display Flight Schedule\r\n0. Exit");
     }
 
-    static void LoadAirlines()
-    {
-        // read file
-        string[] lines = File.ReadAllLines("airlines.csv");
-        for (int i = 1; i < lines.Length; i++)
-        {
-            string[] line = lines[i].Split(',');
-            Airline airline = new Airline(line[0], line[1]); // create airline object
-            airlineDict.Add(airline); // add airline object to airline dictionary
-        }
-    }
-
-    static void LoadBoardingGates()
-    {
-        // read file
-        string[] lines = File.ReadAllLines("boardinggates.csv");
-        for (int i = 1; i < lines.Length; i++)
-        {
-            string[] line = lines[i].Split(',');
-            bool cfft = Convert.ToBoolean(line[1]);
-            bool ddjb = Convert.ToBoolean(line[2]);
-            bool lwtt = Convert.ToBoolean(line[3]);
-            BoardingGate boardingGate = new BoardingGate(line[0],cfft, ddjb, lwtt,);// create airline object
-            airlineDict.Add(airline); // add airline object to airline dictionary
-        }
-    }
+    
 }
