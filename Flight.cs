@@ -25,7 +25,7 @@ namespace PRG2_T13_08
             Status = s;
         }
 
-        public double CalculateFees()
+        public virtual double CalculateFees()
         {
             if(Origin == "Singapore (SIN)") //Depart from SG
             {
