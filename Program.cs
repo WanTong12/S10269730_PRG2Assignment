@@ -10,8 +10,8 @@ internal class Program
     {
         // Load Flight File
         LoadFlightFiles("flights.csv");
-       
 
+        Console.WriteLine("\r\n\r\n\r\n\r\n\r\n");
 
         while (true)
         {
@@ -81,6 +81,6 @@ internal class Program
         }
 
         Console.WriteLine("Loading Flights...");
-        Console.WriteLine("{0} Flights Loaded!",flights.Length);
+        Console.WriteLine("{0} Flights Loaded!",flights.Length-1);
     }
 }
