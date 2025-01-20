@@ -99,14 +99,14 @@ internal class Program
         for (int i = 1; i < flights.Length; i++)
         {
             string[] flight = flights[i].Split(',');
-            string fn = flight[0];
-            string o = flight[1];
-            string d = flight[2];
-            DateTime e = Convert.ToDateTime(flight[3]);
+            string fn = flight[0]; //flight number
+            string o = flight[1]; //Origin
+            string d = flight[2]; //Destination
+            DateTime e = Convert.ToDateTime(flight[3]); //Expected arrival/ departure time
 
-            Flight f = new Flight(fn, o, d, e, "On Time");
+            Flight f = new Flight(fn, o, d, e, "On Time"); //Create Flight object
 
-            flightDict.Add(fn, f);
+            flightDict.Add(fn, f); //Add object to flight dictionary
         }
 
         Console.WriteLine("Loading Flights...");
