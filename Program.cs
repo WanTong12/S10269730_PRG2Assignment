@@ -83,4 +83,31 @@ internal class Program
         Console.WriteLine("Loading Flights...");
         Console.WriteLine("{0} Flights Loaded!",flights.Length-1);
     }
+
+    static void LoadAirlines()
+    {
+        // read file
+        string[] lines = File.ReadAllLines("airlines.csv");
+        for (int i = 1; i < lines.Length; i++)
+        {
+            string[] line = lines[i].Split(',');
+            Airline airline = new Airline(line[0], line[1]); // create airline object
+            airlineDict.Add(airline); // add airline object to airline dictionary
+        }
+    }
+
+    static void LoadBoardingGates()
+    {
+        // read file
+        string[] lines = File.ReadAllLines("boardinggates.csv");
+        for (int i = 1; i < lines.Length; i++)
+        {
+            string[] line = lines[i].Split(',');
+            bool cfft = Convert.ToBoolean(line[1]);
+            bool ddjb = Convert.ToBoolean(line[2]);
+            bool lwtt = Convert.ToBoolean(line[3]);
+            BoardingGate boardingGate = new BoardingGate(line[0], cfft, ddjb, lwtt,);// create airline object
+            airlineDict.Add(airline); // add airline object to airline dictionary
+        }
+    }
 }
