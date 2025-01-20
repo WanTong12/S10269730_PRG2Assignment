@@ -22,7 +22,7 @@ internal class Program
             Console.WriteLine();
             if (option == 1) // List All Flights
             {
-
+                DisplayBasicFlightInfo();
             }
             else if (option == 2) // List Boarding Gates
             {
@@ -60,7 +60,7 @@ internal class Program
         }
     }
 
-    static void DisplayMenu()
+    static void DisplayMenu() // Menu of options
     {
         Console.WriteLine("=============================================\r\nWelcome to Changi Airport Terminal 5\r\n=============================================\r\n1. List All Flights\r\n2. List Boarding Gates\r\n3. Assign a Boarding Gate to a Flight\r\n4. Create Flight\r\n5. Display Airline Flights\r\n6. Modify Flight Details\r\n7. Display Flight Schedule\r\n0. Exit");
     }
@@ -111,5 +111,28 @@ internal class Program
 
         Console.WriteLine("Loading Flights...");
         Console.WriteLine("{0} Flights Loaded!", flights.Length - 1);
+    }
+
+    static void DisplayBasicFlightInfo()
+    {
+        Console.WriteLine("=============================================");
+        Console.WriteLine("List of Flights for Changi Airport Terminal 5");
+        Console.WriteLine("=============================================");
+
+        Console.WriteLine("Flight Number Airline Name Origin Destination Expected Departure/Arrival Time");
+
+        foreach (KeyValuePair<string, Flight> kvp in flightDict) // Get each flight from flightDict
+        {
+            Flight f = kvp.Value; // flight
+
+            string[] flightno = f.FlightNumber.Split(" ");
+            string? code = flightno[0]; // Airline code
+
+            string airlineName = airlineDict[code].Name; // Airline Name
+
+            string expectedTime = DateTime.Now.ToString("dd/MM/yyyy") + f.ExpectedTime.ToString(); // Date and time of expected time
+
+            Console.WriteLine("{0}{1}{2}{3}{4}{5}",f.FlightNumber, airlineName, f.Origin,f.Destination, expectedTime); // flight information
+        }
     }
 }
