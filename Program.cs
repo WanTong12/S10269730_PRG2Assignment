@@ -2,6 +2,10 @@
 using PRG2_T13_08;
 internal class Program
 {
+    static Dictionary<string, Airline> airlineDict = new Dictionary<string, Airline>();
+    static Dictionary<string, Flight> flightDict = new Dictionary<string, Flight>();
+    static Dictionary<string, BoardingGate> boardingggateDict = new Dictionary<string, BoardingGate>();
+
     private static void Main(string[] args)
     {
         while (true)
@@ -53,5 +57,28 @@ internal class Program
     static void DisplayMenu()
     {
         Console.WriteLine("=============================================\r\nWelcome to Changi Airport Terminal 5\r\n=============================================\r\n1. List All Flights\r\n2. List Boarding Gates\r\n3. Assign a Boarding Gate to a Flight\r\n4. Create Flight\r\n5. Display Airline Flights\r\n6. Modify Flight Details\r\n7. Display Flight Schedule\r\n0. Exit");
+    }
+
+    static void LoadAirlines()
+    {
+        // read file
+        string[] lines = File.ReadAllLines("airlines.csv");
+        for (int i = 1; i<lines.Length; i++)
+        {
+            string[] line = lines[i].Split(',');
+            Airline airline = new Airline(line[0], line[1]); // creating airline objects
+            airlineDict.Add(airline); // add airline object into Airline Dictionary
+        }
+    }
+
+    static void LoadBoardingGates()
+    {
+        string[] lines = File.ReadAllLines("boardinggates.csv");
+        for (int i = 1; i < lines.Length; i ++)
+        {
+            string[] line = lines[i].Split(',');
+            bool 
+            BoardingGate boardingGate = new BoardingGate(line[0]);
+        }
     }
 }

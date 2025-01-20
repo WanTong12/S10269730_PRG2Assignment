@@ -14,11 +14,11 @@ namespace PRG2_T13_08
 
         public Airline() { }
 
-        public Airline(string n, string c, Dictionary<string, Flight> f)
+        public Airline(string n, string c)
         {
             Name = n;
             Code = c;
-            Flights = f;
+            Flights = new Dictionary<string, Flight>(); 
         }
 
         public bool AddFlight(Flight f)
