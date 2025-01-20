@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.VisualBasic;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -6,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace PRG2_T13_08
 {
-    abstract class Flight
+    class Flight
     {
         public string FlightNumber { get; set; }
         public string Origin { get; set; }
@@ -14,8 +15,8 @@ namespace PRG2_T13_08
         public DateTime ExpectedTime { get; set; }
         public string Status { get; set; }
 
-        public Flight() { }
-        public Flight(string fn, string o, string d, DateTime e, string s)
+        public Flight() { } 
+        public Flight(string fn, string o, string d, DateTime e, String s)
         {
             FlightNumber = fn;
             Origin = o;
@@ -24,7 +25,17 @@ namespace PRG2_T13_08
             Status = s;
         }
 
-        public abstract double CalculateFees();
+        public double CalculateFees()
+        {
+            if(Origin == "Singapore (SIN)") //Depart from SG
+            {
+                return 800;
+            }
+            else //Arrive at SG
+            {
+                return 500;
+            }
+        }
 
         public override string ToString()
         {
