@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 //==========================================================
 // Student Number : S12345678
-// Student Name : Michael Jordan
+// Student Name : Chong Wan Tong
 // Partner Name : Teo Qi En
 //==========================================================
 
