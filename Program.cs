@@ -10,7 +10,8 @@ internal class Program
     {
         // Load Flight File 
         LoadFlightFiles("flights.csv");
-
+        LoadAirlines("airlines.csv");
+        LoadBoardingGates("boardinggates.csv");
 
         Console.WriteLine("\r\n\r\n\r\n\r\n\r\n");
 
@@ -66,10 +67,10 @@ internal class Program
     }
 
 
-    static void LoadAirlines()
+    static void LoadAirlines(string filename)
     {
         // read file
-        string[] lines = File.ReadAllLines("airlines.csv");
+        string[] lines = File.ReadAllLines(filename);
         for (int i = 1; i < lines.Length; i++)
         {
             string[] line = lines[i].Split(',');
@@ -77,12 +78,12 @@ internal class Program
             airlineDict.Add(airline.Code,airline); // add airline object to airline dictionary
         }
     }
-    LoadAirlines();
+    
 
-    static void LoadBoardingGates()
+    static void LoadBoardingGates(string filename)
     {
         // read file
-        string[] lines = File.ReadAllLines("boardinggates.csv");
+        string[] lines = File.ReadAllLines(filename);
         for (int i = 1; i < lines.Length; i++)
         {
             string[] line = lines[i].Split(',');
@@ -93,7 +94,7 @@ internal class Program
             boardingGateDict.Add(boardingGate.GateName,boardingGate); // add airline object to airline dictionary
         }
     }
-    LoadBoardingGates();
+    
 
     static void LoadFlightFiles(string file)
     {
