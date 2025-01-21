@@ -1,8 +1,8 @@
 ﻿
 //==========================================================
-// Student Number : S12345678
-// Student Name : Michael Jordan
-// Partner Name : Scottie Pippen
+// Student Number : S10267930
+// Student Name : Chong Wan Tong
+// Partner Name : Teo Qi En
 //==========================================================
 
 namespace PRG2_T13_08
