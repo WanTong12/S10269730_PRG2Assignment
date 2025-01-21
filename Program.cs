@@ -89,8 +89,8 @@ internal class Program
             bool cfft = Convert.ToBoolean(line[1]);
             bool ddjb = Convert.ToBoolean(line[2]);
             bool lwtt = Convert.ToBoolean(line[3]);
-            BoardingGate boardingGate = new BoardingGate(line[0], cfft, ddjb, lwtt,);// create airline object
-            boardingGateDict.Add(boardingGate.GateName,boardingGate); // add airline object to airline dictionary
+            //BoardingGate boardingGate = new BoardingGate(line[0], cfft, ddjb, lwtt,);// create airline object
+            //boardingGateDict.Add(boardingGate.GateName,boardingGate); // add airline object to airline dictionary
         }
     }
 
@@ -120,7 +120,7 @@ internal class Program
         Console.WriteLine("List of Flights for Changi Airport Terminal 5");
         Console.WriteLine("=============================================");
 
-        Console.WriteLine("Flight Number Airline Name\tOrigin\tDestination\tExpected Departure/Arrival Time");
+        Console.WriteLine("{0, -17}{1,-23}{2,-25}{3,-25}{4}", "Flight Number", "Airline Name", "Origin", "Destination", "Expected Departure/Arrival Time");
 
         foreach (KeyValuePair<string, Flight> kvp in flightDict) // Get each flight from flightDict
         {
@@ -131,9 +131,9 @@ internal class Program
 
             string airlineName = airlineDict[code].Name; // Airline Name
 
-            string expectedTime = DateTime.Now.ToString("dd/MM/yyyy") + f.ExpectedTime.ToString(); // Date and time of expected time
+            string expectedTime = f.ExpectedTime.ToString(); // Date and time of expected time
 
-            Console.WriteLine("{0}{1}{2}{3}{4}{5}",f.FlightNumber, airlineName, f.Origin,f.Destination, expectedTime); // flight information
+            Console.WriteLine("{0, -17}{1,-23}{2,-25}{3,-25}{4}",f.FlightNumber, airlineName, f.Origin,f.Destination, expectedTime); // flight information
         }
     }
 }
