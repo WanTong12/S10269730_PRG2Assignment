@@ -24,6 +24,7 @@ internal class Program
             if (option == 1) // List All Flights
             {
                 DisplayBasicFlightInfo();
+               
             }
             else if (option == 2) // List Boarding Gates
             {
@@ -31,7 +32,7 @@ internal class Program
             }
             else if (option == 3) // Assign a Boarding Gate to a Flight
             {
-
+                AssignBoardingGate();
             }
             else if (option == 4) // Create Flight
             {
@@ -137,5 +138,10 @@ internal class Program
 
             Console.WriteLine("{0}{1}{2}{3}{4}{5}",f.FlightNumber, airlineName, f.Origin,f.Destination, expectedTime); // flight information
         }
+    }
+
+    static void AssignBoardingGate()
+    {
+
     }
 }
