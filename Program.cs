@@ -119,7 +119,7 @@ internal class Program
         Console.WriteLine("List of Flights for Changi Airport Terminal 5");
         Console.WriteLine("=============================================");
 
-        Console.WriteLine("Flight Number Airline Name Origin Destination Expected Departure/Arrival Time");
+        Console.WriteLine("Flight Number Airline Name\tOrigin\tDestination\tExpected Departure/Arrival Time");
 
         foreach (KeyValuePair<string, Flight> kvp in flightDict) // Get each flight from flightDict
         {

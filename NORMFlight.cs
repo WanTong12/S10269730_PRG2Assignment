@@ -1,4 +1,11 @@
-﻿namespace PRG2_T13_08
+﻿
+//==========================================================
+// Student Number : S12345678
+// Student Name : Michael Jordan
+// Partner Name : Scottie Pippen
+//==========================================================
+
+namespace PRG2_T13_08
 {
     class NORMFlight : Flight
     {
