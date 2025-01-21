@@ -77,6 +77,7 @@ internal class Program
             airlineDict.Add(airline.Code,airline); // add airline object to airline dictionary
         }
     }
+    LoadAirlines();
 
     static void LoadBoardingGates()
     {
@@ -92,6 +93,7 @@ internal class Program
             boardingGateDict.Add(boardingGate.GateName,boardingGate); // add airline object to airline dictionary
         }
     }
+    LoadBoardingGates();
 
     static void LoadFlightFiles(string file)
     {
