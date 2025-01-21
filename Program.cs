@@ -23,6 +23,7 @@ internal class Program
             if (option == 1) // List All Flights
             {
                 DisplayBasicFlightInfo();
+                Console.WriteLine();
             }
             else if (option == 2) // List Boarding Gates
             {
