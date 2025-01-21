@@ -4,6 +4,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+//==========================================================
+// Student Number : S12345678
+// Student Name : Michael Jordan
+// Partner Name : Scottie Pippen
+//==========================================================
+
 namespace PRG2_T13_08
 {
     class CFFTFlight : Flight
