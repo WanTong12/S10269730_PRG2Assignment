@@ -90,8 +90,8 @@ internal class Program
             bool cfft = Convert.ToBoolean(line[1]);
             bool ddjb = Convert.ToBoolean(line[2]);
             bool lwtt = Convert.ToBoolean(line[3]);
-            BoardingGate boardingGate = new BoardingGate(line[0], cfft, ddjb, lwtt,);// create airline object
-            boardingGateDict.Add(boardingGate.GateName,boardingGate); // add airline object to airline dictionary
+            BoardingGate boardingGate = new BoardingGate(line[0], cfft, ddjb, lwtt,);// create boardinggate object
+            boardingGateDict.Add(boardingGate.GateName,boardingGate); // add boardinggate object to boardinggate dictionary
         }
     }
     
