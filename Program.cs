@@ -24,30 +24,31 @@ internal class Program
             if (option == 1) // List All Flights
             {
                 DisplayBasicFlightInfo();
+                Console.WriteLine("\r\n\r\n\r\n\r\n\r\n");
             }
             else if (option == 2) // List Boarding Gates
             {
-
+                Console.WriteLine("\r\n\r\n\r\n\r\n\r\n");
             }
             else if (option == 3) // Assign a Boarding Gate to a Flight
             {
-
+                Console.WriteLine("\r\n\r\n\r\n\r\n\r\n");
             }
             else if (option == 4) // Create Flight
             {
-
+                Console.WriteLine("\r\n\r\n\r\n\r\n\r\n");
             }
             else if (option == 5) // Display Airline Flights
             {
-
+                Console.WriteLine("\r\n\r\n\r\n\r\n\r\n");
             }
             else if (option == 6) // Modify Flight Details
             {
-
+                Console.WriteLine("\r\n\r\n\r\n\r\n\r\n");
             }
             else if (option == 7) // Display Flight Schedule
             {
-
+                Console.WriteLine("\r\n\r\n\r\n\r\n\r\n");
             }
             else if (option == 0) // Exit
             {
