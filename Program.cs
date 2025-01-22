@@ -8,9 +8,10 @@ internal class Program
 
     private static void Main(string[] args)
     {
-        // Load Flight File
+        // Load Flight File 
         LoadFlightFiles("flights.csv");
-
+        LoadAirlines("airlines.csv");
+        LoadBoardingGates("boardinggates.csv");
 
         Console.WriteLine("\r\n\r\n\r\n\r\n\r\n");
 
@@ -67,10 +68,10 @@ internal class Program
     }
 
 
-    static void LoadAirlines()
+    static void LoadAirlines(string filename)
     {
         // read file
-        string[] lines = File.ReadAllLines("airlines.csv");
+        string[] lines = File.ReadAllLines(filename);
         for (int i = 1; i < lines.Length; i++)
         {
             string[] line = lines[i].Split(',');
@@ -78,21 +79,23 @@ internal class Program
             airlineDict.Add(airline.Code,airline); // add airline object to airline dictionary
         }
     }
+    
 
-    static void LoadBoardingGates()
+    static void LoadBoardingGates(string filename)
     {
         // read file
-        string[] lines = File.ReadAllLines("boardinggates.csv");
+        string[] lines = File.ReadAllLines(filename);
         for (int i = 1; i < lines.Length; i++)
         {
             string[] line = lines[i].Split(',');
             bool cfft = Convert.ToBoolean(line[1]);
             bool ddjb = Convert.ToBoolean(line[2]);
             bool lwtt = Convert.ToBoolean(line[3]);
-            BoardingGate boardingGate = new BoardingGate(line[0], cfft, ddjb, lwtt,);// create airline object
-            boardingGateDict.Add(boardingGate.GateName,boardingGate); // add airline object to airline dictionary
+            BoardingGate boardingGate = new BoardingGate(line[0], cfft, ddjb, lwtt,);// create boardinggate object
+            boardingGateDict.Add(boardingGate.GateName,boardingGate); // add boardinggate object to boardinggate dictionary
         }
     }
+    
 
     static void LoadFlightFiles(string file)
     {
