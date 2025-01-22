@@ -142,6 +142,14 @@ internal class Program
 
     static void AssignBoardingGate()
     {
+        Console.WriteLine("=============================================");
+        Console.WriteLine("Assign a Boarding Gate to a Flight");
+        Console.WriteLine("=============================================");
+        Console.Write("Enter Flight Number: ");
+        string? flightNo = Console.ReadLine();
+        Console.Write("Enter Boarding Gate Name: ");
+        string? boardingGate = Console.ReadLine();
+
 
     }
 }
