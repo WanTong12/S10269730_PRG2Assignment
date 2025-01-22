@@ -33,7 +33,7 @@ internal class Program
                     Flight f = kvp.Value; // flight
                     DisplayBasicFlightInfo(f);
                 }
-                Console.WriteLine();
+                Console.WriteLine("\r\n\r\n\r\n\r\n\r\n");
             }
             else if (option == 2) // List Boarding Gates
             {
