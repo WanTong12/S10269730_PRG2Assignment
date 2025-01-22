@@ -8,10 +8,13 @@ internal class Program
 
     private static void Main(string[] args)
     {
+        // Load Airline File
+        LoadAirlines("airlines.csv");
+        // Load BoardingGate File
+        LoadBoardingGates("boardinggates.csv");
         // Load Flight File 
         LoadFlightFiles("flights.csv");
-        LoadAirlines("airlines.csv");
-        LoadBoardingGates("boardinggates.csv");
+        
 
         Console.WriteLine("\r\n\r\n\r\n\r\n\r\n");
 
@@ -23,32 +26,32 @@ internal class Program
             Console.WriteLine();
             if (option == 1) // List All Flights
             {
-                DisplayBasicFlightInfo();
-               
+
             }
             else if (option == 2) // List Boarding Gates
             {
-
+                Console.WriteLine("\r\n\r\n\r\n\r\n\r\n");
             }
             else if (option == 3) // Assign a Boarding Gate to a Flight
             {
                 AssignBoardingGate();
+                Console.WriteLine("\r\n\r\n\r\n\r\n\r\n");
             }
             else if (option == 4) // Create Flight
             {
-
+                Console.WriteLine("\r\n\r\n\r\n\r\n\r\n");
             }
             else if (option == 5) // Display Airline Flights
             {
-
+                Console.WriteLine("\r\n\r\n\r\n\r\n\r\n");
             }
             else if (option == 6) // Modify Flight Details
             {
-
+                Console.WriteLine("\r\n\r\n\r\n\r\n\r\n");
             }
             else if (option == 7) // Display Flight Schedule
             {
-
+                Console.WriteLine("\r\n\r\n\r\n\r\n\r\n");
             }
             else if (option == 0) // Exit
             {
@@ -58,6 +61,7 @@ internal class Program
             else // Invalid input
             {
                 Console.WriteLine("Invalid Input");
+                Console.WriteLine("\r\n\r\n\r\n\r\n\r\n");
             }
         }
     }
@@ -117,27 +121,19 @@ internal class Program
         Console.WriteLine("{0} Flights Loaded!", flights.Length - 1);
     }
 
-    static void DisplayBasicFlightInfo()
+    static void DisplayBasicFlightInfo(Flight f)
     {
-        Console.WriteLine("=============================================");
-        Console.WriteLine("List of Flights for Changi Airport Terminal 5");
-        Console.WriteLine("=============================================");
 
-        Console.WriteLine("Flight Number Airline Name\tOrigin\tDestination\tExpected Departure/Arrival Time");
+        string[] flightno = f.FlightNumber.Split(" ");
+        string? code = flightno[0]; // Airline code
 
-        foreach (KeyValuePair<string, Flight> kvp in flightDict) // Get each flight from flightDict
-        {
-            Flight f = kvp.Value; // flight
+        string airlineName = airlineDict[code].Name; // Airline Name
 
-            string[] flightno = f.FlightNumber.Split(" ");
-            string? code = flightno[0]; // Airline code
+        string expectedTime = f.ExpectedTime.ToString(); // Date and time of expected time
 
-            string airlineName = airlineDict[code].Name; // Airline Name
+        Console.WriteLine("{0, -17}{1,-23}{2,-25}{3,-25}{4}", f.FlightNumber, airlineName, f.Origin, f.Destination, expectedTime); // flight information
 
-            string expectedTime = DateTime.Now.ToString("dd/MM/yyyy") + f.ExpectedTime.ToString(); // Date and time of expected time
 
-            Console.WriteLine("{0}{1}{2}{3}{4}{5}",f.FlightNumber, airlineName, f.Origin,f.Destination, expectedTime); // flight information
-        }
     }
 
     static void AssignBoardingGate()
