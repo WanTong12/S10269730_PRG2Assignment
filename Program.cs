@@ -8,10 +8,13 @@ internal class Program
 
     private static void Main(string[] args)
     {
+        // Load Airline File
+        LoadAirlines("airlines.csv");
+        // Load BoardingGate File
+        LoadBoardingGates("boardinggates.csv");
         // Load Flight File 
         LoadFlightFiles("flights.csv");
-        LoadAirlines("airlines.csv");
-        LoadBoardingGates("boardinggates.csv");
+        
 
         Console.WriteLine("\r\n\r\n\r\n\r\n\r\n");
 
