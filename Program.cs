@@ -129,6 +129,7 @@ internal class Program
         Console.WriteLine("Loading Flights...");
         Console.WriteLine("{0} Flights Loaded!", flights.Length - 1);
     }
+
     static void DisplayBasicFlightInfo(Flight f)
     {
 
@@ -140,6 +141,7 @@ internal class Program
         string expectedTime = f.ExpectedTime.ToString(); // Date and time of expected time
 
         Console.WriteLine("{0, -17}{1,-23}{2,-25}{3,-25}{4}", f.FlightNumber, airlineName, f.Origin, f.Destination, expectedTime); // flight information
+
 
     }
 }
