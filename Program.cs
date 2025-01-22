@@ -119,27 +119,4 @@ internal class Program
         Console.WriteLine("Loading Flights...");
         Console.WriteLine("{0} Flights Loaded!", flights.Length - 1);
     }
-
-    static void DisplayBasicFlightInfo()
-    {
-        Console.WriteLine("=============================================");
-        Console.WriteLine("List of Flights for Changi Airport Terminal 5");
-        Console.WriteLine("=============================================");
-
-        Console.WriteLine("Flight Number Airline Name\tOrigin\tDestination\tExpected Departure/Arrival Time");
-
-        foreach (KeyValuePair<string, Flight> kvp in flightDict) // Get each flight from flightDict
-        {
-            Flight f = kvp.Value; // flight
-
-            string[] flightno = f.FlightNumber.Split(" ");
-            string? code = flightno[0]; // Airline code
-
-            string airlineName = airlineDict[code].Name; // Airline Name
-
-            string expectedTime = DateTime.Now.ToString("dd/MM/yyyy") + f.ExpectedTime.ToString(); // Date and time of expected time
-
-            Console.WriteLine("{0}{1}{2}{3}{4}{5}",f.FlightNumber, airlineName, f.Origin,f.Destination, expectedTime); // flight information
-        }
-    }
 }
