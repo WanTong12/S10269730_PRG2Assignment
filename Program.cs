@@ -26,8 +26,7 @@ internal class Program
             Console.WriteLine();
             if (option == 1) // List All Flights
             {
-                DisplayBasicFlightInfo();
-                Console.WriteLine("\r\n\r\n\r\n\r\n\r\n");
+               
             }
             else if (option == 2) // List Boarding Gates
             {
