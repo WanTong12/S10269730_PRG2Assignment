@@ -91,6 +91,8 @@ internal class Program
             Airline airline = new Airline(line[0], line[1]); // create airline object
             airlineDict.Add(airline.Code,airline); // add airline object to airline dictionary
         }
+        Console.WriteLine("Loading Airlines...");
+        Console.WriteLine("{0} Airlines Loaded!", airlineDict.Count);
     }
     
 
@@ -107,6 +109,8 @@ internal class Program
             BoardingGate boardingGate = new BoardingGate(line[0], cfft, ddjb, lwtt, null);// create boardinggate object
             boardingGateDict.Add(boardingGate.GateName,boardingGate); // add boardinggate object to boardinggate dictionary
         }
+         Console.WriteLine("Loading Boarding Gates...");
+         Console.WriteLine("{0} Boarding Gates Loaded!",boardingGateDict.Count);
     }
     
 
