@@ -23,7 +23,16 @@ internal class Program
             Console.WriteLine();
             if (option == 1) // List All Flights
             {
-                DisplayBasicFlightInfo();
+                Console.WriteLine("=============================================");
+                Console.WriteLine("List of Flights for Changi Airport Terminal 5");
+                Console.WriteLine("=============================================");
+
+                Console.WriteLine("{0, -17}{1,-23}{2,-25}{3,-25}{4}", "Flight Number", "Airline Name", "Origin", "Destination", "Expected Departure/Arrival Time");
+                foreach (KeyValuePair<string, Flight> kvp in flightDict) // Get each flight from flightDict
+                {
+                    Flight f = kvp.Value; // flight
+                    DisplayBasicFlightInfo(f);
+                }
                 Console.WriteLine();
             }
             else if (option == 2) // List Boarding Gates
@@ -117,26 +126,17 @@ internal class Program
         Console.WriteLine("{0} Flights Loaded!", flights.Length - 1);
     }
 
-    static void DisplayBasicFlightInfo()
+    static void DisplayBasicFlightInfo(Flight f)
     {
-        Console.WriteLine("=============================================");
-        Console.WriteLine("List of Flights for Changi Airport Terminal 5");
-        Console.WriteLine("=============================================");
 
-        Console.WriteLine("{0, -17}{1,-23}{2,-25}{3,-25}{4}", "Flight Number", "Airline Name", "Origin", "Destination", "Expected Departure/Arrival Time");
+        string[] flightno = f.FlightNumber.Split(" ");
+        string? code = flightno[0]; // Airline code
 
-        foreach (KeyValuePair<string, Flight> kvp in flightDict) // Get each flight from flightDict
-        {
-            Flight f = kvp.Value; // flight
+        string airlineName = airlineDict[code].Name; // Airline Name
 
-            string[] flightno = f.FlightNumber.Split(" ");
-            string? code = flightno[0]; // Airline code
+        string expectedTime = f.ExpectedTime.ToString(); // Date and time of expected time
 
-            string airlineName = airlineDict[code].Name; // Airline Name
+        Console.WriteLine("{0, -17}{1,-23}{2,-25}{3,-25}{4}",f.FlightNumber, airlineName, f.Origin,f.Destination, expectedTime); // flight information
 
-            string expectedTime = f.ExpectedTime.ToString(); // Date and time of expected time
-
-            Console.WriteLine("{0, -17}{1,-23}{2,-25}{3,-25}{4}",f.FlightNumber, airlineName, f.Origin,f.Destination, expectedTime); // flight information
-        }
     }
 }
