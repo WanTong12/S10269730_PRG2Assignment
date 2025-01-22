@@ -149,7 +149,5 @@ internal class Program
         string? flightNo = Console.ReadLine();
         Console.Write("Enter Boarding Gate Name: ");
         string? boardingGate = Console.ReadLine();
-
-
     }
 }
