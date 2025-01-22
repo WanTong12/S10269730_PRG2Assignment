@@ -22,7 +22,7 @@ namespace PRG2_T13_08
         public string Status { get; set; }
 
         public Flight() { } 
-        public Flight(string fn, string o, string d, DateTime e, String s)
+        public Flight(string fn, string o, string d, DateTime e, string s)
         {
             FlightNumber = fn;
             Origin = o;
