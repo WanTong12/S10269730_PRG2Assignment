@@ -26,7 +26,17 @@ internal class Program
             Console.WriteLine();
             if (option == 1) // List All Flights
             {
-               
+                Console.WriteLine("=============================================");
+                Console.WriteLine("List of Flights for Changi Airport Terminal 5");
+                Console.WriteLine("=============================================");
+
+                Console.WriteLine("{0, -17}{1,-23}{2,-25}{3,-25}{4}", "Flight Number", "Airline Name", "Origin", "Destination", "Expected Departure/Arrival Time");
+                foreach (KeyValuePair<string, Flight> kvp in flightDict) // Get each flight from flightDict
+                {
+                    Flight f = kvp.Value; // flight
+                    DisplayBasicFlightInfo(f);
+                }
+                Console.WriteLine("\r\n\r\n\r\n\r\n\r\n");
             }
             else if (option == 2) // List Boarding Gates
             {
