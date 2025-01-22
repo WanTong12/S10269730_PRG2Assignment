@@ -26,17 +26,7 @@ internal class Program
             Console.WriteLine();
             if (option == 1) // List All Flights
             {
-                Console.WriteLine("=============================================");
-                Console.WriteLine("List of Flights for Changi Airport Terminal 5");
-                Console.WriteLine("=============================================");
 
-                Console.WriteLine("{0, -17}{1,-23}{2,-25}{3,-25}{4}", "Flight Number", "Airline Name", "Origin", "Destination", "Expected Departure/Arrival Time");
-                foreach (KeyValuePair<string, Flight> kvp in flightDict) // Get each flight from flightDict
-                {
-                    Flight f = kvp.Value; // flight
-                    DisplayBasicFlightInfo(f);
-                }
-                Console.WriteLine("\r\n\r\n\r\n\r\n\r\n");
             }
             else if (option == 2) // List Boarding Gates
             {
@@ -44,6 +34,7 @@ internal class Program
             }
             else if (option == 3) // Assign a Boarding Gate to a Flight
             {
+                AssignBoardingGate();
                 Console.WriteLine("\r\n\r\n\r\n\r\n\r\n");
             }
             else if (option == 4) // Create Flight
@@ -143,5 +134,22 @@ internal class Program
         Console.WriteLine("{0, -17}{1,-23}{2,-25}{3,-25}{4}", f.FlightNumber, airlineName, f.Origin, f.Destination, expectedTime); // flight information
 
 
+    }
+
+    static void AssignBoardingGate()
+    {
+        Console.WriteLine("=============================================");
+        Console.WriteLine("Assign a Boarding Gate to a Flight");
+        Console.WriteLine("=============================================");
+        Console.Write("Enter Flight Number: ");
+        string? flightNo = Console.ReadLine();
+        Console.Write("Enter Boarding Gate Name: ");
+        string? boardingGate = Console.ReadLine();
+
+        Flight f = flightDict[flightNo];
+        Console.WriteLine("Flight Number: {0}", f.FlightNumber);
+        Console.WriteLine("Origin: {0}", f.Origin);
+        Console.WriteLine("Destination: {0}", f.Destination);
+        Console.WriteLine("Expected Time: {0}", f.ExpectedTime);
     }
 }
