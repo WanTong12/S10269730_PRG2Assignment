@@ -8,10 +8,13 @@ internal class Program
 
     private static void Main(string[] args)
     {
+        // Load Airline File
+        LoadAirlines("airlines.csv");
+        // Load BoardingGate File
+        LoadBoardingGates("boardinggates.csv");
         // Load Flight File 
         LoadFlightFiles("flights.csv");
-        LoadAirlines("airlines.csv");
-        LoadBoardingGates("boardinggates.csv");
+        
 
         Console.WriteLine("\r\n\r\n\r\n\r\n\r\n");
 
@@ -37,27 +40,27 @@ internal class Program
             }
             else if (option == 2) // List Boarding Gates
             {
-
+                Console.WriteLine("\r\n\r\n\r\n\r\n\r\n");
             }
             else if (option == 3) // Assign a Boarding Gate to a Flight
             {
-
+                Console.WriteLine("\r\n\r\n\r\n\r\n\r\n");
             }
             else if (option == 4) // Create Flight
             {
-
+                Console.WriteLine("\r\n\r\n\r\n\r\n\r\n");
             }
             else if (option == 5) // Display Airline Flights
             {
-
+                Console.WriteLine("\r\n\r\n\r\n\r\n\r\n");
             }
             else if (option == 6) // Modify Flight Details
             {
-
+                Console.WriteLine("\r\n\r\n\r\n\r\n\r\n");
             }
             else if (option == 7) // Display Flight Schedule
             {
-
+                Console.WriteLine("\r\n\r\n\r\n\r\n\r\n");
             }
             else if (option == 0) // Exit
             {
@@ -67,6 +70,7 @@ internal class Program
             else // Invalid input
             {
                 Console.WriteLine("Invalid Input");
+                Console.WriteLine("\r\n\r\n\r\n\r\n\r\n");
             }
         }
     }
@@ -136,7 +140,8 @@ internal class Program
 
         string expectedTime = f.ExpectedTime.ToString(); // Date and time of expected time
 
-        Console.WriteLine("{0, -17}{1,-23}{2,-25}{3,-25}{4}",f.FlightNumber, airlineName, f.Origin,f.Destination, expectedTime); // flight information
+        Console.WriteLine("{0, -17}{1,-23}{2,-25}{3,-25}{4}", f.FlightNumber, airlineName, f.Origin, f.Destination, expectedTime); // flight information
+
 
     }
 }
