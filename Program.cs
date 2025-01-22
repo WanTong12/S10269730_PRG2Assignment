@@ -31,6 +31,14 @@ internal class Program
             }
             else if (option == 2) // List Boarding Gates
             {
+                Console.WriteLine("=============================================");
+                Console.WriteLine("List of Boarding Gates for Changi Airport Terminal 5");
+                Console.WriteLine("=============================================");
+                Console.WriteLine("{0,-16}{1,-23}{2,-23}{3,-23}","Gate Name","DDJB","CFFT","LWTT");
+                foreach(BoardingGate b in boardingGateDict.Values)
+                {
+                    Console.WriteLine("{0,-16}{1,-23}{2,-23}{3,-23}", b.GateName, b.SupportsDDJB, b.SupportsCFFT, b.SupportsLWTT);
+                }
                 Console.WriteLine("\r\n\r\n\r\n\r\n\r\n");
             }
             else if (option == 3) // Assign a Boarding Gate to a Flight
