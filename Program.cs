@@ -119,4 +119,17 @@ internal class Program
         Console.WriteLine("Loading Flights...");
         Console.WriteLine("{0} Flights Loaded!", flights.Length - 1);
     }
+    static void DisplayBasicFlightInfo(Flight f)
+    {
+
+        string[] flightno = f.FlightNumber.Split(" ");
+        string? code = flightno[0]; // Airline code
+
+        string airlineName = airlineDict[code].Name; // Airline Name
+
+        string expectedTime = f.ExpectedTime.ToString(); // Date and time of expected time
+
+        Console.WriteLine("{0, -17}{1,-23}{2,-25}{3,-25}{4}", f.FlightNumber, airlineName, f.Origin, f.Destination, expectedTime); // flight information
+
+    }
 }
