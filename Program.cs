@@ -145,5 +145,11 @@ internal class Program
         string? flightNo = Console.ReadLine();
         Console.Write("Enter Boarding Gate Name: ");
         string? boardingGate = Console.ReadLine();
+
+        Flight f = flightDict[flightNo];
+        Console.WriteLine("Flight Number: {0}", f.FlightNumber);
+        Console.WriteLine("Origin: {0}", f.Origin);
+        Console.WriteLine("Destination: {0}", f.Destination);
+        Console.WriteLine("Expected Time: {0}", f.ExpectedTime);
     }
 }
