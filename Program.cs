@@ -295,6 +295,7 @@ internal class Program
 
     static void CreateNewFlight(string file)
     {
+        // Prompt the user to enter the new Flight
         Console.Write("Enter Flight Number: ");
         string? fNo = Console.ReadLine(); // flight number
         Console.Write("Enter Origin: ");
@@ -304,7 +305,7 @@ internal class Program
         Console.Write("Enter Expected Departure/Arrival Time (dd/mm/yyyy hh:mm): ");
         DateTime eTime = Convert.ToDateTime(Console.ReadLine()); // expected arrival or departure timing
         Console.Write("Enter Special Request Code (CFFT/DDJB/LWTT/None): ");
-        string? specialRC = Console.ReadLine();
+        string? specialRC = Console.ReadLine(); // Speacial Request Code
 
         Flight f = new Flight(fNo, o, d, eTime, "On Time");
 
