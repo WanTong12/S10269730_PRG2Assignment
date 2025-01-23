@@ -315,15 +315,19 @@ internal class Program
         flightDict.Add(fNo, f); //Add object to flight dictionary
 
         //append the new Flight information to the flights.csv file
-        if (specialRC == "None") //For flights without spreacial request code
+        using (StreamWriter sw = new StreamWriter(file))
         {
-            string flightinfo = fNo + "," + o + "," + d + "," + eTime;
-            File.WriteAllText(file, flightinfo); //Add flight into flights file
-        }
-        else // For flights with speacial request code
-        {
-            string flightinfo = fNo + "," + o + "," + d + "," + eTime + "," + specialRC;
-            File.WriteAllText(file, flightinfo); //Add flight into flights file
+            if (specialRC == "None") //For flights without spreacial request code
+            {
+                string flightinfo = fNo + "," + o + "," + d + "," + eTime;
+                sw.WriteLine(flightinfo); //Add flight into flights file
+            }
+            else // For flights with speacial request code
+            {
+                string flightinfo = fNo + "," + o + "," + d + "," + eTime + "," + specialRC;
+                sw.WriteLine(flightinfo); //Add flight into flights file
+            }
+           
         }
         //display a message to indicate that the Flight(s) have been successfully added
         Console.WriteLine("Flight {0} has been added!", fNo);
