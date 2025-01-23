@@ -49,7 +49,16 @@ internal class Program
             }
             else if (option == 4) // Create Flight
             {
-                CreateNewFlight("flights.csv");
+                while (true)
+                {
+                    CreateNewFlight("flights.csv");
+                    Console.WriteLine("Would you like to add another flight? (Y/N)");
+                    string? ans = Console.ReadLine();
+                    if (ans.ToUpper() == "N")
+                    {
+                        break;
+                    }
+                }
                 Console.WriteLine("\r\n\r\n\r\n\r\n\r\n");
             }
             else if (option == 5) // Display Airline Flights
@@ -327,5 +336,7 @@ internal class Program
             string flightinfo = fNo + "," + o + "," + d + "," + eTime + "," + specialRC;
             File.WriteAllText(file, flightinfo); //Add flight into flights file
         }
+
+        Console.WriteLine("Flight {0} has been added!", fNo);
     }
 }
