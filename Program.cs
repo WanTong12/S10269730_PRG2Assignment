@@ -49,7 +49,7 @@ internal class Program
             }
             else if (option == 4) // Create Flight
             {
-                CreateNewFlight();
+                CreateNewFlight("flights.csv");
                 Console.WriteLine("\r\n\r\n\r\n\r\n\r\n");
             }
             else if (option == 5) // Display Airline Flights
@@ -284,8 +284,48 @@ internal class Program
         }
     }
 
-    static void CreateNewFlight()
+    static void CreateNewFlight(string file)
     {
+        Console.Write("Enter Flight Number: ");
+        string? fNo = Console.ReadLine(); // flight number
+        Console.Write("Enter Origin: ");
+        string? o = Console.ReadLine(); // origin
+        Console.Write("Enter Destination: ");
+        string? d = Console.ReadLine(); // destination
+        Console.Write("Enter Expected Departure/Arrival Time (dd/mm/yyyy hh:mm): ");
+        DateTime eTime = Convert.ToDateTime(Console.ReadLine()); // expected arrival or departure timing
+        Console.Write("Enter Special Request Code (CFFT/DDJB/LWTT/None): ");
+        string? specialRC = Console.ReadLine();
 
+        Flight f = new Flight(fNo, o, d, eTime, "On Time");
+
+        if (specialRC == "None")
+        {
+            f = new NORMFlight(fNo, o,d,eTime,"On Time"); // Create NORMFlight object
+        }
+        else if (specialRC == "DDJB")
+        {
+            f = new DDJBFlight(fNo, o, d, eTime, "On Time"); //Create DDJBFlight object
+        }
+        else if (specialRC == "CFFT")
+        {
+            f = new CFFTFlight(fNo, o, d, eTime, "On Time"); //Create CFFTFlight object
+        }
+        else if (specialRC == "LWTT")
+        {
+            f = new LWTTFlight(fNo, o, d, eTime, "On Time"); //Create LWTTFlight object
+        }
+        flightDict.Add(fNo, f); //Add object to flight dictionary
+
+        if (specialRC == "None") //For flights without spreacial request code
+        {
+            string flightinfo = fNo + "," + o + "," + d + "," + eTime;
+            File.WriteAllText(file, flightinfo); //Add flight into flights file
+        }
+        else // For flights with speacial request code
+        {
+            string flightinfo = fNo + "," + o + "," + d + "," + eTime + "," + specialRC;
+            File.WriteAllText(file, flightinfo); //Add flight into flights file
+        }
     }
 }
