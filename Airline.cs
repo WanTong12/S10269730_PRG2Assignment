@@ -39,7 +39,7 @@ namespace PRG2_T13_08
             return true;
         }
 
-        public double CalculateFee() // Airlines total flight fee
+        public double CalculateFees() // Airlines total flight fee
         {
             double fees = 0;
             foreach (KeyValuePair<string, Flight> kvp in Flights) 

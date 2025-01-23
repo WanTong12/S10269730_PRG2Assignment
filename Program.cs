@@ -77,13 +77,17 @@ internal class Program
                 }
                 Console.WriteLine("=============================================");
                 Console.WriteLine("{0,-16}{1,-23}{2,-23}{3,-23}{4,-32}", "Flight Number","Airline Name","Origin","Destination","Expected Departure/Arrival Time");
-                foreach (Airline a in airlineDict.Values)
+                
+                foreach (Flight f in flightDict.Values) 
                 {
-                    foreach(Flight f in flightDict.Values)
-                    {
+                    if (f.FlightNumber.StartsWith(airlineCode)) // to select and display the flights from the airline input by user  
+                    { 
+                        Console.WriteLine("{0,-16}{1,-23}{2,-23}{3,-23}{4,-32}", f.FlightNumber, airlineDict[airlineCode].Name, f.Origin, f.Destination, f.ExpectedTime);
 
                     }
                 }
+                    
+                
                 Console.WriteLine("\r\n\r\n\r\n\r\n\r\n");
             }
             else if (option == 6) // Modify Flight Details
