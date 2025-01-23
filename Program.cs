@@ -66,17 +66,9 @@ internal class Program
                 string airlineCode = Console.ReadLine();
                 // Display Flights from the Airline that user input
                 Console.WriteLine("=============================================");
-                foreach (Airline a in airlineDict.Values) // for loop to find and display the correct airline name 
-                {
-                    if (airlineCode == a.Code) 
-                    {
-                        Console.WriteLine("List of Flights for {0}",a.Name);
-                        break;
-                    }
-                    
-                }
+                Console.WriteLine("List of Flights for {0}", airlineDict[airlineCode].Name); // using dictionary, get the airline name
                 Console.WriteLine("=============================================");
-                Console.WriteLine("{0,-16}{1,-23}{2,-23}{3,-23}{4,-32}", "Flight Number","Airline Name","Origin","Destination","Expected Departure/Arrival Time");
+                Console.WriteLine("{0,-16}{1,-23}{2,-23}{3,-23}{4,-32}", "Flight Number","Airline Name","Origin","Destination","Expected Departure/Arrival Time"); // display title
                 
                 foreach (Flight f in flightDict.Values) 
                 {
