@@ -92,6 +92,7 @@ internal class Program
             }
             else if (option == 7) // Display Flight Schedule
             {
+                DisplayScheduledFlights();
                 Console.WriteLine("\r\n\r\n\r\n\r\n\r\n");
             }
             else if (option == 0) // Exit
@@ -281,5 +282,10 @@ internal class Program
                 Console.WriteLine("Boarding Gate has already been assigned ");
             }
         }
+    }
+
+    static void DisplayScheduledFlights()
+    {
+
     }
 }
