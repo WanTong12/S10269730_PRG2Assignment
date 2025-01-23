@@ -165,15 +165,15 @@ internal class Program
             }
             else if (specialRC == "DDJB")
             {
-                f = new DDJBFlight(fn, o, d, e, "On Time");
+                f = new DDJBFlight(fn, o, d, e, "On Time"); //Create DDJBFlight object
             }
             else if (specialRC == "CFFT")
             {
-                f = new CFFTFlight(fn, o, d, e, "On Time");
+                f = new CFFTFlight(fn, o, d, e, "On Time"); //Create CFFTFlight object
             }
             else if (specialRC == "LWTT")
             {
-                f = new LWTTFlight(fn, o, d, e, "On Time");
+                f = new LWTTFlight(fn, o, d, e, "On Time"); //Create LWTTFlight object
             }
             flightDict.Add(fn, f); //Add object to flight dictionary
         }
