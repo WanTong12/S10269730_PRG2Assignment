@@ -315,7 +315,7 @@ internal class Program
         flightDict.Add(fNo, f); //Add object to flight dictionary
 
         //append the new Flight information to the flights.csv file
-        using (StreamWriter sw = new StreamWriter(file))
+        using (StreamWriter sw = new StreamWriter(file, true))
         {
             if (specialRC == "None") //For flights without spreacial request code
             {
