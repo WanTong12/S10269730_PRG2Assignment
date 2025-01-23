@@ -1,4 +1,5 @@
 ﻿
+using Microsoft.VisualBasic;
 using PRG2_T13_08;
 using System.Diagnostics.Metrics;
 internal class Program
@@ -52,6 +53,7 @@ internal class Program
                 while (true)
                 {
                     CreateNewFlight("flights.csv");
+                    //prompt the user asking if they would like to add another Flight, repeating the previous 5 steps if [Y] or continuing to the next step if [N]
                     Console.WriteLine("Would you like to add another flight? (Y/N)");
                     string? ans = Console.ReadLine();
                     if (ans.ToUpper() == "N")
@@ -304,29 +306,15 @@ internal class Program
         string? d = Console.ReadLine(); // destination
         Console.Write("Enter Expected Departure/Arrival Time (dd/mm/yyyy hh:mm): ");
         DateTime eTime = Convert.ToDateTime(Console.ReadLine()); // expected arrival or departure timing
+        //	prompt the user if they would like to enter any additional information, like the Special Request Code
         Console.Write("Enter Special Request Code (CFFT/DDJB/LWTT/None): ");
         string? specialRC = Console.ReadLine(); // Speacial Request Code
 
+        //create the proper Flight object with the information given
         Flight f = new Flight(fNo, o, d, eTime, "On Time");
-
-        if (specialRC == "None")
-        {
-            f = new NORMFlight(fNo, o,d,eTime,"On Time"); // Create NORMFlight object
-        }
-        else if (specialRC == "DDJB")
-        {
-            f = new DDJBFlight(fNo, o, d, eTime, "On Time"); //Create DDJBFlight object
-        }
-        else if (specialRC == "CFFT")
-        {
-            f = new CFFTFlight(fNo, o, d, eTime, "On Time"); //Create CFFTFlight object
-        }
-        else if (specialRC == "LWTT")
-        {
-            f = new LWTTFlight(fNo, o, d, eTime, "On Time"); //Create LWTTFlight object
-        }
         flightDict.Add(fNo, f); //Add object to flight dictionary
 
+        //append the new Flight information to the flights.csv file
         if (specialRC == "None") //For flights without spreacial request code
         {
             string flightinfo = fNo + "," + o + "," + d + "," + eTime;
@@ -337,7 +325,7 @@ internal class Program
             string flightinfo = fNo + "," + o + "," + d + "," + eTime + "," + specialRC;
             File.WriteAllText(file, flightinfo); //Add flight into flights file
         }
-
+        //display a message to indicate that the Flight(s) have been successfully added
         Console.WriteLine("Flight {0} has been added!", fNo);
     }
 }
