@@ -205,8 +205,8 @@ internal class Program
 
         if (bg.Flight is null)
         {
-            
-           Console.WriteLine("Special Request Code: None");
+            //Requet Code (Not Done Yet)
+            Console.WriteLine("Special Request Code: None");
 
             Console.WriteLine("Boarding Gate Name: {0}", bg.GateName);
             Console.WriteLine("Supports DDJB: {0}\r\nSupports CFFT: {1}\r\nSupports LWTT: {2}", bg.SupportsDDJB, bg.SupportsCFFT, bg.SupportsLWTT);
