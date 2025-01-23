@@ -157,8 +157,24 @@ internal class Program
             string d = flight[2]; //Destination
             DateTime e = Convert.ToDateTime(flight[3]); //Expected arrival/ departure time
 
-            Flight f = new Flight(fn, o, d, e, "On Time"); //Create Flight object
-
+            Flight f = new Flight(fn, o, d, e, "On Time");
+            string? specialRC = flight[4];
+            if (specialRC is null)
+            {
+                f = new NORMFlight(fn, o, d, e, "On Time"); //Create NORMFlight object
+            }
+            else if (specialRC == "DDJB")
+            {
+                f = new DDJBFlight(fn, o, d, e, "On Time");
+            }
+            else if (specialRC == "CFFT")
+            {
+                f = new CFFTFlight(fn, o, d, e, "On Time");
+            }
+            else if (specialRC == "LWTT")
+            {
+                f = new LWTTFlight(fn, o, d, e, "On Time");
+            }
             flightDict.Add(fn, f); //Add object to flight dictionary
         }
 
@@ -190,56 +206,80 @@ internal class Program
         Console.WriteLine("=============================================");
         Console.WriteLine("Assign a Boarding Gate to a Flight");
         Console.WriteLine("=============================================");
-        Console.Write("Enter Flight Number: ");
-        string? flightNo = Console.ReadLine();
-        Console.Write("Enter Boarding Gate Name: ");
-        string? boardingGate = Console.ReadLine();
-
-        Flight f = flightDict[flightNo];
-        Console.WriteLine("Flight Number: {0}", f.FlightNumber);
-        Console.WriteLine("Origin: {0}", f.Origin);
-        Console.WriteLine("Destination: {0}", f.Destination);
-        Console.WriteLine("Expected Time: {0}", f.ExpectedTime);
-
-        BoardingGate bg = boardingGateDict[boardingGate];
-
-        if (bg.Flight is null)
+        while (true)
         {
-            //Requet Code (Not Done Yet)
-            Console.WriteLine("Special Request Code: None");
+            Console.Write("Enter Flight Number: ");
+            string? flightNo = Console.ReadLine();
+            Console.Write("Enter Boarding Gate Name: ");
+            string? boardingGate = Console.ReadLine();
 
-            Console.WriteLine("Boarding Gate Name: {0}", bg.GateName);
-            Console.WriteLine("Supports DDJB: {0}\r\nSupports CFFT: {1}\r\nSupports LWTT: {2}", bg.SupportsDDJB, bg.SupportsCFFT, bg.SupportsLWTT);
-            Console.WriteLine("Would you like to update the status of the flight? (Y/N)");
-            string? ans = Console.ReadLine();
+            Flight f = flightDict[flightNo];
 
-            if (ans.ToUpper() == "Y")
+            BoardingGate bg = boardingGateDict[boardingGate];
+
+            if (bg.Flight is null)
             {
-                Console.WriteLine("1. Delayed\r\n2. Boarding\r\n3. On Time");
-                Console.Write("Please select the new status of the flight: ");
-                int opt = Convert.ToInt32(Console.ReadLine());
+                Console.WriteLine("Flight Number: {0}", f.FlightNumber);
+                Console.WriteLine("Origin: {0}", f.Origin);
+                Console.WriteLine("Destination: {0}", f.Destination);
+                Console.WriteLine("Expected Time: {0}", f.ExpectedTime);
+                //Requet Code
+                if (f is NORMFlight)
+                {
+                    Console.WriteLine("Special Request Code: None");
+                }
+                else if (f is DDJBFlight)
+                {
+                    Console.WriteLine("Special Request Code: DDJB");
+                }
+                else if (f is CFFTFlight)
+                {
+                    Console.WriteLine("Special Request Code: CFFT");
+                }
+                else if (f is LWTTFlight)
+                {
+                    Console.WriteLine("Special Request Code: LWTT");
+                }
 
-                if (opt == 1)
+
+                Console.WriteLine("Boarding Gate Name: {0}", bg.GateName);
+                Console.WriteLine("Supports DDJB: {0}\r\nSupports CFFT: {1}\r\nSupports LWTT: {2}", bg.SupportsDDJB, bg.SupportsCFFT, bg.SupportsLWTT);
+                Console.WriteLine("Would you like to update the status of the flight? (Y/N)");
+                string? ans = Console.ReadLine();
+
+                if (ans.ToUpper() == "Y")
                 {
-                    f.Status = "Delayed";
+                    Console.WriteLine("1. Delayed\r\n2. Boarding\r\n3. On Time");
+                    Console.Write("Please select the new status of the flight: ");
+                    int opt = Convert.ToInt32(Console.ReadLine());
+
+                    if (opt == 1)
+                    {
+                        f.Status = "Delayed";
+                    }
+                    else if (opt == 2)
+                    {
+                        f.Status = "Boarding";
+                    }
+                    else if (opt == 3)
+                    {
+                        f.Status = "On Time";
+                    }
+                    else
+                    {
+                        Console.WriteLine("Invalid Input");
+                    }
                 }
-                else if (opt == 2)
-                {
-                    f.Status = "Boarding";
-                }
-                else if (opt == 3)
-                {
-                    f.Status = "On Time";
-                }
-                else
-                {
-                    Console.WriteLine("Invalid Input");
-                }
+
+                bg.Flight = f;
+
+                Console.WriteLine("Flight {0} has been assigned to Boarding Gate {1}!", flightNo, bg.GateName);
+                break;
             }
-
-            bg.Flight = f;
-
-            Console.WriteLine("Flight {0} has been assigned to Boarding Gate {1}!", flightNo, bg.GateName);
+            else
+            {
+                Console.WriteLine("Boarding Gate has already been assigned ");
+            }
         }
     }
 }
