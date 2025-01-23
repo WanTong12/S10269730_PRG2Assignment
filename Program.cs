@@ -75,7 +75,7 @@ internal class Program
                     Console.WriteLine("{0,-16}{1,-20}", a.Code, a.Name);
                 }
                 Console.Write("Enter Airline Code: "); // prompt user to input airline code
-                string airlineCode = Console.ReadLine();
+                string? airlineCode = Console.ReadLine();
                 // Display Flights from the Airline that user input
                 Console.WriteLine("=============================================");
                 foreach (Airline a in airlineDict.Values) // for loop to find and display the correct airline name 
@@ -170,22 +170,25 @@ internal class Program
             DateTime e = Convert.ToDateTime(flight[3]); //Expected arrival/ departure time
 
             Flight f = new Flight(fn, o, d, e, "On Time");
-            string? specialRC = flight[4];
-            if (specialRC is null)
+            if (flight.Length == 4)
             {
                 f = new NORMFlight(fn, o, d, e, "On Time"); //Create NORMFlight object
             }
-            else if (specialRC == "DDJB")
+            else if (flight.Length == 5)
             {
-                f = new DDJBFlight(fn, o, d, e, "On Time"); //Create DDJBFlight object
-            }
-            else if (specialRC == "CFFT")
-            {
-                f = new CFFTFlight(fn, o, d, e, "On Time"); //Create CFFTFlight object
-            }
-            else if (specialRC == "LWTT")
-            {
-                f = new LWTTFlight(fn, o, d, e, "On Time"); //Create LWTTFlight object
+                string? specialRC = flight[4];
+                if (specialRC == "DDJB")
+                {
+                    f = new DDJBFlight(fn, o, d, e, "On Time"); //Create DDJBFlight object
+                }
+                else if (specialRC == "CFFT")
+                {
+                    f = new CFFTFlight(fn, o, d, e, "On Time"); //Create CFFTFlight object
+                }
+                else if (specialRC == "LWTT")
+                {
+                    f = new LWTTFlight(fn, o, d, e, "On Time"); //Create LWTTFlight object
+                }
             }
             flightDict.Add(fn, f); //Add object to flight dictionary
         }
@@ -315,19 +318,16 @@ internal class Program
         flightDict.Add(fNo, f); //Add object to flight dictionary
 
         //append the new Flight information to the flights.csv file
-        using (StreamWriter sw = new StreamWriter(file, true))
+
+        if (specialRC == "None") //For flights without spreacial request code
         {
-            if (specialRC == "None") //For flights without spreacial request code
-            {
-                string flightinfo = fNo + "," + o + "," + d + "," + eTime;
-                sw.WriteLine(flightinfo); //Add flight into flights file
-            }
-            else // For flights with speacial request code
-            {
-                string flightinfo = fNo + "," + o + "," + d + "," + eTime + "," + specialRC;
-                sw.WriteLine(flightinfo); //Add flight into flights file
-            }
-           
+            string flightinfo = fNo + "," + o + "," + d + "," + eTime;
+            File.AppendAllText(file, flightinfo); //Add flight into flights file
+        }
+        else // For flights with speacial request code
+        {
+            string flightinfo = fNo + "," + o + "," + d + "," + eTime + "," + specialRC;
+            File.AppendAllText(file, flightinfo); //Add flight into flights file
         }
         //display a message to indicate that the Flight(s) have been successfully added
         Console.WriteLine("Flight {0} has been added!", fNo);
