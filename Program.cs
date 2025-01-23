@@ -16,7 +16,6 @@ internal class Program
         LoadBoardingGates("boardinggates.csv");
         // Load Flight File 
         LoadFlightFiles("flights.csv");
-        
 
         Console.WriteLine("\r\n\r\n\r\n\r\n\r\n");
 
@@ -169,12 +168,13 @@ internal class Program
             string d = flight[2]; //Destination
             DateTime e = Convert.ToDateTime(flight[3]); //Expected arrival/ departure time
 
-            Flight f = new Flight(fn, o, d, e, "On Time");
-            if (flight.Length == 4)
+            Flight? f = null;
+
+            if (flight.Length == 5)
             {
-                f = new NORMFlight(fn, o, d, e, "On Time"); //Create NORMFlight object
+               f = new NORMFlight(fn, o, d, e, "On Time"); //Create NORMFlight object
             }
-            else if (flight.Length == 5)
+            else if (flight.Length == 6)
             {
                 string? specialRC = flight[4];
                 if (specialRC == "DDJB")
@@ -190,7 +190,10 @@ internal class Program
                     f = new LWTTFlight(fn, o, d, e, "On Time"); //Create LWTTFlight object
                 }
             }
-            flightDict.Add(fn, f); //Add object to flight dictionary
+            if (f != null)
+            {
+                flightDict.Add(fn, f); //Add object to flight dictionary
+            }
         }
 
         Console.WriteLine("Loading Flights...");
