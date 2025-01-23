@@ -95,7 +95,7 @@ internal class Program
             bool cfft = Convert.ToBoolean(line[1]);
             bool ddjb = Convert.ToBoolean(line[2]);
             bool lwtt = Convert.ToBoolean(line[3]);
-            BoardingGate boardingGate = new BoardingGate(line[0], cfft, ddjb, lwtt,);// create boardinggate object
+            BoardingGate boardingGate = new BoardingGate(line[0], cfft, ddjb, lwtt,null);// create boardinggate object
             boardingGateDict.Add(boardingGate.GateName,boardingGate); // add boardinggate object to boardinggate dictionary
         }
     }
@@ -151,5 +151,46 @@ internal class Program
         Console.WriteLine("Origin: {0}", f.Origin);
         Console.WriteLine("Destination: {0}", f.Destination);
         Console.WriteLine("Expected Time: {0}", f.ExpectedTime);
+
+        BoardingGate bg = boardingGateDict[boardingGate];
+
+        if (bg.Flight is null)
+        {
+            
+           Console.WriteLine("Special Request Code: None");
+
+            Console.WriteLine("Boarding Gate Name: {0}", bg.GateName);
+            Console.WriteLine("Supports DDJB: {0}\r\nSupports CFFT: {1}\r\nSupports LWTT: {2}", bg.SupportsDDJB, bg.SupportsCFFT, bg.SupportsLWTT);
+            Console.WriteLine("Would you like to update the status of the flight? (Y/N)");
+            string? ans = Console.ReadLine();
+
+            if (ans.ToUpper() == "Y")
+            {
+                Console.WriteLine("1. Delayed\r\n2. Boarding\r\n3. On Time");
+                Console.Write("Please select the new status of the flight: ");
+                int opt = Convert.ToInt32(Console.ReadLine());
+
+                if (opt == 1)
+                {
+                    f.Status = "Delayed";
+                }
+                else if (opt == 2)
+                {
+                    f.Status = "Boarding";
+                }
+                else if (opt == 3)
+                {
+                    f.Status = "On Time";
+                }
+                else
+                {
+                    Console.WriteLine("Invalid Input");
+                }
+            }
+
+            bg.Flight = f;
+
+            Console.WriteLine("Flight {0} has been assigned to Boarding Gate {1}!", flightNo, bg.GateName);
+        }
     }
 }
