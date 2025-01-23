@@ -21,10 +21,7 @@ namespace PRG2_T13_08
             RequestFee = 150;
         }
 
-        public CFFTFlight(double r, string fn, string o, string d, DateTime e, string s) : base(fn, o, d, e, s)
-        {
-            RequestFee = r;
-        }
+        public CFFTFlight(string fn, string o, string d, DateTime e, string s) : base(fn, o, d, e, s) { }
 
         public override double CalculateFees()
         {
