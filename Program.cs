@@ -49,6 +49,7 @@ internal class Program
             }
             else if (option == 4) // Create Flight
             {
+                CreateNewFlight();
                 Console.WriteLine("\r\n\r\n\r\n\r\n\r\n");
             }
             else if (option == 5) // Display Airline Flights
@@ -281,5 +282,10 @@ internal class Program
                 Console.WriteLine("Boarding Gate has already been assigned ");
             }
         }
+    }
+
+    static void CreateNewFlight()
+    {
+
     }
 }
