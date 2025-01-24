@@ -1,4 +1,5 @@
 ﻿
+using Microsoft.VisualBasic;
 using PRG2_T13_08;
 using System.Diagnostics.Metrics;
 internal class Program
@@ -15,7 +16,6 @@ internal class Program
         LoadBoardingGates("boardinggates.csv");
         // Load Flight File 
         LoadFlightFiles("flights.csv");
-        
 
         Console.WriteLine("\r\n\r\n\r\n\r\n\r\n");
 
@@ -49,6 +49,17 @@ internal class Program
             }
             else if (option == 4) // Create Flight
             {
+                while (true)
+                {
+                    CreateNewFlight("flights.csv");
+                    //prompt the user asking if they would like to add another Flight, repeating the previous 5 steps if [Y] or continuing to the next step if [N]
+                    Console.WriteLine("Would you like to add another flight? (Y/N)");
+                    string? ans = Console.ReadLine();
+                    if (ans.ToUpper() == "N")
+                    {
+                        break;
+                    }
+                }
                 Console.WriteLine("\r\n\r\n\r\n\r\n\r\n");
             }
             else if (option == 5) // Display Airline Flights
@@ -63,7 +74,7 @@ internal class Program
                     Console.WriteLine("{0,-16}{1,-20}", a.Code, a.Name);
                 }
                 Console.Write("Enter Airline Code: "); // prompt user to input airline code
-                string airlineCode = Console.ReadLine();
+                string? airlineCode = Console.ReadLine();
                 // Display Flights from the Airline that user input
                 Console.WriteLine("=============================================");
                 Console.WriteLine("List of Flights for {0}", airlineDict[airlineCode].Name); // using dictionary, get the airline name
@@ -153,25 +164,32 @@ internal class Program
             string d = flight[2]; //Destination
             DateTime e = Convert.ToDateTime(flight[3]); //Expected arrival/ departure time
 
-            Flight f = new Flight(fn, o, d, e, "On Time");
-            string? specialRC = flight[4];
-            if (specialRC is null)
+            Flight? f = null;
+
+            if (flight.Length == 5)
             {
-                f = new NORMFlight(fn, o, d, e, "On Time"); //Create NORMFlight object
+               f = new NORMFlight(fn, o, d, e, "On Time"); //Create NORMFlight object
             }
-            else if (specialRC == "DDJB")
+            else if (flight.Length == 6)
             {
-                f = new DDJBFlight(fn, o, d, e, "On Time");
+                string? specialRC = flight[4];
+                if (specialRC == "DDJB")
+                {
+                    f = new DDJBFlight(fn, o, d, e, "On Time"); //Create DDJBFlight object
+                }
+                else if (specialRC == "CFFT")
+                {
+                    f = new CFFTFlight(fn, o, d, e, "On Time"); //Create CFFTFlight object
+                }
+                else if (specialRC == "LWTT")
+                {
+                    f = new LWTTFlight(fn, o, d, e, "On Time"); //Create LWTTFlight object
+                }
             }
-            else if (specialRC == "CFFT")
+            if (f != null)
             {
-                f = new CFFTFlight(fn, o, d, e, "On Time");
+                flightDict.Add(fn, f); //Add object to flight dictionary
             }
-            else if (specialRC == "LWTT")
-            {
-                f = new LWTTFlight(fn, o, d, e, "On Time");
-            }
-            flightDict.Add(fn, f); //Add object to flight dictionary
         }
 
         Console.WriteLine("Loading Flights...");
@@ -277,5 +295,40 @@ internal class Program
                 Console.WriteLine("Boarding Gate has already been assigned ");
             }
         }
+    }
+
+    static void CreateNewFlight(string file)
+    {
+        // Prompt the user to enter the new Flight
+        Console.Write("Enter Flight Number: ");
+        string? fNo = Console.ReadLine(); // flight number
+        Console.Write("Enter Origin: ");
+        string? o = Console.ReadLine(); // origin
+        Console.Write("Enter Destination: ");
+        string? d = Console.ReadLine(); // destination
+        Console.Write("Enter Expected Departure/Arrival Time (dd/mm/yyyy hh:mm): ");
+        DateTime eTime = Convert.ToDateTime(Console.ReadLine()); // expected arrival or departure timing
+        //	prompt the user if they would like to enter any additional information, like the Special Request Code
+        Console.Write("Enter Special Request Code (CFFT/DDJB/LWTT/None): ");
+        string? specialRC = Console.ReadLine(); // Speacial Request Code
+
+        //create the proper Flight object with the information given
+        Flight f = new Flight(fNo, o, d, eTime, "On Time");
+        flightDict.Add(fNo, f); //Add object to flight dictionary
+
+        //append the new Flight information to the flights.csv file
+
+        if (specialRC == "None") //For flights without spreacial request code
+        {
+            string flightinfo = fNo + "," + o + "," + d + "," + eTime;
+            File.AppendAllText(file, flightinfo); //Add flight into flights file
+        }
+        else // For flights with speacial request code
+        {
+            string flightinfo = fNo + "," + o + "," + d + "," + eTime + "," + specialRC;
+            File.AppendAllText(file, flightinfo); //Add flight into flights file
+        }
+        //display a message to indicate that the Flight(s) have been successfully added
+        Console.WriteLine("Flight {0} has been added!", fNo);
     }
 }
