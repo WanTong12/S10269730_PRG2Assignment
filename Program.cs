@@ -1,6 +1,12 @@
 ﻿
 using PRG2_T13_08;
 using System.Diagnostics.Metrics;
+
+//==========================================================
+// Student Number : S10267930
+// Student Name : Chong Wan Tong
+// Partner Name : Teo Qi En
+//==========================================================
 internal class Program
 {
     static Dictionary<string, Airline> airlineDict = new Dictionary<string, Airline>();
