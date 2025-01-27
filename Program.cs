@@ -63,7 +63,7 @@ internal class Program
                     Console.WriteLine("{0,-16}{1,-20}", a.Code, a.Name);
                 }
                 Console.Write("Enter Airline Code: "); // prompt user to input airline code
-                string airlineCode = Console.ReadLine();
+                string? airlineCode = Console.ReadLine();
                 // Display Flights from the Airline that user input
                 Console.WriteLine("=============================================");
                 foreach (Airline a in airlineDict.Values) // for loop to find and display the correct airline name 
