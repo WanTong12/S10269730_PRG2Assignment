@@ -109,6 +109,11 @@ internal class Program
                 DisplayScheduledFlights();
                 Console.WriteLine("\r\n\r\n\r\n\r\n\r\n");
             }
+            else if (option == 9) // Calculate the fees for each airline
+            {
+                CalculateFeesPerAirline();
+                Console.WriteLine("\r\n\r\n\r\n\r\n\r\n");
+            }
             else if (option == 0) // Exit
             {
                 Console.WriteLine("Goodbye!");
@@ -377,6 +382,11 @@ internal class Program
             // Display scheduled flight details
             Console.WriteLine("{0,-16}{1,-25}{2,-20}{3,-25}{4,-37}{5,-20}{6}", f.FlightNumber, airlineName, f.Origin, f.Destination, f.ExpectedTime, f.Status, bg);
         }
+    }
+
+    static void CalculateFeesPerAirline() // Optionn 9
+    {
+
     }
 }
 
