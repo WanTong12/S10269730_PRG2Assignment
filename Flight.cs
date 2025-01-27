@@ -13,7 +13,7 @@ using System.Threading.Tasks;
 
 namespace PRG2_T13_08
 {
-    class Flight
+    class Flight : IComparable<Flight>
     {
         public string FlightNumber { get; set; }
         public string Origin { get; set; }
@@ -43,6 +43,25 @@ namespace PRG2_T13_08
             }
         }
 
+        public int CompareTo(Flight f)
+        {
+            if (ExpectedTime > f.ExpectedTime)
+            {
+                return 1;
+            }
+            else if (ExpectedTime == f.ExpectedTime)
+            {
+                return 0;
+            }
+            else if (ExpectedTime < f.ExpectedTime)
+            {
+                return -1;
+            }
+            else
+            {
+                return -1;
+            }
+        }
         public override string ToString()
         {
             return "FlightNo: " + FlightNumber + "\tOrigin: " + Origin + "\tDestination: " + Destination + "\tExpected Time: " + ExpectedTime + "\tStatus: " + Status;

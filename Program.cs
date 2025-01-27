@@ -2,6 +2,7 @@
 using Microsoft.VisualBasic;
 using PRG2_T13_08;
 using System.Diagnostics.Metrics;
+using System.Globalization;
 
 //==========================================================
 // Student Number : S10267930
@@ -105,6 +106,7 @@ internal class Program
             }
             else if (option == 7) // Display Flight Schedule
             {
+                DisplayScheduledFlights();
                 Console.WriteLine("\r\n\r\n\r\n\r\n\r\n");
             }
             else if (option == 0) // Exit
@@ -197,10 +199,12 @@ internal class Program
                 flightDict.Add(fn, f); //Add object to flight dictionary
             }
         }
+      }
 
-        Console.WriteLine("Loading Flights...");
-        Console.WriteLine("{0} Flights Loaded!", flights.Length - 1);
-    }
+    Console.WriteLine("Loading Flights...");
+    Console.WriteLine("{0} Flights Loaded!", flights.Length - 1);
+}
+
 
     static void DisplayBasicFlightInfo()
     {
@@ -303,6 +307,8 @@ internal class Program
         }
     }
 
+
+
     static void CreateNewFlight(string file)
     {
         // Prompt the user to enter the new Flight
@@ -336,5 +342,33 @@ internal class Program
         }
         //display a message to indicate that the Flight(s) have been successfully added
         Console.WriteLine("Flight {0} has been added!", fNo);
+
     }
+
+    static void DisplayScheduledFlights()
+    {
+        List<Flight> flightsList = new List<Flight>(flightDict.Values);
+        flightsList.Sort();
+
+        Console.WriteLine("=============================================");
+        Console.WriteLine("Flight Schedule for Changi Airport Terminal 5");
+        Console.WriteLine("=============================================");
+
+        Console.WriteLine("{0,-16}{1,-25}{2,-20}{3,-25}{4,-37}{5,-20}{6}", "Flight Number", "Airline Name", "Origin", "Destination", "Expected Departure/Arrival Time", "Status", "Boarding Gate");
+        
+        foreach (Flight f in flightsList)
+        {
+            string bg = "Unassigned";
+            foreach (BoardingGate b in boardingGateDict.Values)
+            {
+                if (b.Flight ==  f)
+                {
+                    bg = b.GateName;
+                }
+
+            }
+            string airlineCode = f.FlightNumber.Split(' ')[0];
+            string airlineName = airlineDict[airlineCode].Name;
+            Console.WriteLine("{0,-16}{1,-25}{2,-20}{3,-25}{4,-37}{5,-20}{6}",f.FlightNumber, airlineName, f.Origin, f.Destination, f.ExpectedTime,f.Status,bg);
+        }
 }
