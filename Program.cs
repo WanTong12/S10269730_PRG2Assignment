@@ -11,9 +11,9 @@ using System.Globalization;
 //==========================================================
 internal class Program
 {
-    static Dictionary<string, Airline> airlineDict = new Dictionary<string, Airline>();
-    static Dictionary<string, Flight> flightDict = new Dictionary<string, Flight>();
-    static Dictionary<string, BoardingGate> boardingGateDict = new Dictionary<string, BoardingGate>();
+    static Dictionary<string, Airline> airlineDict = new Dictionary<string, Airline>(); // key: Airline code
+    static Dictionary<string, Flight> flightDict = new Dictionary<string, Flight>(); // key: Flight Number
+    static Dictionary<string, BoardingGate> boardingGateDict = new Dictionary<string, BoardingGate>(); // key: Gate Name
 
     private static void Main(string[] args)
     {
@@ -26,7 +26,7 @@ internal class Program
 
         Console.WriteLine("\r\n\r\n\r\n\r\n\r\n");
 
-        while (true)
+        while (true) // Keeps looping until break
         {
             DisplayMenu();
             Console.Write("Please select your option: ");
@@ -163,7 +163,7 @@ internal class Program
 
     static void LoadFlightFiles(string file)
     {
-        string[] flights = File.ReadAllLines(file);
+        string[] flights = File.ReadAllLines(file); 
         for (int i = 1; i < flights.Length; i++)
         {
             string[] flight = flights[i].Split(',');
