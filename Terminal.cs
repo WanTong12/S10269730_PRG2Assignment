@@ -24,6 +24,7 @@ namespace PRG2_T13_08
 
         public Terminal()
         {
+            TerminalName = "Terminal 5";
             Airlines = new Dictionary<string, Airline>();
             Flights = new Dictionary<string, Flight>();
             BoardingGates = new Dictionary<string, BoardingGate>();
@@ -72,7 +73,7 @@ namespace PRG2_T13_08
             Console.WriteLine("{0,-15}{1.-15}","Airlines", "Fees");
             foreach (Airline a in Airlines.Values)
             {
-                Console.WriteLine("{0,-15}{1,-15:C2}",a.Name, a.CalculateFee());
+                Console.WriteLine("{0,-15}{1,-15:C2}",a.Name, a.CalculateFees());
             }
         }
 

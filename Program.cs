@@ -1,7 +1,14 @@
 ﻿
+using Microsoft.VisualBasic;
 using PRG2_T13_08;
 using System.Diagnostics.Metrics;
 using System.Globalization;
+
+//==========================================================
+// Student Number : S10267930
+// Student Name : Chong Wan Tong
+// Partner Name : Teo Qi En
+//==========================================================
 internal class Program
 {
     static Dictionary<string, Airline> airlineDict = new Dictionary<string, Airline>();
@@ -16,7 +23,6 @@ internal class Program
         LoadBoardingGates("boardinggates.csv");
         // Load Flight File 
         LoadFlightFiles("flights.csv");
-        
 
         Console.WriteLine("\r\n\r\n\r\n\r\n\r\n");
 
@@ -50,6 +56,17 @@ internal class Program
             }
             else if (option == 4) // Create Flight
             {
+                while (true)
+                {
+                    CreateNewFlight("flights.csv");
+                    //prompt the user asking if they would like to add another Flight, repeating the previous 5 steps if [Y] or continuing to the next step if [N]
+                    Console.WriteLine("Would you like to add another flight? (Y/N)");
+                    string? ans = Console.ReadLine();
+                    if (ans.ToUpper() == "N")
+                    {
+                        break;
+                    }
+                }
                 Console.WriteLine("\r\n\r\n\r\n\r\n\r\n");
             }
             else if (option == 5) // Display Airline Flights
@@ -64,27 +81,23 @@ internal class Program
                     Console.WriteLine("{0,-16}{1,-20}", a.Code, a.Name);
                 }
                 Console.Write("Enter Airline Code: "); // prompt user to input airline code
-                string airlineCode = Console.ReadLine();
+                string? airlineCode = Console.ReadLine();
                 // Display Flights from the Airline that user input
                 Console.WriteLine("=============================================");
-                foreach (Airline a in airlineDict.Values) // for loop to find and display the correct airline name 
-                {
-                    if (airlineCode == a.Code) 
-                    {
-                        Console.WriteLine("List of Flights for {0}",a.Name);
-                        break;
-                    }
-                    
-                }
+                Console.WriteLine("List of Flights for {0}", airlineDict[airlineCode].Name); // using dictionary, get the airline name
                 Console.WriteLine("=============================================");
-                Console.WriteLine("{0,-16}{1,-23}{2,-23}{3,-23}{4,-32}", "Flight Number","Airline Name","Origin","Destination","Expected Departure/Arrival Time");
-                foreach (Airline a in airlineDict.Values)
+                Console.WriteLine("{0,-16}{1,-23}{2,-23}{3,-23}{4,-32}", "Flight Number","Airline Name","Origin","Destination","Expected Departure/Arrival Time"); // display title
+                
+                foreach (Flight f in flightDict.Values) 
                 {
-                    foreach(Flight f in flightDict.Values)
-                    {
+                    if (f.FlightNumber.StartsWith(airlineCode)) // to select and display the flights from the airline input by user  
+                    { 
+                        Console.WriteLine("{0,-16}{1,-23}{2,-23}{3,-23}{4,-32}", f.FlightNumber, airlineDict[airlineCode].Name, f.Origin, f.Destination, f.ExpectedTime);
 
                     }
                 }
+                    
+                
                 Console.WriteLine("\r\n\r\n\r\n\r\n\r\n");
             }
             else if (option == 6) // Modify Flight Details
@@ -159,30 +172,39 @@ internal class Program
             string d = flight[2]; //Destination
             DateTime e = Convert.ToDateTime(flight[3]); //Expected arrival/ departure time
 
-            Flight f = new Flight(fn, o, d, e, "Scheduled");
-            string? specialRC = flight[4];
-            if (specialRC is null)
-            {
-                f = new NORMFlight(fn, o, d, e, "Scheduled"); //Create NORMFlight object
-            }
-            else if (specialRC == "DDJB")
-            {
-                f = new DDJBFlight(fn, o, d, e, "Scheduled");
-            }
-            else if (specialRC == "CFFT")
-            {
-                f = new CFFTFlight(fn, o, d, e, "Scheduled");
-            }
-            else if (specialRC == "LWTT")
-            {
-                f = new LWTTFlight(fn, o, d, e, "Scheduled");
-            }
-            flightDict.Add(fn, f); //Add object to flight dictionary
-        }
+            Flight? f = null;
 
-        Console.WriteLine("Loading Flights...");
-        Console.WriteLine("{0} Flights Loaded!", flights.Length - 1);
-    }
+            if (flight.Length == 5)
+            {
+               f = new NORMFlight(fn, o, d, e, "On Time"); //Create NORMFlight object
+            }
+            else if (flight.Length == 6)
+            {
+                string? specialRC = flight[4];
+                if (specialRC == "DDJB")
+                {
+                    f = new DDJBFlight(fn, o, d, e, "On Time"); //Create DDJBFlight object
+                }
+                else if (specialRC == "CFFT")
+                {
+                    f = new CFFTFlight(fn, o, d, e, "On Time"); //Create CFFTFlight object
+                }
+                else if (specialRC == "LWTT")
+                {
+                    f = new LWTTFlight(fn, o, d, e, "On Time"); //Create LWTTFlight object
+                }
+            }
+            if (f != null)
+            {
+                flightDict.Add(fn, f); //Add object to flight dictionary
+            }
+        }
+      }
+
+    Console.WriteLine("Loading Flights...");
+    Console.WriteLine("{0} Flights Loaded!", flights.Length - 1);
+}
+
 
     static void DisplayBasicFlightInfo()
     {
@@ -285,6 +307,44 @@ internal class Program
         }
     }
 
+
+
+    static void CreateNewFlight(string file)
+    {
+        // Prompt the user to enter the new Flight
+        Console.Write("Enter Flight Number: ");
+        string? fNo = Console.ReadLine(); // flight number
+        Console.Write("Enter Origin: ");
+        string? o = Console.ReadLine(); // origin
+        Console.Write("Enter Destination: ");
+        string? d = Console.ReadLine(); // destination
+        Console.Write("Enter Expected Departure/Arrival Time (dd/mm/yyyy hh:mm): ");
+        DateTime eTime = Convert.ToDateTime(Console.ReadLine()); // expected arrival or departure timing
+        //	prompt the user if they would like to enter any additional information, like the Special Request Code
+        Console.Write("Enter Special Request Code (CFFT/DDJB/LWTT/None): ");
+        string? specialRC = Console.ReadLine(); // Speacial Request Code
+
+        //create the proper Flight object with the information given
+        Flight f = new Flight(fNo, o, d, eTime, "On Time");
+        flightDict.Add(fNo, f); //Add object to flight dictionary
+
+        //append the new Flight information to the flights.csv file
+
+        if (specialRC == "None") //For flights without spreacial request code
+        {
+            string flightinfo = fNo + "," + o + "," + d + "," + eTime;
+            File.AppendAllText(file, flightinfo); //Add flight into flights file
+        }
+        else // For flights with speacial request code
+        {
+            string flightinfo = fNo + "," + o + "," + d + "," + eTime + "," + specialRC;
+            File.AppendAllText(file, flightinfo); //Add flight into flights file
+        }
+        //display a message to indicate that the Flight(s) have been successfully added
+        Console.WriteLine("Flight {0} has been added!", fNo);
+
+    }
+
     static void DisplayScheduledFlights()
     {
         List<Flight> flightsList = new List<Flight>(flightDict.Values);
@@ -311,5 +371,4 @@ internal class Program
             string airlineName = airlineDict[airlineCode].Name;
             Console.WriteLine("{0,-16}{1,-25}{2,-20}{3,-25}{4,-37}{5,-20}{6}",f.FlightNumber, airlineName, f.Origin, f.Destination, f.ExpectedTime,f.Status,bg);
         }
-    }
 }
