@@ -42,8 +42,8 @@ internal class Program
                 Console.WriteLine("=============================================");
                 Console.WriteLine("List of Boarding Gates for Changi Airport Terminal 5");
                 Console.WriteLine("=============================================");
-                Console.WriteLine("{0,-16}{1,-23}{2,-23}{3,-23}","Gate Name","DDJB","CFFT","LWTT");
-                foreach(BoardingGate b in boardingGateDict.Values)
+                Console.WriteLine("{0,-16}{1,-23}{2,-23}{3,-23}", "Gate Name", "DDJB", "CFFT", "LWTT");
+                foreach (BoardingGate b in boardingGateDict.Values)
                 {
                     Console.WriteLine("{0,-16}{1,-23}{2,-23}{3,-23}", b.GateName, b.SupportsDDJB, b.SupportsCFFT, b.SupportsLWTT);
                 }
@@ -75,8 +75,8 @@ internal class Program
                 Console.WriteLine("=============================================");
                 Console.WriteLine("List of Airlines for Changi Airport Terminal 5");
                 Console.WriteLine("=============================================");
-                Console.WriteLine("{0,-16}{1,-20}","Airline Code", "Airline Name");
-                foreach(Airline a in airlineDict.Values)
+                Console.WriteLine("{0,-16}{1,-20}", "Airline Code", "Airline Name");
+                foreach (Airline a in airlineDict.Values)
                 {
                     Console.WriteLine("{0,-16}{1,-20}", a.Code, a.Name);
                 }
@@ -86,18 +86,18 @@ internal class Program
                 Console.WriteLine("=============================================");
                 Console.WriteLine("List of Flights for {0}", airlineDict[airlineCode].Name); // using dictionary, get the airline name
                 Console.WriteLine("=============================================");
-                Console.WriteLine("{0,-16}{1,-23}{2,-23}{3,-23}{4,-32}", "Flight Number","Airline Name","Origin","Destination","Expected Departure/Arrival Time"); // display title
-                
-                foreach (Flight f in flightDict.Values) 
+                Console.WriteLine("{0,-16}{1,-23}{2,-23}{3,-23}{4,-32}", "Flight Number", "Airline Name", "Origin", "Destination", "Expected Departure/Arrival Time"); // display title
+
+                foreach (Flight f in flightDict.Values)
                 {
                     if (f.FlightNumber.StartsWith(airlineCode)) // to select and display the flights from the airline input by user  
-                    { 
+                    {
                         Console.WriteLine("{0,-16}{1,-23}{2,-23}{3,-23}{4,-32}", f.FlightNumber, airlineDict[airlineCode].Name, f.Origin, f.Destination, f.ExpectedTime);
 
                     }
                 }
-                    
-                
+
+
                 Console.WriteLine("\r\n\r\n\r\n\r\n\r\n");
             }
             else if (option == 6) // Modify Flight Details
@@ -136,12 +136,12 @@ internal class Program
         {
             string[] line = lines[i].Split(',');
             Airline airline = new Airline(line[0], line[1]); // create airline object
-            airlineDict.Add(airline.Code,airline); // add airline object to airline dictionary
+            airlineDict.Add(airline.Code, airline); // add airline object to airline dictionary
         }
         Console.WriteLine("Loading Airlines...");
         Console.WriteLine("{0} Airlines Loaded!", airlineDict.Count);
     }
-    
+
 
     static void LoadBoardingGates(string filename)
     {
@@ -154,12 +154,12 @@ internal class Program
             bool ddjb = Convert.ToBoolean(line[2]);
             bool lwtt = Convert.ToBoolean(line[3]);
             BoardingGate boardingGate = new BoardingGate(line[0], ddjb, cfft, lwtt, null);// create boardinggate object
-            boardingGateDict.Add(boardingGate.GateName,boardingGate); // add boardinggate object to boardinggate dictionary
+            boardingGateDict.Add(boardingGate.GateName, boardingGate); // add boardinggate object to boardinggate dictionary
         }
-         Console.WriteLine("Loading Boarding Gates...");
-         Console.WriteLine("{0} Boarding Gates Loaded!",boardingGateDict.Count);
+        Console.WriteLine("Loading Boarding Gates...");
+        Console.WriteLine("{0} Boarding Gates Loaded!", boardingGateDict.Count);
     }
-    
+
 
     static void LoadFlightFiles(string file)
     {
@@ -176,7 +176,7 @@ internal class Program
 
             if (flight.Length == 5)
             {
-               f = new NORMFlight(fn, o, d, e, "On Time"); //Create NORMFlight object
+                f = new NORMFlight(fn, o, d, e, "On Time"); //Create NORMFlight object
             }
             else if (flight.Length == 6)
             {
@@ -199,11 +199,11 @@ internal class Program
                 flightDict.Add(fn, f); //Add object to flight dictionary
             }
         }
-      }
 
-    Console.WriteLine("Loading Flights...");
-    Console.WriteLine("{0} Flights Loaded!", flights.Length - 1);
-}
+
+        Console.WriteLine("Loading Flights...");
+        Console.WriteLine("{0} Flights Loaded!", flights.Length - 1);
+    }
 
 
     static void DisplayBasicFlightInfo()
@@ -355,13 +355,13 @@ internal class Program
         Console.WriteLine("=============================================");
 
         Console.WriteLine("{0,-16}{1,-25}{2,-20}{3,-25}{4,-37}{5,-20}{6}", "Flight Number", "Airline Name", "Origin", "Destination", "Expected Departure/Arrival Time", "Status", "Boarding Gate");
-        
+
         foreach (Flight f in flightsList)
         {
             string bg = "Unassigned";
             foreach (BoardingGate b in boardingGateDict.Values)
             {
-                if (b.Flight ==  f)
+                if (b.Flight == f)
                 {
                     bg = b.GateName;
                 }
@@ -369,6 +369,8 @@ internal class Program
             }
             string airlineCode = f.FlightNumber.Split(' ')[0];
             string airlineName = airlineDict[airlineCode].Name;
-            Console.WriteLine("{0,-16}{1,-25}{2,-20}{3,-25}{4,-37}{5,-20}{6}",f.FlightNumber, airlineName, f.Origin, f.Destination, f.ExpectedTime,f.Status,bg);
+            Console.WriteLine("{0,-16}{1,-25}{2,-20}{3,-25}{4,-37}{5,-20}{6}", f.FlightNumber, airlineName, f.Origin, f.Destination, f.ExpectedTime, f.Status, bg);
         }
+    }
 }
+
