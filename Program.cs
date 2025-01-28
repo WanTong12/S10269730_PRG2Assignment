@@ -400,11 +400,11 @@ internal class Program
             double discount = 0;
             foreach (Flight f in flightDict.Values)
             {
-                if (f.ExpectedTime.Hour < 11 && f.ExpectedTime.Hour > 21)
+                if (f.ExpectedTime.Hour < 11 && f.ExpectedTime.Hour > 21) // For flights arriving/departing before 11am or after 9pm
                 {
                     discount += 110;
                 }
-                if (f.Origin == "Dubai (DXB)" || f.Origin == "Bangkok (BKK)" || f.Origin == "Tokyo (NRT)")
+                if (f.Origin == "Dubai (DXB)" || f.Origin == "Bangkok (BKK)" || f.Origin == "Tokyo (NRT)") // For airlines with the Origin of Dubai (DXB), Bangkok (BKK) or Tokyo (NRT)
                 {
                     discount += 25;
                 }
@@ -422,9 +422,13 @@ internal class Program
                 }
             }
 
-            Console.WriteLine(a.Name);
-            Console.WriteLine(a.CalculateFees());
-            Console.WriteLine(discount);
+            double finalFee = a.CalculateFees() - discount;
+            double percentage = (discount / finalFee) * 100;
+            Console.WriteLine("Airline: {0}", a.Name); //Print airline name
+            Console.WriteLine("Subtotal: {0}", a.CalculateFees()); // Subtotal of all the fees to be charged
+            Console.WriteLine("Discount to be deducted: {0}", discount); // Total discount
+            Console.WriteLine("Final Fee: {0}", finalFee);
+            Console.WriteLine("Percentage of the subtotal discounts: {0}", percentage);
         }
     }
 }
