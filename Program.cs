@@ -400,6 +400,7 @@ internal class Program
             double discount = 0;
             foreach (Flight f in flightDict.Values)
             {
+                // Calculate discounts
                 if (f.ExpectedTime.Hour < 11 && f.ExpectedTime.Hour > 21) // For flights arriving/departing before 11am or after 9pm
                 {
                     discount += 110;
@@ -416,19 +417,19 @@ internal class Program
                 {
                     discount += f.CalculateFees() * 0.3;
                 }
-                if (f is NORMFlight) // For no requestfee
+                if (f is NORMFlight) // For no request fee
                 {
                     discount += 50;
                 }
             }
-
+            // Display fees
             double finalFee = a.CalculateFees() - discount;
             double percentage = (discount / finalFee) * 100;
             Console.WriteLine("Airline: {0}", a.Name); //Print airline name
             Console.WriteLine("Subtotal: {0}", a.CalculateFees()); // Subtotal of all the fees to be charged
             Console.WriteLine("Discount to be deducted: {0}", discount); // Total discount
-            Console.WriteLine("Final Fee: {0}", finalFee);
-            Console.WriteLine("Percentage of the subtotal discounts: {0}", percentage);
+            Console.WriteLine("Final Fee: {0}", finalFee); // FInal fee
+            Console.WriteLine("Percentage of the subtotal discounts: {0}", percentage); // Percentage of the subtotal discounts over the final total of fees
         }
     }
 }
