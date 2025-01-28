@@ -14,6 +14,8 @@ internal class Program
     static Dictionary<string, Airline> airlineDict = new Dictionary<string, Airline>(); // key: Airline code
     static Dictionary<string, Flight> flightDict = new Dictionary<string, Flight>(); // key: Flight Number
     static Dictionary<string, BoardingGate> boardingGateDict = new Dictionary<string, BoardingGate>(); // key: Gate Name
+    // Floght to boarding gate dictionary
+    static Dictionary<string, string> flightToBoardingGateDict = new Dictionary<string, string>(); // Key: flight Number, value: boarding gate name
 
     private static void Main(string[] args)
     {
@@ -129,7 +131,7 @@ internal class Program
 
     static void DisplayMenu() // Menu of options
     {
-        Console.WriteLine("=============================================\r\nWelcome to Changi Airport Terminal 5\r\n=============================================\r\n1. List All Flights\r\n2. List Boarding Gates\r\n3. Assign a Boarding Gate to a Flight\r\n4. Create Flight\r\n5. Display Airline Flights\r\n6. Modify Flight Details\r\n7. Display Flight Schedule\r\n0. Exit");
+        Console.WriteLine("=============================================\r\nWelcome to Changi Airport Terminal 5\r\n=============================================\r\n1. List All Flights\r\n2. List Boarding Gates\r\n3. Assign a Boarding Gate to a Flight\r\n4. Create Flight\r\n5. Display Airline Flights\r\n6. Modify Flight Details\r\n7. Display Flight Schedule\r\n9. Calculate Fees Per Airline\r\n0. Exit");
     }
 
 
@@ -178,7 +180,7 @@ internal class Program
             DateTime e = Convert.ToDateTime(flight[3]); //Expected arrival/ departure time
 
             Flight? f = null;
-
+            // Check for special request code
             if (flight.Length == 5)
             {
                 f = new NORMFlight(fn, o, d, e, "On Time"); //Create NORMFlight object
@@ -207,7 +209,7 @@ internal class Program
 
 
         Console.WriteLine("Loading Flights...");
-        Console.WriteLine("{0} Flights Loaded!", flights.Length - 1);
+        Console.WriteLine("{0} Flights Loaded!", flightDict.Count);
     }
 
 
@@ -246,7 +248,7 @@ internal class Program
 
             Flight f = flightDict[flightNo];
 
-            BoardingGate bg = boardingGateDict[gateName]; 
+            BoardingGate bg = boardingGateDict[gateName]; // get boarding gate object
 
             if (bg.Flight is null) // If no flight is assigned to the boarding gate
             {
@@ -304,6 +306,7 @@ internal class Program
                 }
 
                 bg.Flight = f; // Assign flight to boarding gate
+                flightToBoardingGateDict.Add(flightNo, gateName);
                
                 Console.WriteLine("Flight {0} has been assigned to Boarding Gate {1}!", flightNo, bg.GateName);
                 // Choose N and breakes out of loop
@@ -369,13 +372,9 @@ internal class Program
         foreach (Flight f in flightsList)
         {
             string bg = "Unassigned"; // Default status for boarding gate
-            foreach (BoardingGate b in boardingGateDict.Values) // iterate through the dictionary values
+            if (flightToBoardingGateDict.ContainsKey(f.FlightNumber)) // check if flight has been assigned to a boarding gate
             {
-                if (b.Flight == f) // if flight has been assigned to a boarding gate
-                {
-                    bg = b.GateName; // assign boarding gate name as status for boarding gate
-                }
-
+                bg = flightToBoardingGateDict[f.FlightNumber];
             }
             string airlineCode = f.FlightNumber.Split(' ')[0]; 
             string airlineName = airlineDict[airlineCode].Name;
@@ -386,7 +385,47 @@ internal class Program
 
     static void CalculateFeesPerAirline() // Optionn 9
     {
+        foreach (Flight f in flightDict.Values)
+        {
+            // Check if each flight has been assigned to a boarding gate
+            if (!flightToBoardingGateDict.ContainsKey(f.FlightNumber)) // Not all flights has been assigned to a boarding gate
+            {
+                Console.WriteLine("Ensure that all flights has been assigned to a boarding gate");
+                return;
+            }
+        }
 
+        foreach (Airline a in airlineDict.Values)
+        {
+            double discount = 0;
+            foreach (Flight f in flightDict.Values)
+            {
+                if (f.ExpectedTime.Hour < 11 && f.ExpectedTime.Hour > 21)
+                {
+                    discount += 110;
+                }
+                if (f.Origin == "Dubai (DXB)" || f.Origin == "Bangkok (BKK)" || f.Origin == "Tokyo (NRT)")
+                {
+                    discount += 25;
+                }
+                if (flightDict.Count / 3 >= 1) // For every 3 flights
+                {
+                    discount += (350 * Math.Floor(flightDict.Count / 3.0));
+                }
+                if (flightDict.Count > 5) // For more than 5 flights
+                {
+                    discount += f.CalculateFees() * 0.3;
+                }
+                if (f is NORMFlight) // For no requestfee
+                {
+                    discount += 50;
+                }
+            }
+
+            Console.WriteLine(a.Name);
+            Console.WriteLine(a.CalculateFees());
+            Console.WriteLine(discount);
+        }
     }
 }
 
