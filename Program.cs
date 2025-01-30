@@ -39,14 +39,7 @@ internal class Program
             }
             else if (option == 2) // Display Boarding Gates
             {
-                Console.WriteLine("=============================================");
-                Console.WriteLine("List of Boarding Gates for Changi Airport Terminal 5");
-                Console.WriteLine("=============================================");
-                Console.WriteLine("{0,-16}{1,-23}{2,-23}{3,-23}", "Gate Name", "DDJB", "CFFT", "LWTT");
-                foreach (BoardingGate b in boardingGateDict.Values)
-                {
-                    Console.WriteLine("{0,-16}{1,-23}{2,-23}{3,-23}", b.GateName, b.SupportsDDJB, b.SupportsCFFT, b.SupportsLWTT);
-                }
+                DisplayBoardingGates();
                 Console.WriteLine("\r\n\r\n\r\n\r\n\r\n");
             }
             else if (option == 3) // Assign a Boarding Gate to a Flight
@@ -222,6 +215,27 @@ internal class Program
             string expectedTime = f.ExpectedTime.ToString(); // Date and time of expected time
             Console.WriteLine("{0, -17}{1,-23}{2,-25}{3,-25}{4}", f.FlightNumber, airlineName, f.Origin, f.Destination, expectedTime); // flight information
 
+        }
+    }
+
+    static void DisplayBoardingGates() // Option 2
+    {
+        Console.WriteLine("============================================="); // Title
+        Console.WriteLine("List of Boarding Gates for Changi Airport Terminal 5");
+        Console.WriteLine("=============================================");
+        Console.WriteLine("{0,-16}{1,-23}{2,-23}{3,-23}{4,-23}", "Gate Name", "DDJB", "CFFT", "LWTT", "Flight Number Assigned");
+        foreach (BoardingGate bg in boardingGateDict.Values) // each iteration retrieves each boarding gate object 
+        {
+            // displays the special request code each boarding gate service and the flight number assigned 
+            if (bg.Flight == null) // if the boarding gate isn't assigned to a flight, it displays "Nil" under Flight Number Assigned
+            {
+                Console.WriteLine("{0,-16}{1,-23}{2,-23}{3,-23}{4,-23}", bg.GateName, bg.SupportsDDJB, bg.SupportsCFFT, bg.SupportsLWTT, "Nil");
+            }
+            else // if boarding gate is assigned to a flight, it displays the flight number under Flight Number Assigned
+            { 
+                Console.WriteLine("{0,-16}{1,-23}{2,-23}{3,-23}{4,-23}", bg.GateName, bg.SupportsDDJB, bg.SupportsCFFT, bg.SupportsLWTT, bg.Flight.FlightNumber); 
+            }
+            
         }
     }
 
