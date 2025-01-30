@@ -3,6 +3,7 @@ using Microsoft.VisualBasic;
 using PRG2_T13_08;
 using System.Diagnostics.Metrics;
 using System.Globalization;
+using System.Net.Sockets;
 
 //==========================================================
 // Student Number : S10267930
@@ -39,14 +40,7 @@ internal class Program
             }
             else if (option == 2) // Display Boarding Gates
             {
-                Console.WriteLine("=============================================");
-                Console.WriteLine("List of Boarding Gates for Changi Airport Terminal 5");
-                Console.WriteLine("=============================================");
-                Console.WriteLine("{0,-16}{1,-23}{2,-23}{3,-23}", "Gate Name", "DDJB", "CFFT", "LWTT");
-                foreach (BoardingGate b in boardingGateDict.Values)
-                {
-                    Console.WriteLine("{0,-16}{1,-23}{2,-23}{3,-23}", b.GateName, b.SupportsDDJB, b.SupportsCFFT, b.SupportsLWTT);
-                }
+                DisplayBoardingGates();
                 Console.WriteLine("\r\n\r\n\r\n\r\n\r\n");
             }
             else if (option == 3) // Assign a Boarding Gate to a Flight
@@ -71,33 +65,7 @@ internal class Program
             }
             else if (option == 5) // Display Airline Flights
             {
-                // Display Airlines
-                Console.WriteLine("=============================================");
-                Console.WriteLine("List of Airlines for Changi Airport Terminal 5");
-                Console.WriteLine("=============================================");
-                Console.WriteLine("{0,-16}{1,-20}", "Airline Code", "Airline Name");
-                foreach (Airline a in airlineDict.Values)
-                {
-                    Console.WriteLine("{0,-16}{1,-20}", a.Code, a.Name);
-                }
-                Console.Write("Enter Airline Code: "); // prompt user to input airline code
-                string? airlineCode = Console.ReadLine();
-                // Display Flights from the Airline that user input
-                Console.WriteLine("=============================================");
-                Console.WriteLine("List of Flights for {0}", airlineDict[airlineCode].Name); // using dictionary, get the airline name
-                Console.WriteLine("=============================================");
-                Console.WriteLine("{0,-16}{1,-23}{2,-23}{3,-23}{4,-32}", "Flight Number", "Airline Name", "Origin", "Destination", "Expected Departure/Arrival Time"); // display title
-
-                foreach (Flight f in flightDict.Values)
-                {
-                    if (f.FlightNumber.StartsWith(airlineCode)) // to select and display the flights from the airline input by user  
-                    {
-                        Console.WriteLine("{0,-16}{1,-23}{2,-23}{3,-23}{4,-32}", f.FlightNumber, airlineDict[airlineCode].Name, f.Origin, f.Destination, f.ExpectedTime);
-
-                    }
-                }
-
-
+                DisplayAirlineFlights();
                 Console.WriteLine("\r\n\r\n\r\n\r\n\r\n");
             }
             else if (option == 6) // Modify Flight Details
@@ -225,6 +193,27 @@ internal class Program
         }
     }
 
+    static void DisplayBoardingGates() // Option 2
+    {
+        Console.WriteLine("============================================="); // Title
+        Console.WriteLine("List of Boarding Gates for Changi Airport Terminal 5");
+        Console.WriteLine("=============================================");
+        Console.WriteLine("{0,-16}{1,-23}{2,-23}{3,-23}{4,-23}", "Gate Name", "DDJB", "CFFT", "LWTT", "Flight Number Assigned");
+        foreach (BoardingGate bg in boardingGateDict.Values) // each iteration retrieves each BoardingGate object 
+        {
+            // displays the special request code each boarding gate service and the flight number assigned 
+            if (bg.Flight == null) // if the boarding gate isn't assigned to a flight, it displays "Nil" under Flight Number Assigned
+            {
+                Console.WriteLine("{0,-16}{1,-23}{2,-23}{3,-23}{4,-23}", bg.GateName, bg.SupportsDDJB, bg.SupportsCFFT, bg.SupportsLWTT, "Nil");
+            }
+            else // if boarding gate is assigned to a flight, it displays the flight number under Flight Number Assigned
+            { 
+                Console.WriteLine("{0,-16}{1,-23}{2,-23}{3,-23}{4,-23}", bg.GateName, bg.SupportsDDJB, bg.SupportsCFFT, bg.SupportsLWTT, bg.Flight.FlightNumber); 
+            }
+            
+        }
+    }
+
     static void AssignBoardingGate() // Option 3
     {
         //Display Header
@@ -349,6 +338,45 @@ internal class Program
 
     }
 
+    static void DisplayAirlineFlights() // Option 5
+    {
+        Console.WriteLine("============================================="); // Title 
+        Console.WriteLine("List of Airlines for Changi Airport Terminal 5");
+        Console.WriteLine("=============================================");
+        Console.WriteLine("{0,-16}{1,-20}", "Airline Code", "Airline Name");
+        foreach (Airline a in airlineDict.Values) // each iteration retrieves an Airline object
+        {
+            Console.WriteLine("{0,-16}{1,-20}", a.Code, a.Name); // dislplays the airline code and name 
+        }
+        Console.Write("Enter Airline Code: "); // prompt user to input airline code
+        string? airlineCode = Console.ReadLine();
+        // Display Flights from the Airline that user input
+        Console.WriteLine("=============================================");
+        Console.WriteLine("List of Flights for {0}", airlineDict[airlineCode].Name); // retrieves the airline name using airline dictionary
+        Console.WriteLine("=============================================");
+        Console.WriteLine("{0,-16}{1,-23}{2,-23}", "Flight Number", "Origin", "Destination"); // display title
+
+        foreach (Flight f in flightDict.Values) // each iteration retrieves a Flight object
+        {
+            if (f.FlightNumber.StartsWith(airlineCode)) //  to retrive the flights from the airline user input
+            {
+                // displays the flight number, origin and destination for each flight from the airline user input
+                Console.WriteLine("{0,-16}{1,-23}{2,-23}{3,-23}", f.FlightNumber, f.Origin, f.Destination); 
+
+            }
+        }
+        Console.Write("Enter Flight Number: "); // prompt user to select a flight number
+        string? flightNo = Console.ReadLine(); // stores user's input into a variable named flightNo
+        Flight flightDetails = flightDict[flightNo];
+        Console.WriteLine("============================================="); // title
+        Console.WriteLine("Flight Details for {0}", flightNo); 
+        Console.WriteLine("=============================================");
+        Console.WriteLine("{0,-16}{1,-23{2,-23}{3,23}{4,-23}{5,-23}{6,-23}", 
+            flightNo, airlineDict[airlineCode].Name,flightDetails.Origin,flightDetails.Destination,flightDetails.ExpectedTime,"","");
+
+    }
+
+    
     static void DisplayScheduledFlights() // Option 7
     {
         // Create a list to sort flights by expected departure/arrival time 
