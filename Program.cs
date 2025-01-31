@@ -71,7 +71,6 @@ internal class Program
             }
             else if (option == 6) // Modify Flight Details
             {
-                ModifyFlightDetails();
                 Console.WriteLine("\r\n\r\n\r\n\r\n\r\n");
             }
             else if (option == 7) // Display Flight Schedule
