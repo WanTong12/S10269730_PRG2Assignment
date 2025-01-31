@@ -384,7 +384,7 @@ internal class Program
                 //create the proper Flight object with the information given
                 Flight f = new Flight(fNo, o, d, eTime, "On Time");
                 flightDict.Add(fNo, f); //Add object to flight dictionary
-              //append the new Flight information to the flights.csv file
+                //append the new Flight information to the flights.csv file
 
                 if (specialRC == "None") //For flights without spreacial request code
                 {
