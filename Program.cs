@@ -226,7 +226,7 @@ internal class Program
             // displays the special request code each boarding gate service and the flight number assigned 
             if (bg.Flight == null) // if the boarding gate isn't assigned to a flight, it displays "Nil" under Flight Number Assigned
             {
-                Console.WriteLine("{0,-16}{1,-23}{2,-23}{3,-23}{4,-23}", bg.GateName, bg.SupportsDDJB, bg.SupportsCFFT, bg.SupportsLWTT, "Nil");
+                Console.WriteLine("{0,-16}{1,-23}{2,-23}{3,-23}{4,-23}", bg.GateName, bg.SupportsDDJB, bg.SupportsCFFT, bg.SupportsLWTT, "Unassigned");
             }
             else // if boarding gate is assigned to a flight, it displays the flight number under Flight Number Assigned
             {
