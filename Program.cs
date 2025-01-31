@@ -72,8 +72,8 @@ internal class Program
                         {
                             break;
                         }
-                        Console.WriteLine("\r\n\r\n\r\n\r\n\r\n");
                     }
+                    Console.WriteLine("\r\n\r\n\r\n\r\n\r\n");
                 }
                 else if (option == 5) // Display Airline Flights
                 {
