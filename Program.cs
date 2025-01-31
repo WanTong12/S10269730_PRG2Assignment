@@ -90,6 +90,10 @@ internal class Program
                     DisplayScheduledFlights();
                     Console.WriteLine("\r\n\r\n\r\n\r\n\r\n");
                 }
+                else if (option == 8)
+                {
+                    Console.WriteLine("\r\n\r\n\r\n\r\n\r\n");
+                }
                 else if (option == 9) // Calculate the fees for each airline
                 {
                     CalculateFeesPerAirline();
