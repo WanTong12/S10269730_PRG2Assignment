@@ -78,6 +78,11 @@ internal class Program
                 DisplayScheduledFlights();
                 Console.WriteLine("\r\n\r\n\r\n\r\n\r\n");
             }
+            else if (option == 9) // Calculate fee per airline
+            {
+                CalculateFeesPerAirline();
+                Console.WriteLine("\r\n\r\n\r\n\r\n\r\n");
+            }
             else if (option == 0) // Exit
             {
                 Console.WriteLine("Goodbye!");
