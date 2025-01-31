@@ -77,6 +77,7 @@ internal class Program
                 }
                 else if (option == 5) // Display Airline Flights
                 {
+                    DisplayAirlineFlights();
                     Console.WriteLine("\r\n\r\n\r\n\r\n\r\n");
                 }
                 else if (option == 6) // Modify Flight Details
@@ -86,7 +87,7 @@ internal class Program
                 }
                 else if (option == 7) // Display Flight Schedule
                 {
-
+                    DisplayScheduledFlights();
                     Console.WriteLine("\r\n\r\n\r\n\r\n\r\n");
                 }
                 else if (option == 9) // Calculate the fees for each airline
