@@ -93,7 +93,7 @@ internal class Program
                 }
                 else // Invalid input
                 {
-                    Console.WriteLine("Invalid Input");
+                    Console.WriteLine("Invalid Input. Please enter again.");
                     Console.WriteLine("\r\n\r\n\r\n\r\n\r\n");
                 }
             }
