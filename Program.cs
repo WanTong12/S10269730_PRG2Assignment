@@ -356,22 +356,50 @@ internal class Program
             if (f.FlightNumber.StartsWith(airlineCode)) //  to retrive the flights from the airline user input
             {
                 // displays the flight number, origin and destination for each flight from the airline user input
-                Console.WriteLine("{0,-16}{1,-23}{2,-23}", f.FlightNumber, f.Origin, f.Destination); 
+                Console.WriteLine("{0,-16}{1,-23}{2,-23}", f.FlightNumber, f.Origin, f.Destination);
 
             }
         }
         Console.Write("Enter Flight Number: "); // prompt user to select a flight number
         string? flightNo = Console.ReadLine(); // stores user's input into a variable named flightNo
-        Flight flightDetails = flightDict[flightNo];
+        Flight flight = flightDict[flightNo];
         Console.WriteLine("============================================="); // title
-        Console.WriteLine("Flight Details for {0}", flightNo); 
+        Console.WriteLine("Flight Details for {0}", flightNo);
         Console.WriteLine("=============================================");
-        Console.WriteLine("{0,-16}{1,-23{2,-23}{3,23}{4,-23}{5,-23}{6,-23}", 
-            flightNo, airlineDict[airlineCode].Name,flightDetails.Origin,flightDetails.Destination,flightDetails.ExpectedTime,"","");
+        Console.WriteLine("{0,-16}{1,-20}{2,-20}{3,-20}{4,-35}{5,-23}{6,-20}", "Flight Number", "Airline Name", "Origin", "Destination", "Expected Departure/Arrival Time", "Special Request Code", "Boarding Gate");
+        foreach (BoardingGate bg in boardingGateDict.Values)
+        {
+            
+            // display special request code is done but not the boarding gate
+            if (flight is NORMFlight)
+            {
+                Console.WriteLine("{0,-16}{1,-20}{2,-20}{3,-20}{4,-35}{5,-23}{6,-20}",
+                flightNo, airlineDict[airlineCode].Name, flight.Origin, flight.Destination, flight.ExpectedTime, "Nil", bg.GateName);
+            }
+            else if (flight is DDJBFlight)
+            {
+                Console.WriteLine("{0,-16}{1,-20}{2,-20}{3,-20}{4,-35}{5,-23}{6,-20}",
+                flightNo, airlineDict[airlineCode].Name, flight.Origin, flight.Destination, flight.ExpectedTime, "DDJB", bg.GateName);
+            }
+            else if (flight is CFFTFlight)
+            {
+                Console.WriteLine("{0,-16}{1,-20}{2,-20}{3,-20}{4,-35}{5,-23}{6,-20}",
+                flightNo, airlineDict[airlineCode].Name, flight.Origin, flight.Destination, flight.ExpectedTime, "CFFT", bg.GateName);
+            }
+            else if (flight is LWTTFlight)
+            {
+                Console.WriteLine("{0,-16}{1,-20}{2,-20}{3,-20}{4,-35}{5,-23}{6,-20}",
+                flightNo, airlineDict[airlineCode].Name, flight.Origin, flight.Destination, flight.ExpectedTime, "LWTT", bg.GateName);
+            }
+            break;
+
+
+        }
+
 
     }
 
-    
+
     static void DisplayScheduledFlights() // Option 7
     {
         // Create a list to sort flights by expected departure/arrival time 
