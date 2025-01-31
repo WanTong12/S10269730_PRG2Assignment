@@ -372,6 +372,38 @@ internal class Program
                     Console.WriteLine("Invalid Input\r\n");
                     continue;
                 }
+                //create the proper Flight object with the information given
+                Flight f = new Flight(fNo, o, d, eTime, "On Time");
+                flightDict.Add(fNo, f); //Add object to flight dictionary
+
+                //append the new Flight information to the flights.csv file
+
+                if (specialRC == "None") //For flights without spreacial request code
+                {
+                    string flightinfo = fNo + "," + o + "," + d + "," + eTime;
+                    File.AppendAllText(file, flightinfo); //Add flight into flights file
+                }
+                else // For flights with speacial request code
+                {
+                    string flightinfo = fNo + "," + o + "," + d + "," + eTime + "," + specialRC;
+                    File.AppendAllText(file, flightinfo); //Add flight into flights file
+                }
+                //display a message to indicate that the Flight(s) have been successfully added
+                Console.WriteLine("Flight {0} has been added!", fNo);
+                break;
+            }
+            else if (flightDict.ContainsKey(fNo))
+            {
+                Console.WriteLine("Flight already exists\r\n");
+                break;
+            }
+            else
+            {
+                Console.WriteLine("Invalid Input\r\n");
+                break;
+            }
+        }
+    }
 
                 //create the proper Flight object with the information given
                 Flight f = new Flight(fNo, o, d, eTime, "On Time");
