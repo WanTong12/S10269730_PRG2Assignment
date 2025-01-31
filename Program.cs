@@ -401,6 +401,23 @@ internal class Program
                 }
                 //create the proper Flight object with the information given
                 Flight f = new Flight(fNo, o, d, eTime, "On Time");
+                if (specialRC == "DDJB")
+                {
+                    f = new DDJBFlight(fNo, o, d, eTime, "On Time"); //Create DDJBFlight object
+                }
+                else if (specialRC == "CFFT")
+                {
+                    f = new CFFTFlight(fNo, o, d, eTime, "On Time"); //Create CFFTFlight object
+                }
+                else if (specialRC == "LWTT")
+                {
+                    f = new LWTTFlight(fNo, o, d, eTime, "On Time"); //Create LWTTFlight object
+                }
+
+                else // No special request code
+                {
+                    f = new NORMFlight(fNo, o, d, eTime, "On Time"); //Create NORMFlight object
+                }
                 flightDict.Add(fNo, f); //Add object to flight dictionary
                 //append the new Flight information to the flights.csv file
 
