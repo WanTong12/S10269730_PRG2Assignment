@@ -31,67 +31,75 @@ internal class Program
 
         while (true) // Keeps looping until break
         {
-            DisplayMenu();
-            Console.Write("Please select your option: ");
-            int option = Convert.ToInt32(Console.ReadLine());
-            Console.WriteLine();
-            if (option == 1) // List All Flights
+            try
             {
-                DisplayBasicFlightInfo();
-                Console.WriteLine("\r\n\r\n\r\n\r\n\r\n");
-            }
-            else if (option == 2) // Display Boarding Gates
-            {
-                DisplayBoardingGates();
-                Console.WriteLine("\r\n\r\n\r\n\r\n\r\n");
-            }
-            else if (option == 3) // Assign a Boarding Gate to a Flight
-            {
-                AssignBoardingGate();
-                Console.WriteLine("\r\n\r\n\r\n\r\n\r\n");
-            }
-            else if (option == 4) // Create Flight
-            {
-                while (true)
+                DisplayMenu();
+                Console.Write("Please select your option: ");
+                int option = Convert.ToInt32(Console.ReadLine());
+                Console.WriteLine();
+                if (option == 1) // List All Flights
                 {
-                    CreateNewFlight("flights.csv");
-                    //prompt the user asking if they would like to add another Flight, repeating the previous 5 steps if [Y] or continuing to the next step if [N]
-                    Console.WriteLine("Would you like to add another flight? (Y/N)");
-                    string? ans = Console.ReadLine();
-                    if (ans.ToUpper() == "N")
-                    {
-                        break;
-                    }
+                    DisplayBasicFlightInfo();
+                    Console.WriteLine("\r\n\r\n\r\n\r\n\r\n");
                 }
-                Console.WriteLine("\r\n\r\n\r\n\r\n\r\n");
+                else if (option == 2) // Display Boarding Gates
+                {
+                    DisplayBoardingGates();
+                    Console.WriteLine("\r\n\r\n\r\n\r\n\r\n");
+                }
+                else if (option == 3) // Assign a Boarding Gate to a Flight
+                {
+                    AssignBoardingGate();
+                    Console.WriteLine("\r\n\r\n\r\n\r\n\r\n");
+                }
+                else if (option == 4) // Create Flight
+                {
+                    while (true)
+                    {
+                        CreateNewFlight("flights.csv");
+                        //prompt the user asking if they would like to add another Flight, repeating the previous 5 steps if [Y] or continuing to the next step if [N]
+                        Console.WriteLine("Would you like to add another flight? (Y/N)");
+                        string? ans = Console.ReadLine();
+                        if (ans.ToUpper() == "N")
+                        {
+                            break;
+                        }
+                    }
+                    Console.WriteLine("\r\n\r\n\r\n\r\n\r\n");
+                }
+                else if (option == 5) // Display Airline Flights
+                {
+                    DisplayAirlineFlights();
+                    Console.WriteLine("\r\n\r\n\r\n\r\n\r\n");
+                }
+                else if (option == 6) // Modify Flight Details
+                {
+                    Console.WriteLine("\r\n\r\n\r\n\r\n\r\n");
+                }
+                else if (option == 7) // Display Flight Schedule
+                {
+                    DisplayScheduledFlights();
+                    Console.WriteLine("\r\n\r\n\r\n\r\n\r\n");
+                }
+                else if (option == 9) // Calculate the fees for each airline
+                {
+                    CalculateFeesPerAirline();
+                    Console.WriteLine("\r\n\r\n\r\n\r\n\r\n");
+                }
+                else if (option == 0) // Exit
+                {
+                    Console.WriteLine("Goodbye!");
+                    break;
+                }
+                else // Invalid input
+                {
+                    Console.WriteLine("Invalid Input");
+                    Console.WriteLine("\r\n\r\n\r\n\r\n\r\n");
+                }
             }
-            else if (option == 5) // Display Airline Flights
+            catch (Exception ex)
             {
-                DisplayAirlineFlights();
-                Console.WriteLine("\r\n\r\n\r\n\r\n\r\n");
-            }
-            else if (option == 6) // Modify Flight Details
-            {
-                Console.WriteLine("\r\n\r\n\r\n\r\n\r\n");
-            }
-            else if (option == 7) // Display Flight Schedule
-            {
-                DisplayScheduledFlights();
-                Console.WriteLine("\r\n\r\n\r\n\r\n\r\n");
-            }
-            else if (option == 9) // Calculate the fees for each airline
-            {
-                CalculateFeesPerAirline();
-                Console.WriteLine("\r\n\r\n\r\n\r\n\r\n");
-            }
-            else if (option == 0) // Exit
-            {
-                Console.WriteLine("Goodbye!");
-                break;
-            }
-            else // Invalid input
-            {
-                Console.WriteLine("Invalid Input");
+                Console.WriteLine(ex.Message);
                 Console.WriteLine("\r\n\r\n\r\n\r\n\r\n");
             }
         }
