@@ -367,35 +367,53 @@ internal class Program
         Console.WriteLine("Flight Details for {0}", flightNo);
         Console.WriteLine("=============================================");
         Console.WriteLine("{0,-16}{1,-20}{2,-20}{3,-20}{4,-35}{5,-23}{6,-20}", "Flight Number", "Airline Name", "Origin", "Destination", "Expected Departure/Arrival Time", "Special Request Code", "Boarding Gate");
-        foreach (BoardingGate bg in boardingGateDict.Values)
+        bool found = false;
+        foreach (BoardingGate bg in boardingGateDict.Values) // loops through every iteration to check if a boarding gate is assigned to the flight user input
         {
-            
-            // display special request code is done but not the boarding gate
+            if (bg.Flight != null && bg.Flight.FlightNumber == flightNo)
+            {    // display special request code of each flight and boarding gate assigned to each flight 
+                if (flight is NORMFlight)
+                {
+                    Console.WriteLine("{0,-16}{1,-20}{2,-20}{3,-20}{4,-35}{5,-23}{6,-20}",flightNo, airlineDict[airlineCode].Name, flight.Origin, flight.Destination, flight.ExpectedTime, "Nil", bg.GateName);
+                }
+                else if (flight is DDJBFlight)
+                {
+                    Console.WriteLine("{0,-16}{1,-20}{2,-20}{3,-20}{4,-35}{5,-23}{6,-20}",flightNo, airlineDict[airlineCode].Name, flight.Origin, flight.Destination, flight.ExpectedTime, "DDJB", bg.GateName);
+                }
+                else if (flight is CFFTFlight)
+                {
+                    Console.WriteLine("{0,-16}{1,-20}{2,-20}{3,-20}{4,-35}{5,-23}{6,-20}",flightNo, airlineDict[airlineCode].Name, flight.Origin, flight.Destination, flight.ExpectedTime, "CFFT", bg.GateName);
+                }
+                else if (flight is LWTTFlight)
+                {
+                    Console.WriteLine("{0,-16}{1,-20}{2,-20}{3,-20}{4,-35}{5,-23}{6,-20}",flightNo, airlineDict[airlineCode].Name, flight.Origin, flight.Destination, flight.ExpectedTime, "LWTT", bg.GateName);
+                }
+                found = true;
+                break;
+            }
+
+        }
+        // if found is false, it means that no boarding gate is assigned to the flight 
+        if (!found) 
+        {
+            // displays special request code and boarding gate of the flight user input
             if (flight is NORMFlight)
             {
-                Console.WriteLine("{0,-16}{1,-20}{2,-20}{3,-20}{4,-35}{5,-23}{6,-20}",
-                flightNo, airlineDict[airlineCode].Name, flight.Origin, flight.Destination, flight.ExpectedTime, "Nil", bg.GateName);
+                Console.WriteLine("{0,-16}{1,-20}{2,-20}{3,-20}{4,-35}{5,-23}{6,-20}", flightNo, airlineDict[airlineCode].Name, flight.Origin, flight.Destination, flight.ExpectedTime, "Nil", "Unassigned");
             }
             else if (flight is DDJBFlight)
             {
-                Console.WriteLine("{0,-16}{1,-20}{2,-20}{3,-20}{4,-35}{5,-23}{6,-20}",
-                flightNo, airlineDict[airlineCode].Name, flight.Origin, flight.Destination, flight.ExpectedTime, "DDJB", bg.GateName);
+                Console.WriteLine("{0,-16}{1,-20}{2,-20}{3,-20}{4,-35}{5,-23}{6,-20}", flightNo, airlineDict[airlineCode].Name, flight.Origin, flight.Destination, flight.ExpectedTime, "DDJB", "Unassigned");
             }
             else if (flight is CFFTFlight)
             {
-                Console.WriteLine("{0,-16}{1,-20}{2,-20}{3,-20}{4,-35}{5,-23}{6,-20}",
-                flightNo, airlineDict[airlineCode].Name, flight.Origin, flight.Destination, flight.ExpectedTime, "CFFT", bg.GateName);
+                Console.WriteLine("{0,-16}{1,-20}{2,-20}{3,-20}{4,-35}{5,-23}{6,-20}", flightNo, airlineDict[airlineCode].Name, flight.Origin, flight.Destination, flight.ExpectedTime, "CFFT", "Unassigned");
             }
             else if (flight is LWTTFlight)
             {
-                Console.WriteLine("{0,-16}{1,-20}{2,-20}{3,-20}{4,-35}{5,-23}{6,-20}",
-                flightNo, airlineDict[airlineCode].Name, flight.Origin, flight.Destination, flight.ExpectedTime, "LWTT", bg.GateName);
+                Console.WriteLine("{0,-16}{1,-20}{2,-20}{3,-20}{4,-35}{5,-23}{6,-20}", flightNo, airlineDict[airlineCode].Name, flight.Origin, flight.Destination, flight.ExpectedTime, "LWTT", "Unassigned");
             }
-            break;
-
-
         }
-
 
     }
 
