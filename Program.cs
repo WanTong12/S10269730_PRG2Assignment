@@ -131,7 +131,7 @@ internal class Program
 
     static void LoadFlightFiles(string file)
     {
-        string[] flights = File.ReadAllLines(file); // Load flights.csv files
+        string[] flights = File.ReadAllLines(file);
         for (int i = 1; i < flights.Length; i++)
         {
             string[] flight = flights[i].Split(',');
@@ -139,38 +139,33 @@ internal class Program
             string o = flight[1]; //Origin
             string d = flight[2]; //Destination
             DateTime e = Convert.ToDateTime(flight[3]); //Expected arrival/ departure time
-            // Create Flights object
-            Flight? f = null;
+            string srCode = flight[4]; // special request code
 
-            if (flight.Length == 5)
+            Flight f = new Flight();
+
+            if (srCode == "DDJB")
+            {
+                f = new DDJBFlight(fn, o, d, e, "On Time"); //Create DDJBFlight object
+            }
+            else if (srCode == "CFFT")
+            {
+                f = new CFFTFlight(fn, o, d, e, "On Time"); //Create CFFTFlight object
+            }
+            else if (srCode == "LWTT")
+            {
+                f = new LWTTFlight(fn, o, d, e, "On Time"); //Create LWTTFlight object
+            }
+            else // No special request code
             {
                 f = new NORMFlight(fn, o, d, e, "On Time"); //Create NORMFlight object
             }
-            else if (flight.Length == 6)
-            {
-                string? specialRC = flight[4];
-                if (specialRC == "DDJB")
-                {
-                    f = new DDJBFlight(fn, o, d, e, "On Time"); //Create DDJBFlight object
-                }
-                else if (specialRC == "CFFT")
-                {
-                    f = new CFFTFlight(fn, o, d, e, "On Time"); //Create CFFTFlight object
-                }
-                else if (specialRC == "LWTT")
-                {
-                    f = new LWTTFlight(fn, o, d, e, "On Time"); //Create LWTTFlight object
-                }
-            }
-            if (f != null)
-            {
-                flightDict.Add(fn, f); //Add object to flight dictionary
-            }
+
+            flightDict.Add(fn, f); //Add object to flight dictionary
+
         }
 
-
         Console.WriteLine("Loading Flights...");
-        Console.WriteLine("{0} Flights Loaded!", flights.Length - 1);
+        Console.WriteLine("{0} Flights Loaded!", flightDict.Count); // -1 bcos of header
     }
 
 
