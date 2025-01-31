@@ -12,9 +12,10 @@ using System.Net.Sockets;
 //==========================================================
 internal class Program
 {
-    static Dictionary<string, Airline> airlineDict = new Dictionary<string, Airline>(); // key: Airline code
-    static Dictionary<string, Flight> flightDict = new Dictionary<string, Flight>(); // key: Flight Number
-    static Dictionary<string, BoardingGate> boardingGateDict = new Dictionary<string, BoardingGate>(); // key: Gate Name
+    static Terminal terminal5 = new Terminal();
+    static Dictionary<string, Airline> airlineDict = terminal5.Airlines; // key: Airline code
+    static Dictionary<string, Flight> flightDict = terminal5.Flights; // key: Flight Number
+    static Dictionary<string, BoardingGate> boardingGateDict = terminal5.BoardingGates; // key: Gate Name
 
     private static void Main(string[] args)
     {
@@ -104,7 +105,7 @@ internal class Program
         {
             string[] line = lines[i].Split(',');
             Airline airline = new Airline(line[0], line[1]); // create airline object
-            airlineDict.Add(airline.Code, airline); // add airline object to airline dictionary
+            terminal5.AddAirline(airline); // add airline object to airline dictionary
         }
         Console.WriteLine("Loading Airlines...");
         Console.WriteLine("{0} Airlines Loaded!", airlineDict.Count);
@@ -122,7 +123,7 @@ internal class Program
             bool ddjb = Convert.ToBoolean(line[2]);
             bool lwtt = Convert.ToBoolean(line[3]);
             BoardingGate boardingGate = new BoardingGate(line[0], ddjb, cfft, lwtt, null);// create boardinggate object
-            boardingGateDict.Add(boardingGate.GateName, boardingGate); // add boardinggate object to boardinggate dictionary
+            terminal5.AddBoardingGate(boardingGate); // add boardinggate object to boardinggate dictionary
         }
         Console.WriteLine("Loading Boarding Gates...");
         Console.WriteLine("{0} Boarding Gates Loaded!", boardingGateDict.Count);
