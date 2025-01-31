@@ -14,9 +14,9 @@ using System.Net.Sockets;
 internal class Program
 {
     static Terminal terminal5 = new Terminal();
-    static Dictionary<string, Airline> airlineDict = terminal5.Airlines; // key: Airline code
-    static Dictionary<string, Flight> flightDict = terminal5.Flights; // key: Flight Number
-    static Dictionary<string, BoardingGate> boardingGateDict = terminal5.BoardingGates; // key: Gate Name
+    static Dictionary<string, Airline> airlineDict = new Dictionary<string, Airline>(); // key: Airline code
+    static Dictionary<string, Flight> flightDict = new Dictionary<string, Flight>(); // key: Flight Number
+    static Dictionary<string, BoardingGate> boardingGateDict = new Dictionary<string, BoardingGate>(); // key: Gate Name
 
     private static void Main(string[] args)
     {
