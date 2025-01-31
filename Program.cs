@@ -91,7 +91,7 @@ internal class Program
                 }
                 else if (option == 9) // Calculate the fees for each airline
                 {
-
+                    CalculateFeesPerAirline();
                     Console.WriteLine("\r\n\r\n\r\n\r\n\r\n");
                 }
                 else if (option == 0) // Exit
@@ -808,7 +808,7 @@ internal class Program
         }
     }
 
-    static void CalculateFeesPerAirline() // Optionn 9
+    static void CalculateFeesPerAirline() // Option 9
     {
         foreach (Flight f in flightDict.Values)
         {
