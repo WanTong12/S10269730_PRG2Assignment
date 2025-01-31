@@ -207,9 +207,8 @@ internal class Program
         foreach (KeyValuePair<string, Flight> kvp in flightDict) // Get each flight from flightDict
         {
             Flight f = kvp.Value; // flight
-            string[] flightno = f.FlightNumber.Split(" ");
-            string? code = flightno[0]; // Airline code
-            string airlineName = airlineDict[code].Name; // Airline Name
+            Airline a = terminal5.GetAirlineFromFlight(f);
+            string airlineName = a.Name; // Airline Name
             string expectedTime = f.ExpectedTime.ToString(); // Date and time of expected time
             Console.WriteLine("{0, -17}{1,-23}{2,-25}{3,-25}{4}", f.FlightNumber, airlineName, f.Origin, f.Destination, expectedTime); // flight information
 
@@ -304,13 +303,14 @@ internal class Program
                 // Display boarding gate info
                 Console.WriteLine("Boarding Gate Name: {0}", bg.GateName);
                 Console.WriteLine("Supports DDJB: {0}\r\nSupports CFFT: {1}\r\nSupports LWTT: {2}", bg.SupportsDDJB, bg.SupportsCFFT, bg.SupportsLWTT);
+
                 Console.WriteLine("Would you like to update the status of the flight? (Y/N)");
                 string? ans = Console.ReadLine();
 
                 if (string.IsNullOrEmpty(ans) || ans.ToUpper() != "N" && ans.ToUpper() != "Y")
                 {
                     Console.WriteLine("Invalid Input\r\n");
-                    return;
+                    continue;
                 }
                 else if (ans.ToUpper() == "Y") // update status of the flight
                 {
@@ -335,14 +335,14 @@ internal class Program
                         else // none of the options choosen
                         {
                             Console.WriteLine("Invalid Input");
-                            break;
+                            continue;
                         }
                     }
                     catch (Exception ex)
                     {
                         Console.WriteLine(ex.Message);
-                        break;
                     }
+                        
                 }
 
                 bg.Flight = f; // Assign flight to boarding gate
@@ -816,7 +816,7 @@ internal class Program
 
     static void CalculateFeesPerAirline() // Option 9
     {
-        foreach (Flight f in flightDict.Values)
+        /***foreach (Flight f in flightDict.Values)
         {
             // Check if each flight has been assigned to a boarding gate
             if (!flightToBoardingGateDict.ContainsKey(f.FlightNumber)) // Not all flights has been assigned to a boarding gate
@@ -824,7 +824,7 @@ internal class Program
                 Console.WriteLine("Ensure that all flights has been assigned to a boarding gate");
                 return;
             }
-        }
+        }***/
 
         foreach (Airline a in airlineDict.Values)
         {
@@ -855,13 +855,7 @@ internal class Program
                 }
             }
             // Display fees
-            double finalFee = a.CalculateFees() - discount;
-            double percentage = (discount / finalFee) * 100;
-            Console.WriteLine("Airline: {0}", a.Name); //Print airline name
-            Console.WriteLine("Subtotal: {0}", a.CalculateFees()); // Subtotal of all the fees to be charged
-            Console.WriteLine("Discount to be deducted: {0}", discount); // Total discount
-            Console.WriteLine("Final Fee: {0}", finalFee); // FInal fee
-            Console.WriteLine("Percentage of the subtotal discounts: {0}", percentage); // Percentage of the subtotal discounts over the final total of fees
+            terminal5.PrintAirlineFees(discount);
         }
     }
 

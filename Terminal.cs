@@ -68,12 +68,17 @@ namespace PRG2_T13_08
             return null; // return null if the flight number is not found in the Airline class's flights dictionary
         }
 
-        public void PrintAirlineFees()
+        public void PrintAirlineFees(double discount)
         {
-            Console.WriteLine("{0,-15}{1.-15}","Airlines", "Fees");
             foreach (Airline a in Airlines.Values)
             {
-                Console.WriteLine("{0,-15}{1,-15:C2}",a.Name, a.CalculateFees());
+                double finalFee = a.CalculateFees() - discount;
+                double percentage = (discount / finalFee) * 100;
+                Console.WriteLine("Airline: {0}", a.Name); //Print airline name
+                Console.WriteLine("Subtotal: {0}", a.CalculateFees()); // Subtotal of all the fees to be charged
+                Console.WriteLine("Discount to be deducted: {0}", discount); // Total discount
+                Console.WriteLine("Final Fee: {0}", finalFee); // FInal fee
+                Console.WriteLine("Percentage of the subtotal discounts: {0}", percentage); // Percentage of the subtotal discounts over the final total of fees
             }
         }
 
