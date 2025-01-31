@@ -15,6 +15,8 @@ internal class Program
     static Dictionary<string, Airline> airlineDict = new Dictionary<string, Airline>(); // key: Airline code
     static Dictionary<string, Flight> flightDict = new Dictionary<string, Flight>(); // key: Flight Number
     static Dictionary<string, BoardingGate> boardingGateDict = new Dictionary<string, BoardingGate>(); // key: Gate Name
+    // Floght to boarding gate dictionary
+    static Dictionary<string, string> flightToBoardingGateDict = new Dictionary<string, string>(); // Key: flight Number, value: boarding gate name
 
     private static void Main(string[] args)
     {
@@ -77,6 +79,11 @@ internal class Program
                 DisplayScheduledFlights();
                 Console.WriteLine("\r\n\r\n\r\n\r\n\r\n");
             }
+            else if (option == 9) // Calculate the fees for each airline
+            {
+                CalculateFeesPerAirline();
+                Console.WriteLine("\r\n\r\n\r\n\r\n\r\n");
+            }
             else if (option == 0) // Exit
             {
                 Console.WriteLine("Goodbye!");
@@ -92,7 +99,7 @@ internal class Program
 
     static void DisplayMenu() // Menu of options
     {
-        Console.WriteLine("=============================================\r\nWelcome to Changi Airport Terminal 5\r\n=============================================\r\n1. List All Flights\r\n2. List Boarding Gates\r\n3. Assign a Boarding Gate to a Flight\r\n4. Create Flight\r\n5. Display Airline Flights\r\n6. Modify Flight Details\r\n7. Display Flight Schedule\r\n0. Exit");
+        Console.WriteLine("=============================================\r\nWelcome to Changi Airport Terminal 5\r\n=============================================\r\n1. List All Flights\r\n2. List Boarding Gates\r\n3. Assign a Boarding Gate to a Flight\r\n4. Create Flight\r\n5. Display Airline Flights\r\n6. Modify Flight Details\r\n7. Display Flight Schedule\r\n9. Calculate Fees Per Airline\r\n0. Exit");
     }
 
 
@@ -140,7 +147,7 @@ internal class Program
             string d = flight[2]; //Destination
             DateTime e = Convert.ToDateTime(flight[3]); //Expected arrival/ departure time
             string srCode = flight[4]; // special request code
-
+          
             Flight f = new Flight();
 
             if (srCode == "DDJB")
@@ -225,7 +232,7 @@ internal class Program
 
             Flight f = flightDict[flightNo];
 
-            BoardingGate bg = boardingGateDict[gateName]; 
+            BoardingGate bg = boardingGateDict[gateName]; // get boarding gate object
 
             if (bg.Flight is null) // If no flight is assigned to the boarding gate
             {
@@ -283,6 +290,7 @@ internal class Program
                 }
 
                 bg.Flight = f; // Assign flight to boarding gate
+                flightToBoardingGateDict.Add(flightNo, gateName);
                
                 Console.WriteLine("Flight {0} has been assigned to Boarding Gate {1}!", flightNo, bg.GateName);
                 // Choose N and breakes out of loop
@@ -439,18 +447,65 @@ internal class Program
         foreach (Flight f in flightsList)
         {
             string bg = "Unassigned"; // Default status for boarding gate
-            foreach (BoardingGate b in boardingGateDict.Values) // iterate through the dictionary values
+            if (flightToBoardingGateDict.ContainsKey(f.FlightNumber)) // check if flight has been assigned to a boarding gate
             {
-                if (b.Flight == f) // if flight has been assigned to a boarding gate
-                {
-                    bg = b.GateName; // assign boarding gate name as status for boarding gate
-                }
-
+                bg = flightToBoardingGateDict[f.FlightNumber];
             }
             string airlineCode = f.FlightNumber.Split(' ')[0]; 
             string airlineName = airlineDict[airlineCode].Name;
             // Display scheduled flight details
             Console.WriteLine("{0,-16}{1,-25}{2,-20}{3,-25}{4,-37}{5,-20}{6}", f.FlightNumber, airlineName, f.Origin, f.Destination, f.ExpectedTime, f.Status, bg);
+        }
+    }
+
+    static void CalculateFeesPerAirline() // Optionn 9
+    {
+        foreach (Flight f in flightDict.Values)
+        {
+            // Check if each flight has been assigned to a boarding gate
+            if (!flightToBoardingGateDict.ContainsKey(f.FlightNumber)) // Not all flights has been assigned to a boarding gate
+            {
+                Console.WriteLine("Ensure that all flights has been assigned to a boarding gate");
+                return;
+            }
+        }
+
+        foreach (Airline a in airlineDict.Values)
+        {
+            double discount = 0;
+            // Calculate discounts
+            if (flightDict.Count / 3 >= 1) // For every 3 flights
+            {
+                discount += (350 * Math.Floor(flightDict.Count / 3.0));
+            }
+            if (flightDict.Count > 5) // For more than 5 flights
+            {
+                discount += a.CalculateFees() * 0.3;
+            }
+            foreach (Flight f in flightDict.Values)
+            {
+               
+                if (f.ExpectedTime.Hour < 11 && f.ExpectedTime.Hour > 21) // For flights arriving/departing before 11am or after 9pm
+                {
+                    discount += 110;
+                }
+                if (f.Origin == "Dubai (DXB)" || f.Origin == "Bangkok (BKK)" || f.Origin == "Tokyo (NRT)") // For airlines with the Origin of Dubai (DXB), Bangkok (BKK) or Tokyo (NRT)
+                {
+                    discount += 25;
+                }
+                if (f is NORMFlight) // For no request fee
+                {
+                    discount += 50;
+                }
+            }
+            // Display fees
+            double finalFee = a.CalculateFees() - discount;
+            double percentage = (discount / finalFee) * 100;
+            Console.WriteLine("Airline: {0}", a.Name); //Print airline name
+            Console.WriteLine("Subtotal: {0}", a.CalculateFees()); // Subtotal of all the fees to be charged
+            Console.WriteLine("Discount to be deducted: {0}", discount); // Total discount
+            Console.WriteLine("Final Fee: {0}", finalFee); // FInal fee
+            Console.WriteLine("Percentage of the subtotal discounts: {0}", percentage); // Percentage of the subtotal discounts over the final total of fees
         }
     }
 }
