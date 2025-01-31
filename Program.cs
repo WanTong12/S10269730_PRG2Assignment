@@ -70,6 +70,7 @@ internal class Program
             }
             else if (option == 5) // Display Airline Flights
             {
+                DisplayAirlineFlights();
                 Console.WriteLine("\r\n\r\n\r\n\r\n\r\n");
             }
             else if (option == 6) // Modify Flight Details
