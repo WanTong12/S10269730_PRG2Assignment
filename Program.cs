@@ -1,6 +1,7 @@
 ﻿
 using Microsoft.VisualBasic;
 using PRG2_T13_08;
+using System.Data.Common;
 using System.Diagnostics.Metrics;
 using System.Globalization;
 using System.Net.Sockets;
@@ -66,7 +67,6 @@ internal class Program
             }
             else if (option == 5) // Display Airline Flights
             {
-                DisplayAirlineFlights();
                 Console.WriteLine("\r\n\r\n\r\n\r\n\r\n");
             }
             else if (option == 6) // Modify Flight Details
@@ -133,7 +133,7 @@ internal class Program
 
     static void LoadFlightFiles(string file)
     {
-        string[] flights = File.ReadAllLines(file); 
+        string[] flights = File.ReadAllLines(file);
         for (int i = 1; i < flights.Length; i++)
         {
             string[] flight = flights[i].Split(',');
@@ -141,34 +141,31 @@ internal class Program
             string o = flight[1]; //Origin
             string d = flight[2]; //Destination
             DateTime e = Convert.ToDateTime(flight[3]); //Expected arrival/ departure time
+            string srCode = flight[4]; // special request code
 
-            Flight? f = null;
+            Flight f = new Flight();
 
-            if (flight.Length == 5)
+            if (srCode == "DDJB")
+            {
+                f = new DDJBFlight(fn, o, d, e, "On Time"); //Create DDJBFlight object
+            }
+            else if (srCode == "CFFT")
+            {
+                f = new CFFTFlight(fn, o, d, e, "On Time"); //Create CFFTFlight object
+            }
+            else if (srCode == "LWTT")
+            {
+                f = new LWTTFlight(fn, o, d, e, "On Time"); //Create LWTTFlight object
+            }
+            else
             {
                 f = new NORMFlight(fn, o, d, e, "On Time"); //Create NORMFlight object
             }
-            else if (flight.Length == 6)
-            {
-                string? specialRC = flight[4];
-                if (specialRC == "DDJB")
-                {
-                    f = new DDJBFlight(fn, o, d, e, "On Time"); //Create DDJBFlight object
-                }
-                else if (specialRC == "CFFT")
-                {
-                    f = new CFFTFlight(fn, o, d, e, "On Time"); //Create CFFTFlight object
-                }
-                else if (specialRC == "LWTT")
-                {
-                    f = new LWTTFlight(fn, o, d, e, "On Time"); //Create LWTTFlight object
-                }
-            }
-            if (f != null)
-            {
-                flightDict.Add(fn, f); //Add object to flight dictionary
-            }
+
+            flightDict.Add(fn, f); //Add object to flight dictionary
+
         }
+
 
 
         Console.WriteLine("Loading Flights...");
@@ -206,7 +203,7 @@ internal class Program
             // displays the special request code each boarding gate service and the flight number assigned 
             if (bg.Flight == null) // if the boarding gate isn't assigned to a flight, it displays "Nil" under Flight Number Assigned
             {
-                Console.WriteLine("{0,-16}{1,-23}{2,-23}{3,-23}{4,-23}", bg.GateName, bg.SupportsDDJB, bg.SupportsCFFT, bg.SupportsLWTT, "Nil");
+                Console.WriteLine("{0,-16}{1,-23}{2,-23}{3,-23}{4,-23}", bg.GateName, bg.SupportsDDJB, bg.SupportsCFFT, bg.SupportsLWTT, "Unassigned");
             }
             else // if boarding gate is assigned to a flight, it displays the flight number under Flight Number Assigned
             { 
@@ -340,43 +337,6 @@ internal class Program
 
     }
 
-    static void DisplayAirlineFlights() // Option 5
-    {
-        Console.WriteLine("============================================="); // Title 
-        Console.WriteLine("List of Airlines for Changi Airport Terminal 5");
-        Console.WriteLine("=============================================");
-        Console.WriteLine("{0,-16}{1,-20}", "Airline Code", "Airline Name");
-        foreach (Airline a in airlineDict.Values) // each iteration retrieves an Airline object
-        {
-            Console.WriteLine("{0,-16}{1,-20}", a.Code, a.Name); // dislplays the airline code and name 
-        }
-        Console.Write("Enter Airline Code: "); // prompt user to input airline code
-        string? airlineCode = Console.ReadLine();
-        // Display Flights from the Airline that user input
-        Console.WriteLine("=============================================");
-        Console.WriteLine("List of Flights for {0}", airlineDict[airlineCode].Name); // retrieves the airline name using airline dictionary
-        Console.WriteLine("=============================================");
-        Console.WriteLine("{0,-16}{1,-23}{2,-23}", "Flight Number", "Origin", "Destination"); // display title
-
-        foreach (Flight f in flightDict.Values) // each iteration retrieves a Flight object
-        {
-            if (f.FlightNumber.StartsWith(airlineCode)) //  to retrive the flights from the airline user input
-            {
-                // displays the flight number, origin and destination for each flight from the airline user input
-                Console.WriteLine("{0,-16}{1,-23}{2,-23}{3,-23}", f.FlightNumber, f.Origin, f.Destination); 
-
-            }
-        }
-        Console.Write("Enter Flight Number: "); // prompt user to select a flight number
-        string? flightNo = Console.ReadLine(); // stores user's input into a variable named flightNo
-        Flight flightDetails = flightDict[flightNo];
-        Console.WriteLine("============================================="); // title
-        Console.WriteLine("Flight Details for {0}", flightNo); 
-        Console.WriteLine("=============================================");
-        Console.WriteLine("{0,-16}{1,-23{2,-23}{3,23}{4,-23}{5,-23}{6,-23}", 
-            flightNo, airlineDict[airlineCode].Name,flightDetails.Origin,flightDetails.Destination,flightDetails.ExpectedTime,"","");
-
-    }
 
     static void ModifyFlightDetails() // Option 6
     {
@@ -401,7 +361,7 @@ internal class Program
             if (f.FlightNumber.StartsWith(airlineCode)) //  to retrive the flights from the airline user input
             {
                 // displays the flight number, origin and destination for each flight from the airline user input
-                Console.WriteLine("{0,-16}{1,-23}{2,-23}{3,-23}", f.FlightNumber, f.Origin, f.Destination);
+                Console.WriteLine("{0,-16}{1,-23}{2,-23}", f.FlightNumber, f.Origin, f.Destination);
 
             }
         }
@@ -444,18 +404,25 @@ internal class Program
                 Console.Write("Enter a new Special Request Code: ");
                 string? srCode = Console.ReadLine();
                 Flight flight = flightDict[flightNo];
-                // Type Casting: Converting the original Flight subclass to another Flight subclass 
+                // Converting the original Flight subclass object to another Flight subclass object
                 if (srCode.ToUpper() == "DDJB")
                 {
-                    DDJBFlight updatedFlight = (DDJBFlight)flight;
+                    // create a new DDJBFlight object and replace the original object with the new one into flightDict
+                    DDJBFlight updated = new DDJBFlight(flight.FlightNumber,flight.Origin,flight.Destination,flight.ExpectedTime, flight.Status);
+                    flightDict[flightNo] = updated;
+
                 }
                 else if (srCode.ToUpper() == "CFFT")
                 {
-                    CFFTFlight updatedFlight = (CFFTFlight)flight;
+                    // create a new CFFTFlight object and replace the original object with the new one into flightDict
+                    CFFTFlight updated = new CFFTFlight(flight.FlightNumber, flight.Origin, flight.Destination, flight.ExpectedTime, flight.Status);
+                    flightDict[flightNo] = updated;
                 }
                 else if (srCode.ToUpper() == "LWTT")
                 {
-                    LWTTFlight updatedFlight = (LWTTFlight)flight;
+                    // create a new LWTTFlight object and replace the original object with the new one into flightDict
+                    LWTTFlight updated = new LWTTFlight(flight.FlightNumber, flight.Origin, flight.Destination, flight.ExpectedTime, flight.Status);
+                    flightDict[flightNo] = updated;
                 }
 
             }
@@ -463,9 +430,44 @@ internal class Program
             {
                 Console.Write("Enter a new Boarding Gate of the Flight: ");
                 string? bg = Console.ReadLine();
-                terminal5.BoardingGates[] = bg;
+                foreach (BoardingGate b in boardingGateDict.Values)
+                {
+                    if (b.Flight is not null && b.Flight.FlightNumber == flightNo)
+                    {
+                        b.GateName = bg;
+                    } 
+
+                }
                 
             }
+            // displaying updated information
+            Flight f = flightDict[flightNo];
+            Console.WriteLine("Flight updated");
+            Console.WriteLine("Flight Number: {0}", flightNo);
+            Console.WriteLine("Airline Name: {0}", airlineDict[airlineCode].Name);
+            Console.WriteLine("Origin: {0}", flightDict[flightNo].Origin);
+            Console.WriteLine("Destination: {0}", flightDict[flightNo].Destination);
+            Console.WriteLine("Expected Departure/Arrival Time: {0}", flightDict[flightNo].ExpectedTime);
+            Console.WriteLine("Status: {0}", flightDict[flightNo].Status);
+            // display the special request code according to which Flight object they belong to
+            if (f is NORMFlight) { Console.WriteLine("Special Request Code: Nil"); }
+            else if (f is CFFTFlight) { Console.WriteLine("Special Request Code: CFFT"); }
+            else if (f is DDJBFlight) { Console.WriteLine("Special Request Code: DDJB"); }
+            else if (f is LWTTFlight) { Console.WriteLine("Special Request Code: LWTT"); }
+            bool found = false; 
+            foreach (BoardingGate b in boardingGateDict.Values) // loops through all the values in boardingGateDict to retrieve and display the updated boarding gate
+            {
+                if (b.Flight != null && b.Flight.FlightNumber == flightNo) 
+                {
+                    // displays the updated boarding gate if the boarding gate is assigned to a flight and if the flight number is the same as the user input
+                    Console.WriteLine("Boarding Gate: {0}", b.GateName);
+                    found = true; 
+                    break;
+                }
+            }
+            // if found is false, it means that the flight is not assigned to any boarding gate and it displays this message
+            if (!found) { Console.WriteLine("Boarding Gate: Unassigned"); } 
+            
         }
         else if (option == 2) // if user chooses to delete a flight
         {
@@ -477,15 +479,7 @@ internal class Program
                 Console.WriteLine("Flight deleted successfully!");
             }
         }
-        Console.WriteLine("Flight updated");
-        Console.WriteLine("Flight Number: {0}", flightNo);
-        Console.WriteLine("Airline Name: {0}", airlineDict[airlineCode].Name);
-        Console.WriteLine("Origin: {0}", flightDict[flightNo].Origin);
-        Console.WriteLine("Destination: {0}", flightDict[flightNo].Destination);
-        Console.WriteLine("Expected Departure/Arrival Time: {0}", flightDict[flightNo].ExpectedTime);
-        Console.WriteLine("Status: {0}", flightDict[flightNo].Status);
-        Console.WriteLine("Special Request Code: {0}", );
-        Console.WriteLine("Boarding Gate: {0}", );
+        
 
     }
 
