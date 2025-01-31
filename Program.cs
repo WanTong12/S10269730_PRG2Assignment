@@ -227,8 +227,29 @@ internal class Program
         {
             Console.Write("Enter Flight Number: ");
             string? flightNo = Console.ReadLine();
+
+            if (string.IsNullOrEmpty(flightNo))
+            {
+                Console.WriteLine("Invalid Input\r\n");
+                continue; //Continue asking for valid input, don't exit the loop
+            }
+            else if (!flightDict.ContainsKey(flightNo))
+            {
+                Console.WriteLine("Flight does not exists\r\n");
+                continue; // Prompt user again if flight doesn't exist
+            }
             Console.Write("Enter Boarding Gate Name: ");
             string? gateName = Console.ReadLine();
+            if (string.IsNullOrEmpty(gateName))
+            {
+                Console.WriteLine("Invalid Input\r\n");
+                continue;
+            }
+            else if (!boardingGateDict.ContainsKey(gateName))
+            {
+                Console.WriteLine("Boarding Gate does not exists\r\n");
+                continue;
+            }
 
             Flight f = flightDict[flightNo];
 
@@ -265,36 +286,50 @@ internal class Program
                 Console.WriteLine("Would you like to update the status of the flight? (Y/N)");
                 string? ans = Console.ReadLine();
 
-                if (ans.ToUpper() == "Y") // update status of the flight
+                if (string.IsNullOrEmpty(ans) || ans.ToUpper() != "N" && ans.ToUpper() != "Y")
+                {
+                    Console.WriteLine("Invalid Input\r\n");
+                    return;
+                }
+                else if (ans.ToUpper() == "Y") // update status of the flight
                 {
                     Console.WriteLine("1. Delayed\r\n2. Boarding\r\n3. On Time");
                     Console.Write("Please select the new status of the flight: ");
-                    int opt = Convert.ToInt32(Console.ReadLine());
+                    try
+                    {
+                        int opt = Convert.ToInt32(Console.ReadLine());
 
-                    if (opt == 1)
-                    {
-                        f.Status = "Delayed";
+                        if (opt == 1)
+                        {
+                            f.Status = "Delayed";
+                        }
+                        else if (opt == 2)
+                        {
+                            f.Status = "Boarding";
+                        }
+                        else if (opt == 3)
+                        {
+                            f.Status = "On Time";
+                        }
+                        else // none of the options choosen
+                        {
+                            Console.WriteLine("Invalid Input");
+                            break;
+                        }
                     }
-                    else if (opt == 2)
+                    catch (Exception ex)
                     {
-                        f.Status = "Boarding";
-                    }
-                    else if (opt == 3)
-                    {
-                        f.Status = "On Time";
-                    }
-                    else // none of the options choosen
-                    {
-                        Console.WriteLine("Invalid Input");
+                        Console.WriteLine(ex.Message);
+                        break;
                     }
                 }
-
+            
                 bg.Flight = f; // Assign flight to boarding gate
                 flightToBoardingGateDict.Add(flightNo, gateName);
-               
+
                 Console.WriteLine("Flight {0} has been assigned to Boarding Gate {1}!", flightNo, bg.GateName);
                 // Choose N and breakes out of loop
-                break; 
+                break;
             }
             else // Already have flight assigned to boarding gate
             {
@@ -307,38 +342,75 @@ internal class Program
 
     static void CreateNewFlight(string file) // Option 4
     {
-        // Prompt the user to enter the new Flight
-        Console.Write("Enter Flight Number: ");
-        string? fNo = Console.ReadLine(); // flight number
-        Console.Write("Enter Origin: ");
-        string? o = Console.ReadLine(); // origin
-        Console.Write("Enter Destination: ");
-        string? d = Console.ReadLine(); // destination
-        Console.Write("Enter Expected Departure/Arrival Time (dd/mm/yyyy hh:mm): ");
-        DateTime eTime = Convert.ToDateTime(Console.ReadLine()); // expected arrival or departure timing
-        //	prompt the user if they would like to enter any additional information, like the Special Request Code
-        Console.Write("Enter Special Request Code (CFFT/DDJB/LWTT/None): ");
-        string? specialRC = Console.ReadLine(); // Speacial Request Code
-
-        //create the proper Flight object with the information given
-        Flight f = new Flight(fNo, o, d, eTime, "On Time");
-        flightDict.Add(fNo, f); //Add object to flight dictionary
-
-        //append the new Flight information to the flights.csv file
-
-        if (specialRC == "None") //For flights without spreacial request code
+        while (true)
         {
-            string flightinfo = fNo + "," + o + "," + d + "," + eTime;
-            File.AppendAllText(file, flightinfo); //Add flight into flights file
-        }
-        else // For flights with speacial request code
-        {
-            string flightinfo = fNo + "," + o + "," + d + "," + eTime + "," + specialRC;
-            File.AppendAllText(file, flightinfo); //Add flight into flights file
-        }
-        //display a message to indicate that the Flight(s) have been successfully added
-        Console.WriteLine("Flight {0} has been added!", fNo);
+            // Prompt the user to enter the new Flight
+            Console.Write("Enter Flight Number: ");
+            string? fNo = Console.ReadLine(); // flight number
+            if (string.IsNullOrEmpty(fNo))
+            {
+                Console.WriteLine("Invalid Input\r\n");
+                continue;
+            }
+            Console.Write("Enter Origin: ");
+            string? o = Console.ReadLine(); // origin
+            if (string.IsNullOrEmpty(o))
+            {
+                Console.WriteLine("Invalid Input");
+                continue;
+            }
+            Console.Write("Enter Destination: ");
+            string? d = Console.ReadLine(); // destination
+            if (string.IsNullOrEmpty(d))
+            {
+                Console.WriteLine("Invalid Input\r\n");
+                continue;
+            }    
 
+            if (o == "Singapore (SIN)" || d == "Singapore (SIN)" && !flightDict.ContainsKey(fNo))
+            {
+                Console.Write("Enter Expected Departure/Arrival Time (dd/mm/yyyy hh:mm): ");
+                DateTime eTime = Convert.ToDateTime(Console.ReadLine()); // expected arrival or departure timing
+                //prompt the user if they would like to enter any additional information, like the Special Request Code
+                Console.Write("Enter Special Request Code (CFFT/DDJB/LWTT/None): ");
+                string? specialRC = Console.ReadLine(); // Speacial Request Code
+                if (string.IsNullOrEmpty(specialRC) || (specialRC != "CFFT" && specialRC != "DDJB" && specialRC != "LWTT" && specialRC != "None"))
+                {
+                    Console.WriteLine("Invalid Input\r\n");
+                    continue;
+                }
+
+                //create the proper Flight object with the information given
+                Flight f = new Flight(fNo, o, d, eTime, "On Time");
+                flightDict.Add(fNo, f); //Add object to flight dictionary
+
+                //append the new Flight information to the flights.csv file
+
+                if (specialRC == "None") //For flights without spreacial request code
+                {
+                    string flightinfo = fNo + "," + o + "," + d + "," + eTime;
+                    File.AppendAllText(file, flightinfo); //Add flight into flights file
+                }
+                else // For flights with speacial request code
+                {
+                    string flightinfo = fNo + "," + o + "," + d + "," + eTime + "," + specialRC;
+                    File.AppendAllText(file, flightinfo); //Add flight into flights file
+                }
+                //display a message to indicate that the Flight(s) have been successfully added
+                Console.WriteLine("Flight {0} has been added!", fNo);
+                break;
+            }
+            else if (flightDict.ContainsKey(fNo))
+            {
+                Console.WriteLine("Flight already exists\r\n");
+                break;
+            }
+            else
+            {
+                Console.WriteLine("Invalid Input\r\n");
+                break;
+            }
+        }
     }
 
     static void DisplayAirlineFlights() // Option 5
