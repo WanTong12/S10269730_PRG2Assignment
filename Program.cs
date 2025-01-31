@@ -131,7 +131,7 @@ internal class Program
 
     static void LoadFlightFiles(string file)
     {
-        string[] flights = File.ReadAllLines(file); 
+        string[] flights = File.ReadAllLines(file); // Load flights.csv files
         for (int i = 1; i < flights.Length; i++)
         {
             string[] flight = flights[i].Split(',');
@@ -139,7 +139,7 @@ internal class Program
             string o = flight[1]; //Origin
             string d = flight[2]; //Destination
             DateTime e = Convert.ToDateTime(flight[3]); //Expected arrival/ departure time
-
+            // Create Flights object
             Flight? f = null;
 
             if (flight.Length == 5)
