@@ -133,6 +133,7 @@ internal class Program
             string[] line = lines[i].Split(',');
             Airline airline = new Airline(line[0], line[1]); // create airline object
             terminal5.AddAirline(airline); // add airline object to airline dictionary
+            
         }
         Console.WriteLine("Loading Airlines...");
         Console.WriteLine("{0} Airlines Loaded!", airlineDict.Count);
@@ -422,7 +423,7 @@ internal class Program
                     f = new NORMFlight(fNo, o, d, eTime, "On Time"); //Create NORMFlight object
                 }
                 flightDict.Add(fNo, f); //Add object to flight dictionary
-                //append the new Flight information to the flights.csv file
+                //append the new Fligght information to the flights.csv file
 
                 if (specialRC == "None") //For flights without spreacial request code
                 {
@@ -720,7 +721,7 @@ internal class Program
                 else if (option2 == 4) // if user chooses to modify the boarding gate of the flight
                 {
                     string bg;
-                    while (true)
+                    while (true) // data validation
                     {
                         Console.Write("Enter a new Boarding Gate of the Flight: ");
                         bg = Console.ReadLine();
@@ -736,7 +737,8 @@ internal class Program
                     {
                         if (b.Flight is not null && b.Flight.FlightNumber == flightNo)
                         {
-                            b.GateName = bg;
+                            b.Flight = null; // unassign previous boarding gate to the flight
+                            boardingGateDict[bg].Flight = flightDict[flightNo]; // assign the new boarding gate to the flight
                         }
 
                     }
@@ -756,20 +758,21 @@ internal class Program
                 else if (f is CFFTFlight) { Console.WriteLine("Special Request Code: CFFT"); }
                 else if (f is DDJBFlight) { Console.WriteLine("Special Request Code: DDJB"); }
                 else if (f is LWTTFlight) { Console.WriteLine("Special Request Code: LWTT"); }
-                string gName = "Unassigned"; 
-                bool found = false;
+
+                string gName = "Unassigned";
                 foreach (BoardingGate b in boardingGateDict.Values) // loops through all the values in boardingGateDict to retrieve and display the updated boarding gate
                 {
                     if (b.Flight != null && b.Flight.FlightNumber == flightNo)
                     {
+                        gName = b.GateName;
                         // displays the updated boarding gate if the boarding gate is assigned to a flight and if the flight number is the same as the user input
-                        Console.WriteLine("Boarding Gate: {0}", b.GateName);
-                        found = true;
+                        Console.WriteLine("Boarding Gate: {0}", gName);
                         break;
                     }
                 }
-                // if found is false, it means that the flight is not assigned to any boarding gate and it displays this message
-                if (!found) { Console.WriteLine("Boarding Gate: {0}", gName); }
+
+                // if no boarding gate is assigned to the flight display this message
+                Console.WriteLine("Boarding Gate: {0}",gName); 
 
             }
             else if (option == 2) // if user chooses to delete a flight
@@ -779,7 +782,17 @@ internal class Program
                 if (confirmation.ToUpper() == "Y")
                 {
                     flightDict.Remove(flightNo); // removing flight from flight dictionary 
-                    boardingGateDict.RemoveValue(flightNo); // remove flight from the boarding gate dict's value
+                    
+                    foreach (KeyValuePair<string, string> kvp in flightToBoardingGateDict) // remove flight from the boarding gate dict's value
+                    {
+                        if (kvp.Key == flightNo)
+                        {
+                            string gName = kvp.Value; // to retrieve which boarding gate was assigned to the flight
+                            boardingGateDict[gName].Flight = null; // to remove the flight object from the previously assigned boarding gate 
+                            flightToBoardingGateDict.Remove(kvp.Key); // to remove the previously assigned boarding gate and flight from the flightToBoardingGateDict
+                        }
+                    }
+                    
                     Console.WriteLine("Flight deleted successfully!");
                 }
             }
