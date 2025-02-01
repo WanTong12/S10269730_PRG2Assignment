@@ -133,6 +133,7 @@ internal class Program
             string[] line = lines[i].Split(',');
             Airline airline = new Airline(line[0], line[1]); // create airline object
             terminal5.AddAirline(airline); // add airline object to airline dictionary
+            
         }
         Console.WriteLine("Loading Airlines...");
         Console.WriteLine("{0} Airlines Loaded!", airlineDict.Count);
@@ -420,7 +421,7 @@ internal class Program
                     f = new NORMFlight(fNo, o, d, eTime, "On Time"); //Create NORMFlight object
                 }
                 flightDict.Add(fNo, f); //Add object to flight dictionary
-                //append the new Flight information to the flights.csv file
+                //append the new Fligght information to the flights.csv file
 
                 if (specialRC == "None") //For flights without spreacial request code
                 {
