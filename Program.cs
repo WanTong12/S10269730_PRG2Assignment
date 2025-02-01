@@ -423,6 +423,9 @@ internal class Program
                     f = new NORMFlight(fNo, o, d, eTime, "On Time"); //Create NORMFlight object
                 }
                 flightDict.Add(fNo, f); //Add object to flight dictionary
+                string acode = fNo.Split(" ")[0]; // Get airline code
+                Airline a = airlineDict[acode]; // Airline object
+                a.AddFlight(f); // Add flight into airline object's flight dictionay
                 //append the new Fligght information to the flights.csv file
 
                 if (specialRC == "None") //For flights without spreacial request code
