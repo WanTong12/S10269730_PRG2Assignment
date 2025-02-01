@@ -190,9 +190,9 @@ internal class Program
             }
 
             flightDict.Add(fn, f); //Add object to flight dictionary
-            string acode = fn.Split(" ")[0];
-            Airline a = airlineDict[acode];
-            a.AddFlight(f);
+            string acode = fn.Split(" ")[0]; // Get airline code
+            Airline a = airlineDict[acode]; // Airline object
+            a.AddFlight(f); // Add flight into airline object's flight dictionay
         }
 
         Console.WriteLine("Loading Flights...");
@@ -758,7 +758,8 @@ internal class Program
                 else if (f is CFFTFlight) { Console.WriteLine("Special Request Code: CFFT"); }
                 else if (f is DDJBFlight) { Console.WriteLine("Special Request Code: DDJB"); }
                 else if (f is LWTTFlight) { Console.WriteLine("Special Request Code: LWTT"); }
-                string gName = 
+
+                string gName = "Unassigned";
                 foreach (BoardingGate b in boardingGateDict.Values) // loops through all the values in boardingGateDict to retrieve and display the updated boarding gate
                 {
                     if (b.Flight != null && b.Flight.FlightNumber == flightNo)
@@ -769,8 +770,8 @@ internal class Program
                         break;
                     }
                 }
-                // if found is false, it means that the flight is not assigned to any boarding gate and it displays this message
-                if (!found) { Console.WriteLine("Boarding Gate: Unassigned"); }
+                // if no boarding gate is assigned to the flight display this message
+                Console.WriteLine("Boarding Gate: {0}",gName); 
 
             }
             else if (option == 2) // if user chooses to delete a flight
