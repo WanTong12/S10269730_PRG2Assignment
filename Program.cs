@@ -58,7 +58,7 @@ internal class Program
                 }
                 else if (option == 4) // Create Flight
                 {
-                    while (true)
+                    while (true) // Repeat if ans is Y
                     {
                         CreateNewFlight("flights.csv");
                         //prompt the user asking if they would like to add another Flight, repeating the previous 5 steps if [Y] or continuing to the next step if [N]
@@ -71,6 +71,11 @@ internal class Program
                         }
                         else if (ans.ToUpper() == "N")
                         {
+                            break;
+                        }
+                        else
+                        {
+                            Console.WriteLine("Invalid Input");
                             break;
                         }
                     }
@@ -161,7 +166,7 @@ internal class Program
 
     static void LoadFlightFiles(string file)
     {
-        string[] flights = File.ReadAllLines(file);
+        string[] flights = File.ReadAllLines(file); // Get lines from flight file
         for (int i = 1; i < flights.Length; i++)
         {
             string[] flight = flights[i].Split(',');
@@ -190,12 +195,13 @@ internal class Program
                 f = new NORMFlight(fn, o, d, e, "On Time"); //Create NORMFlight object
             }
 
-            flightDict.Add(fn, f); //Add object to flight dictionary
+            flightDict.Add(fn, f); //Add object to terminal 5flight dictionary
+
             string acode = fn.Split(" ")[0]; // Get airline code
             Airline a = airlineDict[acode]; // Airline object
             a.AddFlight(f); // Add flight into airline object's flight dictionay
         }
-
+        //Loaded Msg
         Console.WriteLine("Loading Flights...");
         Console.WriteLine("{0} Flights Loaded!", flightDict.Count); 
     }
@@ -203,6 +209,7 @@ internal class Program
 
     static void DisplayBasicFlightInfo() // Option 1
     {
+        //Display Header
         Console.WriteLine("=============================================");
         Console.WriteLine("List of Flights for Changi Airport Terminal 5");
         Console.WriteLine("=============================================");
@@ -211,7 +218,7 @@ internal class Program
         foreach (KeyValuePair<string, Flight> kvp in flightDict) // Get each flight from flightDict
         {
             Flight f = kvp.Value; // flight
-            Airline a = terminal5.GetAirlineFromFlight(f);
+            Airline a = terminal5.GetAirlineFromFlight(f);// Get airline object
             string airlineName = a.Name; // Airline Name
             string expectedTime = f.ExpectedTime.ToString(); // Date and time of expected time
             Console.WriteLine("{0, -17}{1,-23}{2,-25}{3,-25}{4}", f.FlightNumber, airlineName, f.Origin, f.Destination, expectedTime); // flight information
@@ -249,35 +256,37 @@ internal class Program
 
         while (true) // Will repeat code until break
         {
-            Console.Write("Enter Flight Number: ");
-            string? flightNo = Console.ReadLine();
+            Console.Write("Enter Flight Number: "); // Prompt for flight number
+            string? flightNo = Console.ReadLine(); // Flight Number
 
-            if (string.IsNullOrEmpty(flightNo))
+            if (string.IsNullOrEmpty(flightNo)) // If flight Number is empty or null
             {
                 Console.WriteLine("Invalid Input\r\n");
                 continue; //Continue asking for valid input, don't exit the loop
             }
-            else if (!flightDict.ContainsKey(flightNo))
+            else if (!flightDict.ContainsKey(flightNo)) // Check if flight exsits
             {
                 Console.WriteLine("Flight does not exists\r\n");
                 continue; // Prompt user again if flight doesn't exist
             }
-            Console.Write("Enter Boarding Gate Name: ");
-            string? gateName = Console.ReadLine();
-            if (string.IsNullOrEmpty(gateName))
+
+            Console.Write("Enter Boarding Gate Name: "); // Prompt for Boarding Gate Name
+            string? gateName = Console.ReadLine(); // Boarding Gate Name
+            if (string.IsNullOrEmpty(gateName)) // If gate name is empty or null
             {
                 Console.WriteLine("Invalid Input\r\n");
-                continue;
+                continue; // Continue asking for valid inout, don't exit the loop
             }
-            else if (!boardingGateDict.ContainsKey(gateName))
+            else if (!boardingGateDict.ContainsKey(gateName)) // CHeck if boarding gate exists
             {
                 Console.WriteLine("Boarding Gate does not exists\r\n");
-                continue;
+                continue; // Prompt again if boarding gate does not exists
             }
+            
 
-            Flight f = flightDict[flightNo];
+            Flight f = flightDict[flightNo]; // Get Flight object
 
-            BoardingGate bg = boardingGateDict[gateName]; // get boarding gate object
+            BoardingGate bg = boardingGateDict[gateName]; // Get boarding gate object
 
             if (bg.Flight is null) // If no flight is assigned to the boarding gate
             {
@@ -307,46 +316,48 @@ internal class Program
                 // Display boarding gate info
                 Console.WriteLine("Boarding Gate Name: {0}", bg.GateName);
                 Console.WriteLine("Supports DDJB: {0}\r\nSupports CFFT: {1}\r\nSupports LWTT: {2}", bg.SupportsDDJB, bg.SupportsCFFT, bg.SupportsLWTT);
+                while (true)
+                { 
+                    Console.WriteLine("Would you like to update the status of the flight? (Y/N)"); // Prompt user if want to update status
+                    string? ans = Console.ReadLine(); // User option
 
-                Console.WriteLine("Would you like to update the status of the flight? (Y/N)");
-                string? ans = Console.ReadLine();
-
-                if (string.IsNullOrEmpty(ans) || ans.ToUpper() != "N" && ans.ToUpper() != "Y")
-                {
-                    Console.WriteLine("Invalid Input\r\n");
-                    continue;
-                }
-                else if (ans.ToUpper() == "Y") // update status of the flight
-                {
-                    Console.WriteLine("1. Delayed\r\n2. Boarding\r\n3. On Time");
-                    Console.Write("Please select the new status of the flight: ");
-                    try
+                    if (string.IsNullOrEmpty(ans) || ans.ToUpper() != "N" && ans.ToUpper() != "Y") // Check for valid inot
                     {
-                        int opt = Convert.ToInt32(Console.ReadLine());
-
-                        if (opt == 1)
-                        {
-                            f.Status = "Delayed";
-                        }
-                        else if (opt == 2)
-                        {
-                            f.Status = "Boarding";
-                        }
-                        else if (opt == 3)
-                        {
-                            f.Status = "On Time";
-                        }
-                        else // none of the options choosen
-                        {
-                            Console.WriteLine("Invalid Input");
-                            continue;
-                        }
+                        Console.WriteLine("Invalid Input\r\n");
+                        continue; // Continue to prompt user for valid input
                     }
-                    catch (Exception ex)
+                    else if (ans.ToUpper() == "Y") // update status of the flight
                     {
-                        Console.WriteLine(ex.Message);
-                    }
-                        
+                        Console.WriteLine("1. Delayed\r\n2. Boarding\r\n3. On Time"); // Display status options
+                        Console.Write("Please select the new status of the flight: "); // Prompt user for new status
+                        try
+                        {
+                            int opt = Convert.ToInt32(Console.ReadLine()); // User choice
+
+                            if (opt == 1)
+                            {
+                                f.Status = "Delayed";
+                            }
+                            else if (opt == 2)
+                            {
+                                f.Status = "Boarding";
+                            }
+                            else if (opt == 3)
+                            {
+                                f.Status = "On Time";
+                            }
+                            else // none of the options choosen
+                            {
+                                Console.WriteLine("Invalid Input");
+                                continue; // Continue asking for valid input, don't exit the loop
+                            }
+                        }
+                        catch (Exception ex)
+                        {
+                            Console.WriteLine(ex.Message); 
+                        }
+                    }   
+                    break;
                 }
 
                 bg.Flight = f; // Assign flight to boarding gate
@@ -372,37 +383,37 @@ internal class Program
             // Prompt the user to enter the new Flight
             Console.Write("Enter Flight Number: ");
             string? fNo = Console.ReadLine(); // flight number
-            if (string.IsNullOrEmpty(fNo))
+            if (string.IsNullOrEmpty(fNo)) // CHeck if flight numbr is null or empty
             {
                 Console.WriteLine("Invalid Input\r\n");
-                continue;
+                continue; //Continue asking for valid input, don't exit the loop
             }
-            Console.Write("Enter Origin: ");
+            Console.Write("Enter Origin: "); // prompt for origin
             string? o = Console.ReadLine(); // origin
-            if (string.IsNullOrEmpty(o))
+            if (string.IsNullOrEmpty(o)) // Check if origin is null or empty
             {
                 Console.WriteLine("Invalid Input");
-                continue;
+                continue; //Continue asking for valid input, don't exit the loop
             }
-            Console.Write("Enter Destination: ");
+            Console.Write("Enter Destination: "); // Prompt for destination
             string? d = Console.ReadLine(); // destination
-            if (string.IsNullOrEmpty(d))
+            if (string.IsNullOrEmpty(d)) // Check if destination is null or empty
             {
                 Console.WriteLine("Invalid Input\r\n");
-                continue;
+                continue; //Continue asking for valid input, don't exit the loop
             }
 
-            if (o == "Singapore (SIN)" || d == "Singapore (SIN)" && !flightDict.ContainsKey(fNo))
+            if (o == "Singapore (SIN)" || d == "Singapore (SIN)" && !flightDict.ContainsKey(fNo)) // Check if either origin or destination is SG and flight is not in flight dictionary
             {
-                Console.Write("Enter Expected Departure/Arrival Time (dd/mm/yyyy hh:mm): ");
+                Console.Write("Enter Expected Departure/Arrival Time (dd/mm/yyyy hh:mm): "); // Prmopt for expected arrival / departure time
                 DateTime eTime = Convert.ToDateTime(Console.ReadLine()); // expected arrival or departure timing
                 //prompt the user if they would like to enter any additional information, like the Special Request Code
                 Console.Write("Enter Special Request Code (CFFT/DDJB/LWTT/None): ");
                 string? specialRC = Console.ReadLine(); // Speacial Request Code
-                if (string.IsNullOrEmpty(specialRC) || (specialRC != "CFFT" && specialRC != "DDJB" && specialRC != "LWTT" && specialRC != "None"))
+                if (string.IsNullOrEmpty(specialRC) || (specialRC != "CFFT" && specialRC != "DDJB" && specialRC != "LWTT" && specialRC != "None")) // user input is not valid
                 {
                     Console.WriteLine("Invalid Input\r\n");
-                    continue;
+                    continue; //Continue asking for valid input, don't exit the loop
                 }
                 //create the proper Flight object with the information given
                 Flight f = new Flight(fNo, o, d, eTime, "On Time");
@@ -423,12 +434,12 @@ internal class Program
                 {
                     f = new NORMFlight(fNo, o, d, eTime, "On Time"); //Create NORMFlight object
                 }
-                flightDict.Add(fNo, f); //Add object to flight dictionary
+                flightDict.Add(fNo, f); //Add object to terminal's flight dictionary
                 string acode = fNo.Split(" ")[0]; // Get airline code
                 Airline a = airlineDict[acode]; // Airline object
                 a.AddFlight(f); // Add flight into airline object's flight dictionay
-                //append the new Fligght information to the flights.csv file
 
+                //append the new Fligght information to the flights.csv file
                 if (specialRC == "None") //For flights without spreacial request code
                 {
                     string flightinfo = fNo + "," + o + "," + d + "," + eTime;
@@ -443,15 +454,15 @@ internal class Program
                 Console.WriteLine("Flight {0} has been added!", fNo);
                 break;
             }
-            else if (flightDict.ContainsKey(fNo))
+            else if (flightDict.ContainsKey(fNo)) // Flight already exists
             {
                 Console.WriteLine("Flight already exists\r\n");
-                break;
+                break; // break when fligt already exists
             }
             else
             {
                 Console.WriteLine("Invalid Input\r\n");
-                break;
+                break; // Break if invalid input
             }
         }
     }
@@ -824,10 +835,10 @@ internal class Program
             string bg = "Unassigned"; // Default status for boarding gate
             if (flightToBoardingGateDict.ContainsKey(f.FlightNumber)) // check if flight has been assigned to a boarding gate
             {
-                bg = flightToBoardingGateDict[f.FlightNumber];
+                bg = flightToBoardingGateDict[f.FlightNumber]; // Boarding gate where flight is assigned to
             }
-            string airlineCode = f.FlightNumber.Split(' ')[0]; 
-            string airlineName = airlineDict[airlineCode].Name;
+            Airline a = terminal5.GetAirlineFromFlight(f); // Get airline object
+            string airlineName = a.Name; // Airline Name
             // Display scheduled flight details
             Console.WriteLine("{0,-16}{1,-25}{2,-20}{3,-25}{4,-37}{5,-20}{6}", f.FlightNumber, airlineName, f.Origin, f.Destination, f.ExpectedTime, f.Status, bg);
         }
@@ -879,7 +890,7 @@ internal class Program
     }
     static void CalculateFeesPerAirline() // Option 9
     {
-        /***foreach (Flight f in flightDict.Values)
+        foreach (Flight f in flightDict.Values)
         {
             // Check if each flight has been assigned to a boarding gate
             if (!flightToBoardingGateDict.ContainsKey(f.FlightNumber)) // Not all flights has been assigned to a boarding gate
@@ -887,7 +898,7 @@ internal class Program
                 Console.WriteLine("Ensure that all flights has been assigned to a boarding gate");
                 return;
             }
-        }***/
+        }
 
         // Display fees
         terminal5.PrintAirlineFees();
