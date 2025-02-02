@@ -868,14 +868,14 @@ internal class Program
             }
         }
 
-        foreach (Flight f in flightQueue)
+        /* foreach (Flight f in flightQueue)
         {
             flightQueue.Dequeue();
             if (f is NORMFlight)
             {
 
             }
-        }
+        }*/
 
         Console.WriteLine("Total number of Flights that do not have any Boarding Gate assigned yet: {0}",flightQueue.Count);
         int num = 0; // to count the number of unassigned boarding gates
