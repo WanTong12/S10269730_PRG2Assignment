@@ -64,19 +64,19 @@ internal class Program
                         //prompt the user asking if they would like to add another Flight, repeating the previous 5 steps if [Y] or continuing to the next step if [N]
                         Console.WriteLine("Would you like to add another flight? (Y/N)");
                         string? ans = Console.ReadLine();
-                        if (string.IsNullOrEmpty(ans))
+                        if (string.IsNullOrEmpty(ans)) // Check if ans is empty or null
                         {
                             Console.WriteLine("Invalid Input");
                             break;
                         }
-                        else if (ans.ToUpper() == "N")
+                        else if (ans.ToUpper() == "N") // If ans is "N"
                         {
-                            break;
+                            break; 
                         }
                         else
                         {
                             Console.WriteLine("Invalid Input");
-                            break;
+                            break; 
                         }
                     }
                     Console.WriteLine("\r\n\r\n\r\n\r\n\r\n");
