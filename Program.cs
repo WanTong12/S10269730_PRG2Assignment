@@ -879,7 +879,7 @@ internal class Program
     }
     static void CalculateFeesPerAirline() // Option 9
     {
-        foreach (Flight f in flightDict.Values)
+        /***foreach (Flight f in flightDict.Values)
         {
             // Check if each flight has been assigned to a boarding gate
             if (!flightToBoardingGateDict.ContainsKey(f.FlightNumber)) // Not all flights has been assigned to a boarding gate
@@ -887,39 +887,10 @@ internal class Program
                 Console.WriteLine("Ensure that all flights has been assigned to a boarding gate");
                 return;
             }
-        }
+        }***/
 
-        foreach (Airline a in airlineDict.Values)
-        {
-            double discount = 0;
-            // Calculate discounts
-            if (flightDict.Count / 3 >= 1) // For every 3 flights
-            {
-                discount += (350 * Math.Floor(flightDict.Count / 3.0));
-            }
-            if (flightDict.Count > 5) // For more than 5 flights
-            {
-                discount += a.CalculateFees() * 0.3;
-            }
-            foreach (Flight f in flightDict.Values)
-            {
-               
-                if (f.ExpectedTime.Hour < 11 && f.ExpectedTime.Hour > 21) // For flights arriving/departing before 11am or after 9pm
-                {
-                    discount += 110;
-                }
-                if (f.Origin == "Dubai (DXB)" || f.Origin == "Bangkok (BKK)" || f.Origin == "Tokyo (NRT)") // For airlines with the Origin of Dubai (DXB), Bangkok (BKK) or Tokyo (NRT)
-                {
-                    discount += 25;
-                }
-                if (f is NORMFlight) // For no request fee
-                {
-                    discount += 50;
-                }
-            }
-            // Display fees
-            terminal5.PrintAirlineFees(discount);
-        }
+        // Display fees
+        terminal5.PrintAirlineFees();
     }
 
 }

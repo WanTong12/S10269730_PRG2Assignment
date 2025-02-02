@@ -68,17 +68,47 @@ namespace PRG2_T13_08
             return null; // return null if the flight number is not found in the Airline class's flights dictionary
         }
 
-        public void PrintAirlineFees(double discount)
+        public void PrintAirlineFees()
         {
             foreach (Airline a in Airlines.Values)
             {
+                double discount = 0;
+                // Calculate discounts
+                if (a.Flights.Count / 3 >= 1) // For every 3 flights
+                {
+                    discount += (350 * Math.Floor(a.Flights.Count / 3.0));
+                }
+                if (a.Flights.Count > 5) // For more than 5 flights
+                {
+                    discount += a.CalculateFees() * 0.3;
+                }
+                foreach (Flight f in a.Flights.Values)
+                {
+
+                    if (f.ExpectedTime.Hour < 11 || f.ExpectedTime.Hour > 21) // For flights arriving/departing before 11am or after 9pm
+                    {
+                        discount += 110;
+                    }
+                    if (f.Origin == "Dubai (DXB)" || f.Origin == "Bangkok (BKK)" || f.Origin == "Tokyo (NRT)") // For airlines with the Origin of Dubai (DXB), Bangkok (BKK) or Tokyo (NRT)
+                    {
+                        discount += 25;
+                    }
+                    if (f is NORMFlight) // For no request fee
+                    {
+                        discount += 50;
+                    }
+                }
                 double finalFee = a.CalculateFees() - discount;
-                double percentage = (discount / finalFee) * 100;
+                double percentage = 0;
+                if (finalFee > 0)
+                {
+                    percentage = (discount / finalFee) * 100;
+                }
                 Console.WriteLine("Airline: {0}", a.Name); //Print airline name
-                Console.WriteLine("Subtotal: {0}", a.CalculateFees()); // Subtotal of all the fees to be charged
-                Console.WriteLine("Discount to be deducted: {0}", discount); // Total discount
-                Console.WriteLine("Final Fee: {0}", finalFee); // FInal fee
-                Console.WriteLine("Percentage of the subtotal discounts: {0}", percentage); // Percentage of the subtotal discounts over the final total of fees
+                Console.WriteLine("Subtotal: {0:C2}", a.CalculateFees()); // Subtotal of all the fees to be charged
+                Console.WriteLine("Discount to be deducted: {0:C2}", discount); // Total discount
+                Console.WriteLine("Final Fee: {0:C2}", finalFee); // FInal fee
+                Console.WriteLine("Percentage of the subtotal discounts: {0:F2}%\r\n", percentage); // Percentage of the subtotal discounts over the final total of fees
             }
         }
 
