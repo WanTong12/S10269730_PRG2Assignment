@@ -890,7 +890,7 @@ internal class Program
     }
     static void CalculateFeesPerAirline() // Option 9
     {
-        foreach (Flight f in flightDict.Values)
+        /***foreach (Flight f in flightDict.Values)
          {
              // Check if each flight has been assigned to a boarding gate
              if (!flightToBoardingGateDict.ContainsKey(f.FlightNumber)) // Not all flights has been assigned to a boarding gate
@@ -898,7 +898,9 @@ internal class Program
                  Console.WriteLine("Ensure that all flights has been assigned to a boarding gate");
                  return;
              }
-         }
+         }***/
+        double terminalSubTotal = 0;
+        double terminalDiscount = 0;
         foreach (Airline a in airlineDict.Values)
         {
             double discount = 0;
@@ -906,8 +908,9 @@ internal class Program
             // Calculate discounts
             foreach (Flight f in a.Flights.Values)
             {
-                BoardingGate b = boardingGateDict[flightToBoardingGateDict[f.FlightNumber]]; // Get boarding gate object so can use CalculateFees() from BoardingGate Class
-                totalfee += b.CalculateFees(); // Add basefee for each flight (300)
+                //BoardingGate b = boardingGateDict[flightToBoardingGateDict[f.FlightNumber]]; // Get boarding gate object so can use CalculateFees() from BoardingGate Class
+                //totalfee += b.CalculateFees(); // Add basefee for each flight (300)
+                totalfee += 300;
                 if (f.ExpectedTime.Hour < 11 || f.ExpectedTime.Hour > 21) // For flights arriving/departing before 11am or after 9pm
                 {
                     discount += 110;
@@ -931,16 +934,26 @@ internal class Program
                 discount += totalfee * 0.3;
             }
             double finalFee = totalfee - discount;
-            double percentage = 0;
-            if (finalFee > 0)
-            {
-                percentage = (discount / finalFee) * 100;
-            }
 
             string airlineName = a.Name;
-            // Display fees
-            terminal5.PrintAirlineFees(airlineName, totalfee, discount, finalFee, percentage);
+            // Display fees for each airline
+            Console.WriteLine("Airline: {0}", airlineName);
+            Console.WriteLine("Subtotal: {0:C2}", totalfee);
+            Console.WriteLine("Discount: {0:C2}", discount);
+            Console.WriteLine("Final Fee: {0:F2}", finalFee);
+            Console.WriteLine();
+            
+            // Terminal
+            terminalSubTotal += totalfee;
+            terminalDiscount += discount;
         }
+        double terminalFinal = terminalSubTotal - terminalDiscount;
+        double percentage = 0;
+        if (terminalFinal > 0)
+        {
+            percentage = terminalDiscount / terminalFinal * 100;
+        }
+        terminal5.PrintAirlineFees(terminalSubTotal,terminalDiscount,terminalFinal,percentage);
     }
 
 }

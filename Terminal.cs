@@ -68,13 +68,13 @@ namespace PRG2_T13_08
             return null; // return null if the flight number is not found in the Airline class's flights dictionary
         }
 
-        public void PrintAirlineFees(string a, double totalfee, double discount, double finalFee, double p)
+        public void PrintAirlineFees(double t, double d, double f, double p)
         {
-                Console.WriteLine("Airline: {0}", a); //Print airline name
-                Console.WriteLine("Subtotal: {0:C2}", totalfee); // Subtotal of all the fees to be charged
-                Console.WriteLine("Discount to be deducted: {0:C2}", discount); // Total discount
-                Console.WriteLine("Final Fee: {0:C2}", finalFee); // FInal fee
-                Console.WriteLine("Percentage of the subtotal discounts: {0:F2}%\r\n", p); // Percentage of the subtotal discounts over the final total of fees
+            Console.WriteLine("Terminal 5");
+            Console.WriteLine("Subtotal: {0:C2}", t); // Subtotal of all the fees to be charged
+            Console.WriteLine("Discount to be deducted: {0:C2}", d); // Total discount
+            Console.WriteLine("Final Fee: {0:C2}", f); // FInal fee
+            Console.WriteLine("Percentage of the subtotal discounts: {0:F2}%\r\n", p); // Percentage of the subtotal discounts over the final total of fees
         }
 
         public override string ToString()
