@@ -75,7 +75,6 @@ namespace PRG2_T13_08
                 Console.WriteLine("Discount to be deducted: {0:C2}", discount); // Total discount
                 Console.WriteLine("Final Fee: {0:C2}", finalFee); // FInal fee
                 Console.WriteLine("Percentage of the subtotal discounts: {0:F2}%\r\n", p); // Percentage of the subtotal discounts over the final total of fees
-            }
         }
 
         public override string ToString()

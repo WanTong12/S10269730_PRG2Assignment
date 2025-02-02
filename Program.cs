@@ -890,7 +890,7 @@ internal class Program
     }
     static void CalculateFeesPerAirline() // Option 9
     {
-        /***foreach (Flight f in flightDict.Values)
+        foreach (Flight f in flightDict.Values)
          {
              // Check if each flight has been assigned to a boarding gate
              if (!flightToBoardingGateDict.ContainsKey(f.FlightNumber)) // Not all flights has been assigned to a boarding gate
@@ -898,7 +898,7 @@ internal class Program
                  Console.WriteLine("Ensure that all flights has been assigned to a boarding gate");
                  return;
              }
-         }***/
+         }
         foreach (Airline a in airlineDict.Values)
         {
             double discount = 0;
@@ -906,8 +906,8 @@ internal class Program
             // Calculate discounts
             foreach (Flight f in a.Flights.Values)
             {
-                BoardingGate b = boardingGateDict[flightToBoardingGateDict[f.FlightNumber]];
-                totalfee += b.CalculateFees();
+                BoardingGate b = boardingGateDict[flightToBoardingGateDict[f.FlightNumber]]; // Get boarding gate object so can use CalculateFees() from BoardingGate Class
+                totalfee += b.CalculateFees(); // Add basefee for each flight (300)
                 if (f.ExpectedTime.Hour < 11 || f.ExpectedTime.Hour > 21) // For flights arriving/departing before 11am or after 9pm
                 {
                     discount += 110;
@@ -921,6 +921,7 @@ internal class Program
                     discount += 50;
                 }
             }
+
             if (a.Flights.Count / 3 >= 1) // For every 3 flights
             {
                 discount += (350 * Math.Floor(a.Flights.Count / 3.0));
