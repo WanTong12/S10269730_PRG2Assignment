@@ -20,7 +20,7 @@ internal class Program
     static Dictionary<string, BoardingGate> boardingGateDict = terminal5.BoardingGates; // key: Gate Name
     // Flight to boarding gate dictionary
     static Dictionary<string, string> flightToBoardingGateDict = new Dictionary<string, string>(); // Key: flight Number, value: boarding gate name
-
+    static Queue<Flight> flightQueue = new Queue<Flight>();
 
     private static void Main(string[] args)
     {
@@ -93,6 +93,7 @@ internal class Program
                 }
                 else if (option == 8)
                 {
+                    ProcessUnassignedFlights();
                     Console.WriteLine("\r\n\r\n\r\n\r\n\r\n");
                 }
                 else if (option == 9) // Calculate the fees for each airline
@@ -832,6 +833,50 @@ internal class Program
         }
     }
 
+    static void ProcessUnassignedFlights() // Option 8
+    {
+        foreach (Flight flight in flightDict.Values)
+        {
+            bool hasGate = false;
+
+            // check if the flight has an assigned boarding gate
+            foreach (BoardingGate bg in boardingGateDict.Values)
+            {
+                if (bg.Flight != null && bg.Flight.FlightNumber == flight.FlightNumber)
+                {
+                    hasGate = true;
+                    break;
+                }
+                
+            }
+
+            // if no gate is found, add flight to queue
+            if (hasGate == false)
+            {
+                flightQueue.Enqueue(flight);
+            }
+        }
+
+        foreach (Flight f in flightQueue)
+        {
+            flightQueue.Dequeue();
+            if (f is NORMFlight)
+            {
+
+            }
+        }
+
+        Console.WriteLine("Total number of Flights that do not have any Boarding Gate assigned yet: {0}",flightQueue.Count);
+        int num = 0; // to count the number of unassigned boarding gates
+        foreach (BoardingGate bg in boardingGateDict.Values)
+        {
+            if (bg.Flight == null)
+            {
+                num++; // if boarding gate is unassigned add 1 to the variable num
+            }
+        }
+        Console.WriteLine("Total number of Boarding Gates that do not have a Flight Number assigned yet: {0}",num);
+    }
     static void CalculateFeesPerAirline() // Option 9
     {
         /***foreach (Flight f in flightDict.Values)
