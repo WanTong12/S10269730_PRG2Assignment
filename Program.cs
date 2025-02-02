@@ -879,7 +879,7 @@ internal class Program
     }
     static void CalculateFeesPerAirline() // Option 9
     {
-        /***foreach (Flight f in flightDict.Values)
+        foreach (Flight f in flightDict.Values)
         {
             // Check if each flight has been assigned to a boarding gate
             if (!flightToBoardingGateDict.ContainsKey(f.FlightNumber)) // Not all flights has been assigned to a boarding gate
@@ -887,7 +887,7 @@ internal class Program
                 Console.WriteLine("Ensure that all flights has been assigned to a boarding gate");
                 return;
             }
-        }***/
+        }
 
         foreach (Airline a in airlineDict.Values)
         {
