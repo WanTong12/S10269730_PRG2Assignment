@@ -890,18 +890,56 @@ internal class Program
     }
     static void CalculateFeesPerAirline() // Option 9
     {
-        foreach (Flight f in flightDict.Values)
+        /***foreach (Flight f in flightDict.Values)
+         {
+             // Check if each flight has been assigned to a boarding gate
+             if (!flightToBoardingGateDict.ContainsKey(f.FlightNumber)) // Not all flights has been assigned to a boarding gate
+             {
+                 Console.WriteLine("Ensure that all flights has been assigned to a boarding gate");
+                 return;
+             }
+         }***/
+        foreach (Airline a in airlineDict.Values)
         {
-            // Check if each flight has been assigned to a boarding gate
-            if (!flightToBoardingGateDict.ContainsKey(f.FlightNumber)) // Not all flights has been assigned to a boarding gate
+            double discount = 0;
+            double totalfee = a.CalculateFees();
+            // Calculate discounts
+            foreach (Flight f in a.Flights.Values)
             {
-                Console.WriteLine("Ensure that all flights has been assigned to a boarding gate");
-                return;
+                BoardingGate b = boardingGateDict[flightToBoardingGateDict[f.FlightNumber]];
+                totalfee += b.CalculateFees();
+                if (f.ExpectedTime.Hour < 11 || f.ExpectedTime.Hour > 21) // For flights arriving/departing before 11am or after 9pm
+                {
+                    discount += 110;
+                }
+                if (f.Origin == "Dubai (DXB)" || f.Origin == "Bangkok (BKK)" || f.Origin == "Tokyo (NRT)") // For airlines with the Origin of Dubai (DXB), Bangkok (BKK) or Tokyo (NRT)
+                {
+                    discount += 25;
+                }
+                if (f is NORMFlight) // For no request fee
+                {
+                    discount += 50;
+                }
             }
-        }
+            if (a.Flights.Count / 3 >= 1) // For every 3 flights
+            {
+                discount += (350 * Math.Floor(a.Flights.Count / 3.0));
+            }
+            if (a.Flights.Count > 5) // For more than 5 flights
+            {
+                discount += totalfee * 0.3;
+            }
+            double finalFee = totalfee - discount;
+            double percentage = 0;
+            if (finalFee > 0)
+            {
+                percentage = (discount / finalFee) * 100;
+            }
 
-        // Display fees
-        terminal5.PrintAirlineFees();
+            string airlineName = a.Name;
+            // Display fees
+            terminal5.PrintAirlineFees(airlineName, totalfee, discount, finalFee, percentage);
+        }
     }
 
 }
